@@ -9,6 +9,8 @@
     <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
     <!-- Style CSS -->
     <link rel="stylesheet" type="text/css" href="css/style.css">
+    <!-- Style register CSS -->
+    <link rel="stylesheet" type="text/css" href="css/register-style.css">
     <!-- Responsive CSS -->
     <link rel="stylesheet" href="css/responsive.css">
     <!-- Font CSS -->
@@ -18,57 +20,6 @@
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css">
 
-    <style>
-        /* Additional styling for registration form */
-        .registration-form-container {
-            background-color: #f2f2f2;
-            padding: 40px;
-            border-radius: 10px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-            max-width: 500px;
-            margin: 20px auto;
-        }
-        .registration-form-container h1 {
-            text-align: center;
-            margin-bottom: 20px;
-            font-size: 32px;
-            color: #333;
-        }
-        .registration-form-container .form-group input {
-            width: 100%;
-            padding: 10px 15px;
-            font-size: 16px;
-            border-radius: 30px;
-            border: 1px solid #ddd;
-            box-sizing: border-box;
-        }
-        .registration-form-container .form-group button {
-            width: 100%;
-            padding: 10px 0;
-            font-size: 18px;
-            font-weight: bold;
-            color: white;
-            background-color: #ff5733;
-            border: none;
-            border-radius: 30px;
-            cursor: pointer;
-            transition: background-color 0.3s ease;
-        }
-        .registration-form-container .form-group button:hover {
-            background-color: #e04b27;
-        }
-    </style>
-    <script>
-        function validatePasswords() {
-            const password = document.getElementById('password').value;
-            const confirmPassword = document.getElementById('confirmPassword').value;
-            if (password !== confirmPassword) {
-                alert('Passwords do not match. Please try again.');
-                return false;
-            }
-            return true;
-        }
-    </script>
 </head>
 <body>
 <!-- Header section with navbar -->
@@ -201,5 +152,6 @@
 <script src="js/bootstrap.bundle.min.js"></script>
 <script src="js/jquery-3.0.0.min.js"></script>
 <script src="js/plugin.js"></script>
+<script src="js/script.js"></script>
 </body>
 </html>
