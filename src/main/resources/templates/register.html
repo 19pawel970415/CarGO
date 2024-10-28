@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Registration</title>
+    <!-- bootstrap css -->
+    <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
+    <!-- style css -->
+    <link rel="stylesheet" type="text/css" href="css/style.css">
+    <!-- Responsive-->
+    <link rel="stylesheet" href="css/responsive.css">
+    <!-- fevicon -->
+    <link rel="icon" href="images/fevicon.png" type="image/gif" />
+    <!-- font css -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&family=Raleway:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- Scrollbar Custom CSS -->
+    <link rel="stylesheet" href="css/jquery.mCustomScrollbar.min.css">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css">
+
+    <style>
+        /* Additional styling for registration form */
+        .registration-form-container {
+            background-color: #f2f2f2;
+            padding: 40px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            max-width: 500px;
+            margin: 20px auto;
+        }
+        .registration-form-container h1 {
+            text-align: center;
+            margin-bottom: 20px;
+            font-size: 32px;
+            color: #333;
+        }
+        .registration-form-container .form-group {
+            position: relative;
+            margin-bottom: 20px;
+        }
+        .registration-form-container .form-group input {
+            width: 100%;
+            padding: 10px 15px;
+            font-size: 16px;
+            border-radius: 30px;
+            border: 1px solid #ddd;
+            box-sizing: border-box;
+        }
+        .registration-form-container .form-group input:focus {
+            outline: none;
+            border-color: #ff5733;
+            box-shadow: 0 0 5px rgba(255, 87, 51, 0.3);
+        }
+        .registration-form-container .form-group button {
+            width: 100%;
+            padding: 10px 0;
+            font-size: 18px;
+            font-weight: bold;
+            color: white;
+            background-color: #ff5733;
+            border: none;
+            border-radius: 30px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        .registration-form-container .form-group button:hover {
+            background-color: #e04b27;
+        }
+    </style>
+    <script>
+        function validatePasswords() {
+            const password = document.getElementById('password').value;
+            const confirmPassword = document.getElementById('confirmPassword').value;
+            if (password !== confirmPassword) {
+                alert('Passwords do not match. Please try again.');
+                return false;
+            }
+            return true;
+        }
+    </script>
+</head>
+<body>
+<!-- Registration Section Start -->
+<div class="contact_section layout_padding">
+    <div class="container">
+        <div class="registration-form-container">
+            <h1>Register</h1>
+            <form action="your_backend_endpoint_here" method="POST" onsubmit="return validatePasswords()">
+                <div class="form-group">
+                    <input type="text" placeholder="First Name" name="firstName" required>
+                </div>
+                <div class="form-group">
+                    <input type="text" placeholder="Last Name" name="lastName" required>
+                </div>
+                <div class="form-group">
+                    <input type="email" placeholder="Email" name="email" required>
+                </div>
+                <div class="form-group">
+                    <input type="text" placeholder="Phone Number" name="phoneNumber" required>
+                </div>
+                <div class="form-group">
+                    <input type="text" placeholder="Login" name="login" required>
+                </div>
+                <div class="form-group">
+                    <input type="password" id="password" placeholder="Password" name="password" required>
+                </div>
+                <div class="form-group">
+                    <input type="password" id="confirmPassword" placeholder="Confirm Password" name="confirmPassword" required>
+                </div>
+                <div class="form-group">
+                    <button type="submit">Register</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<!-- Registration Section End -->
+
+<!-- Javascript files-->
+<script src="js/jquery.min.js"></script>
+<script src="js/popper.min.js"></script>
+<script src="js/bootstrap.bundle.min.js"></script>
+<script src="js/jquery-3.0.0.min.js"></script>
+<script src="js/plugin.js"></script>
+</body>
+</html>

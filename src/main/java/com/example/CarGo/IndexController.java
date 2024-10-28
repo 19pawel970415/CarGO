@@ -35,4 +35,14 @@ public class IndexController {
     public String showServices() {
         return "services";
     }
+
+    @GetMapping("/register")
+    public String showRegister() {
+        return "register";
+    }
+
+    @GetMapping("/login")
+    public String showLogin() {
+        return "login";
+    }
 }

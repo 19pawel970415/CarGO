@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Login</title>
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
+    <!-- Style CSS -->
+    <link rel="stylesheet" type="text/css" href="css/style.css">
+    <!-- Responsive CSS -->
+    <link rel="stylesheet" href="css/responsive.css">
+    <!-- Font CSS -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&family=Raleway:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- Scrollbar Custom CSS -->
+    <link rel="stylesheet" href="css/jquery.mCustomScrollbar.min.css">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css">
+
+    <style>
+        /* Additional styling for login form */
+        .login-form-container {
+            background-color: #f2f2f2;
+            padding: 40px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            max-width: 500px;
+            margin: 20px auto;
+        }
+        .login-form-container h1 {
+            text-align: center;
+            margin-bottom: 20px;
+            font-size: 32px;
+            color: #333;
+        }
+        .login-form-container .form-group {
+            position: relative;
+            margin-bottom: 20px;
+        }
+        .login-form-container .form-group input {
+            width: 100%;
+            padding: 10px 15px;
+            font-size: 16px;
+            border-radius: 30px;
+            border: 1px solid #ddd;
+            box-sizing: border-box;
+        }
+        .login-form-container .form-group input:focus {
+            outline: none;
+            border-color: #ff5733;
+            box-shadow: 0 0 5px rgba(255, 87, 51, 0.3);
+        }
+        .login-form-container .form-group button {
+            width: 100%;
+            padding: 10px 0;
+            font-size: 18px;
+            font-weight: bold;
+            color: white;
+            background-color: #ff5733;
+            border: none;
+            border-radius: 30px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        .login-form-container .form-group button:hover {
+            background-color: #e04b27;
+        }
+    </style>
+</head>
+<body>
+<!-- Header section with navbar -->
+<div class="header_section">
+    <div class="container">
+        <nav class="navbar navbar-expand-lg navbar-light bg-light">
+            <a class="navbar-brand" href="index.html"><img src="images/logo.png" alt="Logo"></a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav ml-auto">
+                    <li class="nav-item"><a class="nav-link" href="index.html">Home</a></li>
+                    <li class="nav-item"><a class="nav-link" href="about.html">About</a></li>
+                    <li class="nav-item"><a class="nav-link" href="services.html">Services</a></li>
+                    <li class="nav-item"><a class="nav-link" href="gallery.html">Vehicles</a></li>
+                    <li class="nav-item"><a class="nav-link" href="client.html">Client</a></li>
+                    <li class="nav-item"><a class="nav-link" href="contact.html">Contact</a></li>
+                </ul>
+            </div>
+        </nav>
+    </div>
+</div>
+
+<!-- Login Form Section Start -->
+<div class="contact_section layout_padding">
+    <div class="container">
+        <div class="login-form-container">
+            <h1>Login</h1>
+            <form action="your_backend_login_endpoint_here" method="POST">
+                <div class="form-group">
+                    <input type="text" placeholder="Login" name="login" required>
+                </div>
+                <div class="form-group">
+                    <input type="password" placeholder="Password" name="password" required>
+                </div>
+                <div class="form-group">
+                    <button type="submit">Login</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<!-- Login Form Section End -->
+
+<!-- Footer Section Start -->
+<div class="footer_section layout_padding">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="footeer_logo"><img src="images/logo.png" alt="Logo"></div>
+            </div>
+        </div>
+        <div class="footer_section_2">
+            <div class="row">
+                <div class="col">
+                    <h4 class="footer_taital">Subscribe Now</h4>
+                    <p class="footer_text">Subscribe to our newsletter for the latest updates.</p>
+                    <textarea class="update_mail" placeholder="Enter Your Email" rows="5" name="Enter Your Email"></textarea>
+                    <div class="subscribe_bt"><a href="#">Subscribe</a></div>
+                </div>
+                <div class="col">
+                    <h4 class="footer_taital">Information</h4>
+                    <p class="lorem_text">Learn more about our services and offerings.</p>
+                </div>
+                <div class="col">
+                    <h4 class="footer_taital">Helpful Links</h4>
+                    <p class="lorem_text">Explore our resources and FAQs.</p>
+                </div>
+                <div class="col">
+                    <h4 class="footer_taital">Investments</h4>
+                    <p class="lorem_text">Discover investment opportunities with us.</p>
+                </div>
+                <div class="col">
+                    <h4 class="footer_taital">Contact Us</h4>
+                    <div class="location_text"><a href="#"><i class="fa fa-map-marker" aria-hidden="true"></i><span class="padding_left_15">Location</span></a></div>
+                    <div class="location_text"><a href="#"><i class="fa fa-phone" aria-hidden="true"></i><span class="padding_left_15">(+71) 8522369417</span></a></div>
+                    <div class="location_text"><a href="#"><i class="fa fa-envelope" aria-hidden="true"></i><span class="padding_left_15">demo@gmail.com</span></a></div>
+                    <div class="social_icon">
+                        <ul>
+                            <li><a href="#"><i class="fa fa-facebook" aria-hidden="true"></i></a></li>
+                            <li><a href="#"><i class="fa fa-twitter" aria-hidden="true"></i></a></li>
+                            <li><a href="#"><i class="fa fa-linkedin" aria-hidden="true"></i></a></li>
+                            <li><a href="#"><i class="fa fa-instagram" aria-hidden="true"></i></a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Footer Section End -->
+
+<!-- Copyright Section -->
+<div class="copyright_section">
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-12">
+                <p class="copyright_text">2023 All Rights Reserved. Design by <a href="https://html.design">Free Html Templates</a> Distributed By <a href="https://themewagon.com">ThemeWagon</a></p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Javascript files-->
+<script src="js/jquery.min.js"></script>
+<script src="js/popper.min.js"></script>
+<script src="js/bootstrap.bundle.min.js"></script>
+<script src="js/jquery-3.0.0.min.js"></script>
+<script src="js/plugin.js"></script>
+</body>
+</html>
