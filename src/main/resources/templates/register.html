@@ -5,15 +5,13 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Registration</title>
-    <!-- bootstrap css -->
+    <!-- Bootstrap CSS -->
     <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
-    <!-- style css -->
+    <!-- Style CSS -->
     <link rel="stylesheet" type="text/css" href="css/style.css">
-    <!-- Responsive-->
+    <!-- Responsive CSS -->
     <link rel="stylesheet" href="css/responsive.css">
-    <!-- fevicon -->
-    <link rel="icon" href="images/fevicon.png" type="image/gif" />
-    <!-- font css -->
+    <!-- Font CSS -->
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&family=Raleway:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <!-- Scrollbar Custom CSS -->
     <link rel="stylesheet" href="css/jquery.mCustomScrollbar.min.css">
@@ -36,10 +34,6 @@
             font-size: 32px;
             color: #333;
         }
-        .registration-form-container .form-group {
-            position: relative;
-            margin-bottom: 20px;
-        }
         .registration-form-container .form-group input {
             width: 100%;
             padding: 10px 15px;
@@ -47,11 +41,6 @@
             border-radius: 30px;
             border: 1px solid #ddd;
             box-sizing: border-box;
-        }
-        .registration-form-container .form-group input:focus {
-            outline: none;
-            border-color: #ff5733;
-            box-shadow: 0 0 5px rgba(255, 87, 51, 0.3);
         }
         .registration-form-container .form-group button {
             width: 100%;
@@ -82,6 +71,28 @@
     </script>
 </head>
 <body>
+<!-- Header section with navbar -->
+<div class="header_section">
+    <div class="container">
+        <nav class="navbar navbar-expand-lg navbar-light bg-light">
+            <a class="navbar-brand" href="index.html"><img src="images/logo.png" alt="Logo"></a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav ml-auto">
+                    <li class="nav-item"><a class="nav-link" href="index.html">Home</a></li>
+                    <li class="nav-item"><a class="nav-link" href="about.html">About</a></li>
+                    <li class="nav-item"><a class="nav-link" href="services.html">Services</a></li>
+                    <li class="nav-item"><a class="nav-link" href="gallery.html">Vehicles</a></li>
+                    <li class="nav-item"><a class="nav-link" href="client.html">Client</a></li>
+                    <li class="nav-item"><a class="nav-link" href="contact.html">Contact</a></li>
+                </ul>
+            </div>
+        </nav>
+    </div>
+</div>
+
 <!-- Registration Section Start -->
 <div class="contact_section layout_padding">
     <div class="container">
@@ -117,6 +128,54 @@
     </div>
 </div>
 <!-- Registration Section End -->
+
+<!-- Footer Section Start -->
+<div class="footer_section layout_padding">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="footeer_logo"><img src="images/logo.png" alt="Logo"></div>
+            </div>
+        </div>
+        <div class="footer_section_2">
+            <div class="row">
+                <div class="col">
+                    <h4 class="footer_taital">Subscribe Now</h4>
+                    <p class="footer_text">Subscribe to our newsletter for the latest updates.</p>
+                    <textarea class="update_mail" placeholder="Enter Your Email" rows="5" name="Enter Your Email"></textarea>
+                    <div class="subscribe_bt"><a href="#">Subscribe</a></div>
+                </div>
+                <div class="col">
+                    <h4 class="footer_taital">Information</h4>
+                    <p class="lorem_text">Learn more about our services and offerings.</p>
+                </div>
+                <div class="col">
+                    <h4 class="footer_taital">Helpful Links</h4>
+                    <p class="lorem_text">Explore our resources and FAQs.</p>
+                </div>
+                <div class="col">
+                    <h4 class="footer_taital">Investments</h4>
+                    <p class="lorem_text">Discover investment opportunities with us.</p>
+                </div>
+                <div class="col">
+                    <h4 class="footer_taital">Contact Us</h4>
+                    <div class="location_text"><a href="#"><i class="fa fa-map-marker" aria-hidden="true"></i><span class="padding_left_15">Location</span></a></div>
+                    <div class="location_text"><a href="#"><i class="fa fa-phone" aria-hidden="true"></i><span class="padding_left_15">(+71) 8522369417</span></a></div>
+                    <div class="location_text"><a href="#"><i class="fa fa-envelope" aria-hidden="true"></i><span class="padding_left_15">demo@gmail.com</span></a></div>
+                    <div class="social_icon">
+                        <ul>
+                            <li><a href="#"><i class="fa fa-facebook" aria-hidden="true"></i></a></li>
+                            <li><a href="#"><i class="fa fa-twitter" aria-hidden="true"></i></a></li>
+                            <li><a href="#"><i class="fa fa-linkedin" aria-hidden="true"></i></a></li>
+                            <li><a href="#"><i class="fa fa-instagram" aria-hidden="true"></i></a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Footer Section End -->
 
 <!-- Javascript files-->
 <script src="js/jquery.min.js"></script>
