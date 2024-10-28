@@ -6,5 +6,10 @@ import jakarta.persistence.*;
 @Entity
 @Table(name = "managers")
 public class Manager extends Person {
-    // Możesz dodać tutaj specyficzne pola lub metody dla Managera
+
+    @Column(unique = true, nullable = false)
+    private String login;
+
+    @Column(unique = true, nullable = false)
+    private String password;
 }

@@ -11,12 +11,6 @@ public abstract class Person {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(unique = true, nullable = false)
-    private String login;
-
-    @Column(unique = true, nullable = false)
-    private String password;
-
     @Column(nullable = false)
     private String firstName;
 
@@ -29,5 +23,4 @@ public abstract class Person {
     @Column(nullable = false)
     private String phoneNumber;
 
-    // Gettery i Settery
 }
