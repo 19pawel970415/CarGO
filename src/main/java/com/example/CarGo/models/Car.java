@@ -1,10 +1,15 @@
 package com.example.CarGo.models;
 
 import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.Setter;
+
 import java.util.List;
 
 @Entity
 @Table(name = "cars")
+@Getter
+@Setter
 public class Car {
 
     @Id
@@ -32,17 +37,7 @@ public class Car {
     @Column
     private int seatCount;
 
-    @Column
-    private String bodyType;
-
-    @Column
-    private String color;
-
-    @Column
-    private String category;
-
     @OneToMany(mappedBy = "car", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<Reservation> reservations;
 
-    // Getters and Setters
 }
