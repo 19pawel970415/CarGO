@@ -19,7 +19,6 @@
     <link rel="stylesheet" href="css/jquery.mCustomScrollbar.min.css">
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css">
-
 </head>
 <body>
 <!-- Header section with navbar -->
@@ -32,30 +31,14 @@
             </button>
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav ml-auto">
-                    <li class="nav-item">
-                        <a class="nav-link" href="index">Home</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="about">About</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="services">Services</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="gallery">Vehicles</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="client">Client</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="contact">Contact</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="login">Sign in</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="register">Sign up</a>
-                    </li>
+                    <li class="nav-item"><a class="nav-link" href="index">Home</a></li>
+                    <li class="nav-item"><a class="nav-link" href="about">About</a></li>
+                    <li class="nav-item"><a class="nav-link" href="services">Services</a></li>
+                    <li class="nav-item"><a class="nav-link" href="gallery">Vehicles</a></li>
+                    <li class="nav-item"><a class="nav-link" href="client">Client</a></li>
+                    <li class="nav-item"><a class="nav-link" href="contact">Contact</a></li>
+                    <li class="nav-item"><a class="nav-link" href="login">Sign in</a></li>
+                    <li class="nav-item"><a class="nav-link" href="register">Sign up</a></li>
                 </ul>
             </div>
         </nav>
@@ -67,7 +50,7 @@
     <div class="container">
         <div class="registration-form-container">
             <h1>Register</h1>
-            <form action="your_backend_endpoint_here" method="POST" onsubmit="return validatePasswords()">
+            <form action="/register" method="POST" onsubmit="return validatePasswords()">
                 <div class="form-group">
                     <input type="text" placeholder="First Name" name="firstName" required>
                 </div>
@@ -84,13 +67,13 @@
                     <input type="text" placeholder="Login" name="login" required>
                 </div>
                 <div class="form-group">
-                    <input type="password" id="password" placeholder="Password" name="password" required>
+                    <input type="password" placeholder="Password" name="password" required>
                 </div>
                 <div class="form-group">
-                    <input type="password" id="confirmPassword" placeholder="Confirm Password" name="confirmPassword" required>
+                    <input type="password" placeholder="Confirm Password" name="confirmPassword" required>
                 </div>
                 <div class="form-group">
-                    <button type="submit">Register</button>
+                    <button type="submit" class="btn btn-primary">Register</button>
                 </div>
             </form>
         </div>
@@ -103,7 +86,7 @@
     <div class="container">
         <div class="row">
             <div class="col-md-12">
-                <div class="footeer_logo"><img src="images/logo.png" alt="Logo"></div>
+                <div class="footer_logo"><img src="images/logo.png" alt="Logo"></div>
             </div>
         </div>
         <div class="footer_section_2">
