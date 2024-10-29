@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -15,11 +15,6 @@
     <link rel="stylesheet" href="css/responsive.css">
     <!-- Font CSS -->
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&family=Raleway:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-    <!-- Scrollbar Custom CSS -->
-    <link rel="stylesheet" href="css/jquery.mCustomScrollbar.min.css">
-    <!-- Font Awesome -->
-    <link rel="stylesheet" href="https://netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css">
-
 </head>
 <body>
 <!-- Header section with navbar -->
@@ -32,42 +27,30 @@
             </button>
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav ml-auto">
-                    <li class="nav-item">
-                        <a class="nav-link" href="index">Home</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="about">About</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="services">Services</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="gallery">Vehicles</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="client">Client</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="contact">Contact</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="login">Sign in</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="register">Sign up</a>
-                    </li>
+                    <li class="nav-item"><a class="nav-link" href="index">Home</a></li>
+                    <li class="nav-item"><a class="nav-link" href="about">About</a></li>
+                    <li class="nav-item"><a class="nav-link" href="services">Services</a></li>
+                    <li class="nav-item"><a class="nav-link" href="gallery">Vehicles</a></li>
+                    <li class="nav-item"><a class="nav-link" href="client">Client</a></li>
+                    <li class="nav-item"><a class="nav-link" href="contact">Contact</a></li>
+                    <li class="nav-item"><a class="nav-link" href="login">Sign in</a></li>
+                    <li class="nav-item"><a class="nav-link" href="register">Sign up</a></li>
                 </ul>
             </div>
         </nav>
     </div>
 </div>
 
-<!-- Login Form Section Start -->
+<!-- Login Section Start -->
 <div class="contact_section layout_padding">
     <div class="container">
         <div class="login-form-container">
-            <h1>Login</h1>
-            <form action="your_backend_login_endpoint_here" method="POST">
+            <h1>Sign In</h1>
+            <!-- Wyświetlanie komunikatu o błędzie logowania -->
+            <div th:if="${error}" class="alert alert-danger" role="alert">
+                <p th:text="${error}"></p>
+            </div>
+            <form action="/login" method="POST">
                 <div class="form-group">
                     <input type="text" placeholder="Login" name="login" required>
                 </div>
@@ -75,78 +58,23 @@
                     <input type="password" placeholder="Password" name="password" required>
                 </div>
                 <div class="form-group">
-                    <button type="submit">Login</button>
+                    <button type="submit" class="btn btn-primary">Sign In</button>
                 </div>
             </form>
         </div>
     </div>
 </div>
-<!-- Login Form Section End -->
+<!-- Login Section End -->
 
 <!-- Footer Section Start -->
 <div class="footer_section layout_padding">
     <div class="container">
         <div class="row">
             <div class="col-md-12">
-                <div class="footeer_logo"><img src="images/logo.png" alt="Logo"></div>
-            </div>
-        </div>
-        <div class="footer_section_2">
-            <div class="row">
-                <div class="col">
-                    <h4 class="footer_taital">Subscribe Now</h4>
-                    <p class="footer_text">Subscribe to our newsletter for the latest updates.</p>
-                    <textarea class="update_mail" placeholder="Enter Your Email" rows="5" name="Enter Your Email"></textarea>
-                    <div class="subscribe_bt"><a href="#">Subscribe</a></div>
-                </div>
-                <div class="col">
-                    <h4 class="footer_taital">Information</h4>
-                    <p class="lorem_text">Learn more about our services and offerings.</p>
-                </div>
-                <div class="col">
-                    <h4 class="footer_taital">Helpful Links</h4>
-                    <p class="lorem_text">Explore our resources and FAQs.</p>
-                </div>
-                <div class="col">
-                    <h4 class="footer_taital">Investments</h4>
-                    <p class="lorem_text">Discover investment opportunities with us.</p>
-                </div>
-                <div class="col">
-                    <h4 class="footer_taital">Contact Us</h4>
-                    <div class="location_text"><a href="#"><i class="fa fa-map-marker" aria-hidden="true"></i><span class="padding_left_15">Location</span></a></div>
-                    <div class="location_text"><a href="#"><i class="fa fa-phone" aria-hidden="true"></i><span class="padding_left_15">(+71) 8522369417</span></a></div>
-                    <div class="location_text"><a href="#"><i class="fa fa-envelope" aria-hidden="true"></i><span class="padding_left_15">demo@gmail.com</span></a></div>
-                    <div class="social_icon">
-                        <ul>
-                            <li><a href="#"><i class="fa fa-facebook" aria-hidden="true"></i></a></li>
-                            <li><a href="#"><i class="fa fa-twitter" aria-hidden="true"></i></a></li>
-                            <li><a href="#"><i class="fa fa-linkedin" aria-hidden="true"></i></a></li>
-                            <li><a href="#"><i class="fa fa-instagram" aria-hidden="true"></i></a></li>
-                        </ul>
-                    </div>
-                </div>
+                <div class="footer_logo"><img src="images/logo.png" alt="Logo"></div>
             </div>
         </div>
     </div>
 </div>
-<!-- Footer Section End -->
-
-<!-- Copyright Section -->
-<div class="copyright_section">
-    <div class="container">
-        <div class="row">
-            <div class="col-sm-12">
-                <p class="copyright_text">2023 All Rights Reserved. Design by <a href="https://html.design">Free Html Templates</a> Distributed By <a href="https://themewagon.com">ThemeWagon</a></p>
-            </div>
-        </div>
-    </div>
-</div>
-
-<!-- Javascript files-->
-<script src="js/jquery.min.js"></script>
-<script src="js/popper.min.js"></script>
-<script src="js/bootstrap.bundle.min.js"></script>
-<script src="js/jquery-3.0.0.min.js"></script>
-<script src="js/plugin.js"></script>
 </body>
 </html>

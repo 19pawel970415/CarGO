@@ -1,5 +1,6 @@
 package com.example.CarGo;
 
+import com.example.CarGo.DB.UserRepository;
 import com.example.CarGo.Services.CarService;
 import com.example.CarGo.Services.UserService;
 import com.example.CarGo.models.Car;
@@ -12,6 +13,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
+import java.util.Optional;
 
 @Controller
 public class IndexController {
@@ -21,6 +23,9 @@ public class IndexController {
 
     @Autowired
     private UserService userService;
+
+    @Autowired
+    private UserRepository userRepository;
 
     @GetMapping(value = {"/", "/index"})
     public String showIndex() {
@@ -95,8 +100,36 @@ public class IndexController {
     }
 
     @GetMapping("/login")
-    public String showLogin() {
+    public String showLoginForm() {
         return "login";
     }
 
+    @PostMapping("/login")
+    public String loginUser(
+            @RequestParam("login") String login,
+            @RequestParam("password") String password,
+            Model model) {
+
+        // Wyszukiwanie użytkownika na podstawie loginu
+        Optional<User> userOptional = userRepository.findByLogin(login);
+
+        // Sprawdzenie, czy użytkownik istnieje i czy hasło jest poprawne
+        if (userOptional.isPresent()) {
+            User user = userOptional.get();
+            if (user.getPassword().equals(password)) {
+                // Przekierowanie do strony głównej po pomyślnym logowaniu
+                return "redirect:/indexSignedIn";
+            } else {
+                model.addAttribute("error", "Invalid password");
+            }
+        } else {
+            model.addAttribute("error", "User not found");
+        }
+        return "login";
+    }
+
+    @GetMapping("/indexSignedIn")
+    public String showIndexSignedIn() {
+        return "indexSignedIn";
+    }
 }
