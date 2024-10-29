@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -50,6 +50,10 @@
     <div class="container">
         <div class="registration-form-container">
             <h1>Register</h1>
+            <!-- Wyświetlanie komunikatu o błędzie, jeśli istnieje -->
+            <div th:if="${error}" class="alert alert-danger" role="alert">
+                <p th:text="${error}"></p>
+            </div>
             <form action="/register" method="POST" onsubmit="return validatePasswords()">
                 <div class="form-group">
                     <input type="text" placeholder="First Name" name="firstName" required>
