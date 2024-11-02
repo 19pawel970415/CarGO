@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <!-- basic -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- site metas -->
+    <title>Book a Car</title>
+    <!-- bootstrap css -->
+    <link rel="stylesheet" type="text/css" href="/css/bootstrap.min.css">
+    <!-- style css -->
+    <link rel="stylesheet" type="text/css" href="/css/style.css">
+    <!-- Responsive -->
+    <link rel="stylesheet" href="/css/responsive.css">
+    <!-- fevicon -->
+    <link rel="icon" href="/images/fevicon.png" type="image/gif" />
+    <!-- font css -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&family=Raleway:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+</head>
+<body>
+<!-- header section start -->
+<div class="header_section">
+    <div class="container">
+        <nav class="navbar navbar-expand-lg navbar-light bg-light">
+            <a class="navbar-brand" href="/index"><img src="/images/logo.png" alt="Logo"></a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav ml-auto">
+                    <li class="nav-item"><a class="nav-link" href="/index">Home</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/about">About</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/services">Services</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/gallery">Vehicles</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/client">Client</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/contact">Contact</a></li>
+                    <li class="nav-item" th:if="${session.loggedInUser == null}"><a class="nav-link" href="/login">Sign in</a></li>
+                    <li class="nav-item" th:if="${session.loggedInUser == null}"><a class="nav-link" href="/register">Sign up</a></li>
+                    <li class="nav-item" th:if="${session.loggedInUser != null}"><a class="nav-link" href="/logout">Logout</a></li>
+                </ul>
+            </div>
+        </nav>
+    </div>
+</div>
+<!-- header section end -->
+
+<!-- booking form section start -->
+<div class="booking_section layout_padding">
+    <div class="container">
+        <h1 class="booking_title">Book Your Car</h1>
+        <div class="row">
+            <div class="col-md-12">
+                <h3 class="car_details" th:text="'Booking for ' + ${car.make} + ' ' + ${car.model}">Car Make and Model</h3>
+                <p class="car_details" th:text="'Registration Number: ' + ${car.registrationNumber}">Registration Number: N/A</p>
+                <p class="car_details" th:text="'VIN: ' + ${car.vin}">VIN: N/A</p>
+                <p class="car_details" th:text="'Pick-up Location: ' + ${car.location}">Pick-up Location: Unknown</p>
+            </div>
+        </div>
+        <!-- Booking form -->
+        <form th:action="@{/reserve}" method="post">
+            <div class="form-group">
+                <label for="startDate">Start Date</label>
+                <input type="date" id="startDate" name="startDate" class="form-control" required>
+            </div>
+            <div class="form-group">
+                <label for="endDate">End Date</label>
+                <input type="date" id="endDate" name="endDate" class="form-control" required>
+            </div>
+            <div class="form-group">
+                <label for="returnLocation">Return Location</label>
+                <select id="returnLocation" name="returnLocation" class="form-control" required>
+                    <option value="Lodz">Lodz</option>
+                    <option value="Wroclaw">Wroclaw</option>
+                    <option value="Warszawa">Warszawa</option>
+                    <option value="Gdynia">Gdynia</option>
+                </select>
+            </div>
+            <input type="hidden" name="carId" th:value="${car.id}">
+            <button type="submit" class="btn btn-primary">Confirm Booking</button>
+        </form>
+    </div>
+</div>
+<!-- booking form section end -->
+
+<!-- footer section start -->
+<div class="footer_section layout_padding">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="footer_logo"><img src="/images/logo.png" alt="Logo"></div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- footer section end -->
+
+<!-- JS scripts -->
+<script src="/js/jquery.min.js"></script>
+<script src="/js/popper.min.js"></script>
+<script src="/js/bootstrap.bundle.min.js"></script>
+<script src="/js/custom.js"></script>
+</body>
+</html>

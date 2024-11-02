@@ -1,10 +1,15 @@
 package com.example.CarGo.models;
 
 import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.Setter;
+
 import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "reservations")
+@Getter
+@Setter
 public class Reservation {
 
     @Id
@@ -25,8 +30,13 @@ public class Reservation {
     @Column(nullable = false)
     private LocalDateTime reservationEnd;
 
-    @Enumerated(EnumType.STRING)
-    private ReservationStatus status;
+    @Column(nullable = false)
+    private String pickUpPoint;
 
-    // Getters and Setters
+    @Column(nullable = false)
+    private String dropOfPoint;
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "status", length = 20)
+    private ReservationStatus status;
 }

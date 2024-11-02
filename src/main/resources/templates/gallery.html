@@ -23,7 +23,7 @@
 <div class="header_section">
    <div class="container">
       <nav class="navbar navbar-expand-lg navbar-light bg-light">
-         <a class="navbar-brand" href="index.html"><img src="images/logo.png" alt="Logo"></a>
+         <a class="navbar-brand" href="index.html"><img src="images/logo.png"></a>
          <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
          </button>
@@ -35,8 +35,9 @@
                <li class="nav-item"><a class="nav-link" href="gallery">Vehicles</a></li>
                <li class="nav-item"><a class="nav-link" href="client">Client</a></li>
                <li class="nav-item"><a class="nav-link" href="contact">Contact</a></li>
-               <li class="nav-item"><a class="nav-link" href="login">Sign in</a></li>
-               <li class="nav-item"><a class="nav-link" href="register">Sign up</a></li>
+               <li class="nav-item" th:if="${session.loggedInUser == null}"><a class="nav-link" href="login">Sign in</a></li>
+               <li class="nav-item" th:if="${session.loggedInUser == null}"><a class="nav-link" href="register">Sign up</a></li>
+               <li class="nav-item" th:if="${session.loggedInUser != null}"><a class="nav-link" href="logout">Logout</a></li>
             </ul>
          </div>
       </nav>
@@ -48,28 +49,66 @@
       <div class="row">
          <div class="col-md-12">
             <h1 class="gallery_taital">Our best offers</h1>
+            <!-- Filter form -->
+            <form action="#" method="get" th:action="@{/gallery}" class="filter-form">
+               <label for="location">Pick up location:</label>
+               <select name="location" id="location">
+                  <option value="">All Locations</option>
+                  <option value="Lodz">Lodz</option>
+                  <option value="Warszawa">Warszawa</option>
+                  <option value="Gdynia">Gdynia</option>
+                  <option value="Wroclaw">Wroclaw</option>
+               </select>
+               <button type="submit">Filter</button>
+            </form>
          </div>
       </div>
       <div class="gallery_section_2">
          <div class="row">
-            <!-- Pętla przez listę samochodów -->
+            <!-- Loop through list of cars -->
             <div th:each="car : ${cars}" class="col-md-4">
                <div class="gallery_box">
-                  <h3 class="types_text" th:text="${car.make} + ' ' + ${car.model}">Car Make and Model</h3> <!-- Marka i model samochodu -->
-                  <p class="looking_text" th:text="'Registration Number: ' + ${car.registrationNumber}">Registration Number: N/A</p> <!-- Numer rejestracyjny -->
-                  <p class="looking_text" th:text="'VIN: ' + ${car.vin}">VIN: N/A</p> <!-- VIN -->
-                  <p class="looking_text" th:text="'Year of Production: ' + ${car.yearOfProduction}">Year of Production: N/A</p> <!-- Rok produkcji -->
-                  <p class="looking_text" th:text="'Seat Count: ' + ${car.seatCount}">Seat Count: N/A</p> <!-- Liczba miejsc -->
-                  <p class="looking_text" th:text="'Status: ' + ${car.status}">Status: N/A</p> <!-- Status -->
-                  <div class="read_bt"><a th:href="@{/book/${car.id}}">Book Now</a></div> <!-- Link do rezerwacji -->
+                  <h3 class="types_text" th:text="${car.make} + ' ' + ${car.model}">Car Make and Model</h3>
+                  <p class="looking_text" th:text="'Registration Number: ' + ${car.registrationNumber}">Registration Number: N/A</p>
+                  <p class="looking_text" th:text="'VIN: ' + ${car.vin}">VIN: N/A</p>
+                  <p class="looking_text" th:text="'Year of Production: ' + ${car.yearOfProduction}">Year of Production: N/A</p>
+                  <p class="looking_text" th:text="'Seat Count: ' + ${car.seatCount}">Seat Count: N/A</p>
+                  <p class="looking_text" th:text="'Status: ' + ${car.status}">Status: N/A</p>
+                  <!-- Book Now button with conditional logic -->
+                  <div class="read_bt">
+                     <a th:if="${session.loggedInUser != null}" th:href="@{/book/{carId}(carId=${car.id})}">Book Now</a>
+                     <a th:if="${session.loggedInUser == null}" href="#" data-toggle="modal" data-target="#loginModal">Book Now</a>
+                  </div>
                </div>
             </div>
-            <!-- Koniec pętli -->
+            <!-- End of loop -->
+         </div>
+      </div>
+   </div>
+</div>
+
+<!-- Bootstrap Modal for login prompt -->
+<div class="modal fade" id="loginModal" tabindex="-1" aria-labelledby="loginModalLabel" aria-hidden="true">
+   <div class="modal-dialog">
+      <div class="modal-content">
+         <div class="modal-header">
+            <h5 class="modal-title" id="loginModalLabel">Log In Required</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+               <span aria-hidden="true">&times;</span>
+            </button>
+         </div>
+         <div class="modal-body">
+            You need to log in first to book a car.
+         </div>
+         <div class="modal-footer">
+            <a href="login" class="btn btn-primary">Log In</a>
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
          </div>
       </div>
    </div>
 </div>
 <!-- gallery section end -->
+
 <!-- footer section start -->
 <div class="footer_section layout_padding">
    <div class="container">
@@ -81,6 +120,8 @@
    </div>
 </div>
 <!-- footer section end -->
+
+<!-- JS scripts -->
 <script src="js/jquery.min.js"></script>
 <script src="js/popper.min.js"></script>
 <script src="js/bootstrap.bundle.min.js"></script>

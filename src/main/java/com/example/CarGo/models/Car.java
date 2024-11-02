@@ -37,6 +37,9 @@ public class Car {
     @Column
     private int seatCount;
 
+    @Column(nullable = false)
+    private String location;
+
     @OneToMany(mappedBy = "car", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<Reservation> reservations;
 
