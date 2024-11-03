@@ -44,23 +44,50 @@
    </div>
 </div>
 <!-- header section end -->
+
+<!-- select box section start -->
+<div class="container">
+   <div class="select_box_section">
+      <div class="select_box_main">
+         <div class="row">
+            <!-- Start of Search Form -->
+            <form action="#" method="get" th:action="@{/gallery}" class="form-inline">
+               <div class="col-md-3 select-outline">
+                  <label for="location">Pick up location:</label>
+                  <select name="location" id="location" class="form-control">
+                     <option value="">All Locations</option>
+                     <option value="Lodz">Lodz</option>
+                     <option value="Warszawa">Warszawa</option>
+                     <option value="Gdynia">Gdynia</option>
+                     <option value="Wroclaw">Wroclaw</option>
+                  </select>
+               </div>
+               <div class="col-md-3 select-outline">
+                  <label for="startDate">Start Date:</label>
+                  <input type="date" name="startDate" id="startDate" class="form-control" placeholder="Start Date">
+               </div>
+               <div class="col-md-3 select-outline">
+                  <label for="endDate">End Date:</label>
+                  <input type="date" name="endDate" id="endDate" class="form-control" placeholder="End Date">
+               </div>
+               <div class="col-md-3">
+                  <div class="search_btn">
+                     <button type="submit" class="btn btn-primary mt-4">Search Now</button>
+                  </div>
+               </div>
+            </form>
+            <!-- End of Search Form -->
+         </div>
+      </div>
+   </div>
+</div>
+<!-- select box section end -->
+
 <div class="gallery_section layout_padding">
    <div class="container">
       <div class="row">
          <div class="col-md-12">
             <h1 class="gallery_taital">Our best offers</h1>
-            <!-- Filter form -->
-            <form action="#" method="get" th:action="@{/gallery}" class="filter-form">
-               <label for="location">Pick up location:</label>
-               <select name="location" id="location">
-                  <option value="">All Locations</option>
-                  <option value="Lodz">Lodz</option>
-                  <option value="Warszawa">Warszawa</option>
-                  <option value="Gdynia">Gdynia</option>
-                  <option value="Wroclaw">Wroclaw</option>
-               </select>
-               <button type="submit">Filter</button>
-            </form>
          </div>
       </div>
       <div class="gallery_section_2">

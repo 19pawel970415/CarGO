@@ -10,6 +10,7 @@ import com.example.CarGo.models.ReservationStatus;
 import com.example.CarGo.models.User;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -51,18 +52,31 @@ public class IndexController {
     public String showContact() {
         return "contact";
     }
+
     @GetMapping("/gallery")
     public String showGallery(
             @RequestParam(value = "location", required = false) String location,
+            @RequestParam(value = "startDate", required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate startDate,
+            @RequestParam(value = "endDate", required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate endDate,
             Model model) {
+
         List<Car> cars;
-        if (location != null && !location.isEmpty()) {
-            // Znajdź samochody według lokalizacji
+
+        if (startDate != null && endDate != null) {
+            // Check availability within date range, optionally filtered by location
+            if (location != null && !location.isEmpty()) {
+                cars = carService.findAvailableCarsInLocation(location, startDate, endDate);
+            } else {
+                cars = carService.findAvailableCars(startDate, endDate);
+            }
+        } else if (location != null && !location.isEmpty()) {
+            // Only location is specified
             cars = carService.findCarsByLocation(location);
         } else {
-            // Znajdź wszystkie samochody
+            // No filters applied, show all cars
             cars = carService.findAllCars();
         }
+
         model.addAttribute("cars", cars);
         return "gallery";
     }
