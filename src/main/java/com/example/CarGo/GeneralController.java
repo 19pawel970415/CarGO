@@ -8,6 +8,7 @@ import com.example.CarGo.models.Car;
 import com.example.CarGo.models.Reservation;
 import com.example.CarGo.models.ReservationStatus;
 import com.example.CarGo.models.User;
+import jakarta.mail.MessagingException;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -25,17 +26,18 @@ import java.util.List;
 import java.util.Optional;
 
 @Controller
-public class IndexController {
+public class GeneralController {
 
     @Autowired
     private ReservationService reservationService;
     @Autowired
     private CarService carService;
-
     @Autowired
     private UserService userService;
     @Autowired
     private UserRepository userRepository;
+
+
     @GetMapping(value = {"/", "/index"})
     public String showIndex() {
         return "index";
@@ -146,6 +148,68 @@ public class IndexController {
         }
         return "login";
     }
+
+    @PostMapping("/forgot-password")
+    public String processForgotPassword(
+            @RequestParam("email") String email,
+            Model model) {
+
+        boolean userExists = userRepository.existsByEmail(email);
+
+        if (userExists) {
+            try {
+                userService.sendPasswordResetLink(email);
+            } catch (MessagingException e) {
+                throw new RuntimeException(e);
+            }
+            model.addAttribute("message", "A password reset link has been sent to your email.");
+        } else {
+            model.addAttribute("error", "Email address not found. Enter a correct email address.");
+        }
+
+        return "login";
+    }
+
+    @GetMapping("/reset-password")
+    public String showResetPasswordPage(@RequestParam("email") String email, HttpSession session, Model model) {
+        session.setAttribute("email", email);
+        model.addAttribute("email", email);
+        return "password_reset";
+    }
+
+
+    @PostMapping("/reset-password")
+    public String resetPassword(
+            @RequestParam("password") String password,
+            @RequestParam("confirmPassword") String confirmPassword,
+            HttpSession session,
+            Model model) {
+
+        String email = (String) session.getAttribute("email");  // Odczytanie emaila z sesji
+        if (email == null) {
+            model.addAttribute("error", "Email not found");
+            return "password_reset";  // Zwrócenie na stronę resetowania, jeśli email nie jest w sesji
+        }
+
+        if (!password.equals(confirmPassword)) {
+            model.addAttribute("error", "Passwords do not match");
+            return "password_reset";  // Zwracamy do strony resetowania hasła
+        }
+
+        Optional<User> userOptional = userRepository.findByEmail(email);
+        if (userOptional.isPresent()) {
+            User user = userOptional.get();
+            user.setPassword(password);  // Ustawienie nowego hasła
+            userService.updatePassword(email, password);  // Zaktualizowanie hasła w bazie
+            model.addAttribute("message", "Password successfully reset");
+            return "login";  // Po pomyślnym zresetowaniu hasła przekierowanie na stronę logowania
+        } else {
+            model.addAttribute("error", "Email not found");
+            return "password_reset";  // Jeśli email nie istnieje, wracamy do formularza
+        }
+    }
+
+
     @GetMapping("/logout")
     public String logoutUser(HttpSession session) {
         session.invalidate();  // Usunięcie wszystkich danych z sesji
