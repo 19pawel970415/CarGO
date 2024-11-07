@@ -101,4 +101,14 @@ public class UserService {
 
         javaMailSender.send(message);
     }
+
+    public void sendContactFormMessage(String mail, String subject, String content) throws MessagingException {
+        MimeMessage message = javaMailSender.createMimeMessage();
+        MimeMessageHelper helper = new MimeMessageHelper(message, true);
+        helper.setFrom(mail);
+        helper.setTo(mail);
+        helper.setSubject(subject);
+        helper.setText(content, false);
+        javaMailSender.send(message);
+    }
 }
