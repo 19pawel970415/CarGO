@@ -12,12 +12,11 @@ import jakarta.mail.MessagingException;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -276,5 +275,18 @@ public class GeneralController {
     @GetMapping("/confirmation")
     public String showConfirmation() {
         return "confirmation";
+    }
+
+    @PostMapping("/subscribe")
+    @ResponseBody
+    public ResponseEntity<String> subscribe(
+            @RequestParam("email") String email) {
+
+        try {
+            userService.sendSubscriptionConfirmation(email);
+            return ResponseEntity.ok("Thank you for subscribing! A confirmation email has been sent to your address.");
+        } catch (MessagingException e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Failed to send subscription confirmation email. Please try again later.");
+        }
     }
 }

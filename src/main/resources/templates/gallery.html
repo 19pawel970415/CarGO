@@ -177,10 +177,11 @@
             <div class="col">
                <h4 class="footer_taital">Subscribe Now</h4>
                <p class="footer_text">Enter your email and we'll reach you to stay in touch!</p>
-               <div class="form-group">
-                  <textarea class="update_mail" placeholder="Enter Your Email" rows="5" id="comment" name="Enter Your Email"></textarea>
-                  <div class="subscribe_bt"><a href="#">Subscribe</a></div>
-               </div>
+
+               <form action="/subscribe" method="POST" class="form-group">
+                  <textarea class="update_mail" placeholder="Enter Your Email" rows="1" id="email" name="email"></textarea>
+                  <button type="submit" class="subscribe_bt btn btn-primary">Subscribe</button>
+               </form>
             </div>
             <div class="col">
                <h4 class="footer_taital">Information</h4>
@@ -245,5 +246,6 @@
 <script src="js/bootstrap.bundle.min.js"></script>
 <script src="js/custom.js"></script>
 <script src="js/clipboard.js"></script>
+<script src="js/subscribe.js"></script>
 </body>
 </html>
