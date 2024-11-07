@@ -1061,7 +1061,19 @@ textarea#comment::placeholder {
     float: left;
 }
 
+.location_text_up {
+    width: 100%;
+    float: left;
+}
+
 .location_text a {
+    width: 100%;
+    float: left;
+    color: #ffffff;
+    font-size: 16px;
+}
+
+.location_text_up a {
     width: 100%;
     float: left;
     color: #ffffff;
@@ -1070,6 +1082,10 @@ textarea#comment::placeholder {
 
 .location_text a:hover {
     color: #fe5b29;
+}
+
+.location_text_up a:hover {
+    color: #000000;
 }
 
 .padding_left_15 {
