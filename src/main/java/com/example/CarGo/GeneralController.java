@@ -11,13 +11,16 @@ import com.example.CarGo.models.User;
 import jakarta.mail.MessagingException;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.FileSystemResource;
 import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.nio.file.Paths;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
@@ -45,6 +48,27 @@ public class GeneralController {
     public String showAbout() {
         return "about";
     }
+
+    @GetMapping("/downloadFile")
+    public ResponseEntity<FileSystemResource> downloadFile() {
+        // Define the path to the file in your main project folder
+        String filePath = "We are CarGo!.docx";
+
+        FileSystemResource file = new FileSystemResource(Paths.get(filePath));
+
+        if (!file.exists()) {
+            return ResponseEntity.notFound().build();
+        }
+
+        // Setting headers to trigger the file download
+        HttpHeaders headers = new HttpHeaders();
+        headers.add(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=" + file.getFilename());
+
+        return ResponseEntity.ok()
+                .headers(headers)
+                .body(file);
+    }
+
     @GetMapping("/client")
     public String showClient() {
         return "client";
