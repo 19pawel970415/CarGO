@@ -65,9 +65,9 @@
                <li class="nav-item" th:if="${session.loggedInUser == null}">
                   <a class="nav-link" href="register">Sign up</a>
                </li>
-               <!-- Przycisk Logout wyświetlany tylko, gdy użytkownik jest zalogowany -->
+               <!-- Przycisk Sign out wyświetlany tylko, gdy użytkownik jest zalogowany -->
                <li class="nav-item" th:if="${session.loggedInUser != null}">
-                  <a class="nav-link" href="logout">Logout</a>
+                  <a class="nav-link" href="signout">Sign out</a>
                </li>
             </ul>
          </div>
@@ -116,7 +116,7 @@
          <div class="row">
             <div class="col">
                <h4 class="footer_taital">Subscribe Now</h4>
-               <p class="footer_text">There are many variations of passages of Lorem Ipsum available,</p>
+               <p class="footer_text">Enter your email and we'll reach you to stay in touch!</p>
                <div class="form-group">
                   <textarea class="update_mail" placeholder="Enter Your Email" rows="5" id="comment" name="Enter Your Email"></textarea>
                   <div class="subscribe_bt"><a href="#">Subscribe</a></div>
@@ -124,27 +124,42 @@
             </div>
             <div class="col">
                <h4 class="footer_taital">Information</h4>
-               <p class="lorem_text">There are many variations of passages of Lorem Ipsum available, but the majority </p>
+               <p class="lorem_text">CarGo is the fastest-growing car rental with the HQ in Łódź, Poland.</p>
             </div>
             <div class="col">
-               <h4 class="footer_taital">Helpful Links</h4>
-               <p class="lorem_text">There are many variations of passages of Lorem Ipsum available, but the majority </p>
+               <h4 class="footer_taital">Our offer</h4>
+               <p class="lorem_text">We offer an increasing number of cars in multiple locations.</p>
             </div>
             <div class="col">
                <h4 class="footer_taital">Invesments</h4>
-               <p class="lorem_text">There are many variations of passages of Lorem Ipsum available, but the majority </p>
+               <p class="lorem_text">We constantly invest in CarGo increasing our customer base in Poland.</p>
             </div>
             <div class="col">
                <h4 class="footer_taital">Contact Us</h4>
-               <div class="location_text"><a href="#"><i class="fa fa-map-marker" aria-hidden="true"></i><span class="padding_left_15">Location</span></a></div>
-               <div class="location_text"><a href="#"><i class="fa fa-phone" aria-hidden="true"></i><span class="padding_left_15">(+71) 8522369417</span></a></div>
-               <div class="location_text"><a href="#"><i class="fa fa-envelope" aria-hidden="true"></i><span class="padding_left_15">demo@gmail.com</span></a></div>
+               <div class="location_text">
+                  <a href="https://www.google.com/maps/place/Wydzia%C5%82+Ekonomiczno-Socjologiczny+Uniwersytetu+%C5%81%C3%B3dzkiego/@51.7752141,19.4611604,17z/data=!3m2!4b1!5s0x471bcb27fb23fb65:0xc900bfbd73fd4323!4m6!3m5!1s0x471bcb27d95ca219:0x7a09bc332d4a8d73!8m2!3d51.7752141!4d19.4637353!16s%2Fg%2F120l7rrv?entry=ttu&g_ep=EgoyMDI0MTAyOS4wIKXMDSoASAFQAw%3D%3D" target="_blank">
+                     <i class="fa fa-map-marker" aria-hidden="true"></i>
+                     <span class="padding_left_15">Location</span>
+                  </a>
+               </div>
+               <div class="location_text">
+                  <a href="#" onclick="copyToClipboard('(+48) 426355356')">
+                     <i class="fa fa-phone" aria-hidden="true"></i>
+                     <span class="padding_left_15">(+48) 426355356</span>
+                  </a>
+               </div>
+               <div class="location_text">
+                  <a href="#" onclick="copyToClipboard('cargo@gmail.com')">
+                     <i class="fa fa-envelope" aria-hidden="true"></i>
+                     <span class="padding_left_15">cargo@gmail.com</span>
+                  </a>
+               </div>
                <div class="social_icon">
                   <ul>
-                     <li><a href="#"><i class="fa fa-facebook" aria-hidden="true"></i></a></li>
-                     <li><a href="#"><i class="fa fa-twitter" aria-hidden="true"></i></a></li>
-                     <li><a href="#"><i class="fa fa-linkedin" aria-hidden="true"></i></a></li>
-                     <li><a href="#"><i class="fa fa-instagram" aria-hidden="true"></i></a></li>
+                     <li><a href="https://www.facebook.com/" target="_blank"><i class="fa fa-facebook" aria-hidden="true"></i></a></li>
+                     <li><a href="https://x.com/" target="_blank"><i class="fa fa-twitter" aria-hidden="true"></i></a></li>
+                     <li><a href="https://www.linkedin.com/" target="_blank"><i class="fa fa-linkedin" aria-hidden="true"></i></a></li>
+                     <li><a href="https://www.instagram.com/" target="_blank"><i class="fa fa-instagram" aria-hidden="true"></i></a></li>
                   </ul>
                </div>
             </div>
@@ -170,6 +185,7 @@
 <script src="js/bootstrap.bundle.min.js"></script>
 <script src="js/jquery-3.0.0.min.js"></script>
 <script src="js/plugin.js"></script>
+<script src="js/clipboard.js"></script>
 <!-- sidebar -->
 <script src="js/jquery.mCustomScrollbar.concat.min.js"></script>
 <script src="js/custom.js"></script>

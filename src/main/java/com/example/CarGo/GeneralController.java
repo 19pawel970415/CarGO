@@ -210,8 +210,8 @@ public class GeneralController {
     }
 
 
-    @GetMapping("/logout")
-    public String logoutUser(HttpSession session) {
+    @GetMapping("/signout")
+    public String signoutUser(HttpSession session) {
         session.invalidate();  // Usunięcie wszystkich danych z sesji
         return "redirect:/index";  // Przekierowanie na stronę główną
     }
