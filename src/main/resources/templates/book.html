@@ -78,19 +78,20 @@
                 <h3 class="car_details" th:text="'Booking for ' + ${car.make} + ' ' + ${car.model}">Car Make and Model</h3>
                 <p class="car_details" th:text="'Registration Number: ' + ${car.registrationNumber}">Registration Number: N/A</p>
                 <p class="car_details" th:text="'VIN: ' + ${car.vin}">VIN: N/A</p>
-                <p class="car_details" th:text="'Pick-up Location: ' + ${car.location}">Pick-up Location: Unknown</p>
+                <p class="car_details" th:text="'Pick-up Location: ' + ${location}">Pick-up Location: Unknown</p>
+                <p class="car_details" th:text="'Start Date: ' + ${startDate}">Start Date</p>
+                <p class="car_details" th:text="'End Date: ' + ${endDate}">End Date</p>
             </div>
         </div>
         <!-- Booking form -->
         <form th:action="@{/reserve}" method="post">
-            <div class="form-group">
-                <label for="startDate">Start Date</label>
-                <input type="date" id="startDate" name="startDate" class="form-control" required>
-            </div>
-            <div class="form-group">
-                <label for="endDate">End Date</label>
-                <input type="date" id="endDate" name="endDate" class="form-control" required>
-            </div>
+            <!-- Hidden fields for car and booking details -->
+            <input type="hidden" name="carId" th:value="${car.id}" />
+            <input type="hidden" name="location" th:value="${location}" />
+            <input type="hidden" name="startDate" th:value="${startDate}" />
+            <input type="hidden" name="endDate" th:value="${endDate}" />
+
+            <!-- Only allow selection of return location -->
             <div class="form-group">
                 <label for="returnLocation">Return Location</label>
                 <select id="returnLocation" name="returnLocation" class="form-control" required>
@@ -100,12 +101,12 @@
                     <option value="Gdynia">Gdynia</option>
                 </select>
             </div>
-            <input type="hidden" name="carId" th:value="${car.id}">
-            <button type="submit" class="btn btn-primary">Confirm Booking</button>
+            <button type="submit" class="btn btn-primary">Confirm Renting</button>
         </form>
     </div>
 </div>
 <!-- booking form section end -->
+
 
 <!-- footer section start -->
 <div class="footer_section layout_padding">

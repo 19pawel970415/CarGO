@@ -88,23 +88,48 @@ public class GeneralController {
         List<Car> cars;
 
         if (startDate != null && endDate != null) {
-            // Check availability within date range, optionally filtered by location
+            // Sprawdź dostępność w zakresie dat, opcjonalnie filtrowane przez lokalizację
             if (location != null && !location.isEmpty()) {
                 cars = carService.findAvailableCarsInLocation(location, startDate, endDate);
             } else {
                 cars = carService.findAvailableCars(startDate, endDate);
             }
         } else if (location != null && !location.isEmpty()) {
-            // Only location is specified
+            // Tylko lokalizacja jest określona
             cars = carService.findCarsByLocation(location);
         } else {
-            // No filters applied, show all cars
+            // Brak filtrów, pokaż wszystkie samochody
             cars = carService.findAllCars();
         }
 
+        // Dodanie wybranych wartości do modelu, aby pozostały w formularzu
         model.addAttribute("cars", cars);
+        model.addAttribute("location", location);
+        model.addAttribute("startDate", startDate);
+        model.addAttribute("endDate", endDate);
+
         return "gallery";
     }
+
+    @GetMapping("/book/{carId}")
+    public String showBookingForm(
+            @PathVariable Long carId,
+            @RequestParam String location,
+            @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate startDate,
+            @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate endDate,
+            Model model) {
+        Optional<Car> car = carService.findCarById(carId);
+        if (car.isPresent()) {
+            model.addAttribute("car", car.get());
+            model.addAttribute("location", location);
+            model.addAttribute("startDate", startDate);
+            model.addAttribute("endDate", endDate);
+            return "book";
+        } else {
+            return "redirect:/gallery";
+        }
+    }
+
     @GetMapping("/services")
     public String showServices() {
         return "services";
@@ -241,16 +266,6 @@ public class GeneralController {
     @GetMapping("/indexSignedIn")
     public String showIndexSignedIn() {
         return "indexSignedIn";
-    }
-    @GetMapping("/book/{carId}")
-    public String showBookingForm(@PathVariable("carId") Long carId, Model model) {
-        Optional<Car> car = carService.findCarById(carId);
-        if (car.isPresent()) {
-            model.addAttribute("car", car.get());
-            return "book";
-        } else {
-            return "redirect:/gallery";
-        }
     }
 
     @PostMapping("/reserve")

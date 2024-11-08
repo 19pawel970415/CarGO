@@ -84,19 +84,19 @@
                   <label for="location">Pick up location:</label>
                   <select name="location" id="location" class="form-control">
                      <option value="">All Locations</option>
-                     <option value="Lodz">Lodz</option>
-                     <option value="Warszawa">Warszawa</option>
-                     <option value="Gdynia">Gdynia</option>
-                     <option value="Wroclaw">Wroclaw</option>
+                     <option value="Lodz" th:selected="${location == 'Lodz'}">Lodz</option>
+                     <option value="Warszawa" th:selected="${location == 'Warszawa'}">Warszawa</option>
+                     <option value="Gdynia" th:selected="${location == 'Gdynia'}">Gdynia</option>
+                     <option value="Wroclaw" th:selected="${location == 'Wroclaw'}">Wroclaw</option>
                   </select>
                </div>
                <div class="col-md-3 select-outline">
                   <label for="startDate">Start Date:</label>
-                  <input type="date" name="startDate" id="startDate" class="form-control" placeholder="Start Date">
+                  <input type="date" name="startDate" id="startDate" class="form-control" th:value="${startDate}" placeholder="Start Date">
                </div>
                <div class="col-md-3 select-outline">
                   <label for="endDate">End Date:</label>
-                  <input type="date" name="endDate" id="endDate" class="form-control" placeholder="End Date">
+                  <input type="date" name="endDate" id="endDate" class="form-control" th:value="${endDate}" placeholder="End Date">
                </div>
                <div class="col-md-3">
                   <div class="search_btn">
@@ -110,7 +110,6 @@
    </div>
 </div>
 <!-- select box section end -->
-
 <div class="gallery_section layout_padding">
    <div class="container">
       <div class="row">
@@ -129,10 +128,11 @@
                   <p class="looking_text" th:text="'Year of Production: ' + ${car.yearOfProduction}">Year of Production: N/A</p>
                   <p class="looking_text" th:text="'Seat Count: ' + ${car.seatCount}">Seat Count: N/A</p>
                   <p class="looking_text" th:text="'Status: ' + ${car.status}">Status: N/A</p>
-                  <!-- Book Now button with conditional logic -->
+                  <!-- Rent Now button with conditional logic -->
                   <div class="read_bt">
-                     <a th:if="${session.loggedInUser != null}" th:href="@{/book/{carId}(carId=${car.id})}">Book Now</a>
-                     <a th:if="${session.loggedInUser == null}" href="#" data-toggle="modal" data-target="#loginModal">Book Now</a>
+                     <a th:if="${session.loggedInUser != null}"
+                         th:href="@{/book/{carId}(carId=${car.id}, location=${location}, startDate=${startDate}, endDate=${endDate})}">Rent Now</a>
+                     <a th:if="${session.loggedInUser == null}" href="#" data-toggle="modal" data-target="#loginModal">Rent Now</a>
                   </div>
                </div>
             </div>
