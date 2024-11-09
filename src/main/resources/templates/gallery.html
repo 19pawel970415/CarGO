@@ -79,7 +79,7 @@
       <div class="select_box_main">
          <div class="row">
             <!-- Start of Search Form -->
-            <form action="#" method="get" th:action="@{/gallery}" class="form-inline">
+            <form action="#" method="get" th:action="@{/gallery}" class="form-inline" id="searchForm">
                <div class="col-md-3 select-outline">
                   <label for="location">Pick up location:</label>
                   <select name="location" id="location" class="form-control">
@@ -102,7 +102,7 @@
                </div>
                <div class="col-md-3">
                   <div class="search_btn">
-                     <button type="submit" class="btn btn-primary mt-4">Search Now</button>
+                     <button type="submit" class="btn btn-primary mt-4" onclick="setSearchCompleted()">Search Now</button>
                   </div>
                </div>
             </form>
@@ -112,6 +112,7 @@
    </div>
 </div>
 <!-- select box section end -->
+
 <div class="gallery_section layout_padding">
    <div class="container">
       <div class="row">
@@ -133,11 +134,13 @@
                   <p class="looking_text" th:text="'Year of Production: ' + ${car.yearOfProduction}">Year of Production: N/A</p>
                   <p class="looking_text" th:text="'Seat Count: ' + ${car.seatCount}">Seat Count: N/A</p>
                   <p class="looking_text" th:text="'Location: ' + ${car.location}">Location: N/A</p>
-                  <!-- Rent Now button with conditional logic -->
+                  <!-- Rent Now button with conditional logic and check for search completion -->
                   <div class="read_bt">
                      <a th:if="${session.loggedInUser != null}"
-                         th:href="@{/book/{carId}(carId=${car.id}, location=${location}, startDate=${startDate}, endDate=${endDate})}">Rent Now</a>
-                     <a th:if="${session.loggedInUser == null}" href="#" data-toggle="modal" data-target="#loginModal">Rent Now</a>
+                        th:href="@{/book/{carId}(carId=${car.id}, location=${location}, startDate=${startDate}, endDate=${endDate})}"
+                        onclick="checkSearchCompleted(event)">Rent Now</a>
+                     <a th:if="${session.loggedInUser == null}" href="#" data-toggle="modal" data-target="#loginModal"
+                        onclick="checkSearchCompleted(event)">Rent Now</a>
                   </div>
                </div>
             </div>
@@ -252,5 +255,6 @@
 <script src="js/custom.js"></script>
 <script src="js/clipboard.js"></script>
 <script src="js/subscribe.js"></script>
+<script src="js/enteringDatesAndClickingSearchNowCheck.js"></script>
 </body>
 </html>
