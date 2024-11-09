@@ -84,10 +84,12 @@
                   <label for="location">Pick up location:</label>
                   <select name="location" id="location" class="form-control">
                      <option value="">All Locations</option>
-                     <option value="Lodz" th:selected="${location == 'Lodz'}">Lodz</option>
                      <option value="Warszawa" th:selected="${location == 'Warszawa'}">Warszawa</option>
-                     <option value="Gdynia" th:selected="${location == 'Gdynia'}">Gdynia</option>
-                     <option value="Wroclaw" th:selected="${location == 'Wroclaw'}">Wroclaw</option>
+                     <option value="Kraków" th:selected="${location == 'Kraków'}">Kraków</option>
+                     <option value="Wrocław" th:selected="${location == 'Wrocław'}">Wrocław</option>
+                     <option value="Łódź" th:selected="${location == 'Łódź'}">Łódź</option>
+                     <option value="Poznań" th:selected="${location == 'Poznań'}">Poznań</option>
+                     <option value="Gdańsk" th:selected="${location == 'Gdańsk'}">Gdańsk</option>
                   </select>
                </div>
                <div class="col-md-3 select-outline">
@@ -114,7 +116,7 @@
    <div class="container">
       <div class="row">
          <div class="col-md-12">
-            <h1 class="gallery_taital">Our best offers</h1>
+            <h1 class="gallery_taital">Our offer</h1>
          </div>
       </div>
       <div class="gallery_section_2">
@@ -122,12 +124,15 @@
             <!-- Loop through list of cars -->
             <div th:each="car : ${cars}" class="col-md-4">
                <div class="gallery_box">
+                  <div class="gallery_img">
+                     <img th:src="@{'/images/' + ${car.id} + '.jpg'}" alt="Image of car" />
+                  </div>
                   <h3 class="types_text" th:text="${car.make} + ' ' + ${car.model}">Car Make and Model</h3>
                   <p class="looking_text" th:text="'Registration Number: ' + ${car.registrationNumber}">Registration Number: N/A</p>
                   <p class="looking_text" th:text="'VIN: ' + ${car.vin}">VIN: N/A</p>
                   <p class="looking_text" th:text="'Year of Production: ' + ${car.yearOfProduction}">Year of Production: N/A</p>
                   <p class="looking_text" th:text="'Seat Count: ' + ${car.seatCount}">Seat Count: N/A</p>
-                  <p class="looking_text" th:text="'Status: ' + ${car.status}">Status: N/A</p>
+                  <p class="looking_text" th:text="'Location: ' + ${car.location}">Location: N/A</p>
                   <!-- Rent Now button with conditional logic -->
                   <div class="read_bt">
                      <a th:if="${session.loggedInUser != null}"

@@ -1,7 +1,8 @@
 package com.example.CarGo.models;
 
 public enum CarStatus {
-    READY_FOR_RENT,
+    BEFORE_SERVICE,
     IN_SERVICE,
-    BEFORE_SERVICE
+    SERVICED,
+    READY_FOR_RENT;
 }
