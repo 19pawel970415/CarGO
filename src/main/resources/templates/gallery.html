@@ -21,6 +21,8 @@
    <link rel="stylesheet" href="css/jquery.mCustomScrollbar.min.css">
    <!-- Font Awesome -->
    <link rel="stylesheet" href="https://netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css">
+   <!-- Button -->
+   <link rel="stylesheet" href="css/button.css">
 </head>
 <body>
 <!-- header section start -->
@@ -74,38 +76,41 @@
 </div>
 
 <!-- select box section start -->
-<div class="container">
-   <div class="select_box_section">
-      <div class="select_box_main">
-         <div class="row">
-            <!-- Start of Search Form -->
-            <form action="#" method="get" th:action="@{/gallery}" class="form-inline" id="searchForm">
-               <div class="col-md-3 select-outline">
-                  <label for="location">Pick up location:</label>
-                  <select name="location" id="location" class="form-control">
-                     <option value="">All Locations</option>
-                     <option value="Warszawa" th:selected="${location == 'Warszawa'}">Warszawa</option>
-                     <option value="Kraków" th:selected="${location == 'Kraków'}">Kraków</option>
-                     <option value="Wrocław" th:selected="${location == 'Wrocław'}">Wrocław</option>
-                     <option value="Łódź" th:selected="${location == 'Łódź'}">Łódź</option>
-                     <option value="Poznań" th:selected="${location == 'Poznań'}">Poznań</option>
-                     <option value="Gdańsk" th:selected="${location == 'Gdańsk'}">Gdańsk</option>
-                  </select>
-               </div>
-               <div class="col-md-3 select-outline">
-                  <label for="startDate">Start Date:</label>
-                  <input type="date" name="startDate" id="startDate" class="form-control" th:value="${startDate}" placeholder="Start Date">
-               </div>
-               <div class="col-md-3 select-outline">
-                  <label for="endDate">End Date:</label>
-                  <input type="date" name="endDate" id="endDate" class="form-control" th:value="${endDate}" placeholder="End Date">
-               </div>
-               <div class="col-md-3">
-                  <div class="search_btn">
-                     <button type="submit" class="btn btn-primary mt-4" onclick="setSearchCompleted()" style="background-color: #fe5b29; border-color: #fe5b29;">Search Now</button>                  </div>
-               </div>
-            </form>
-            <!-- End of Search Form -->
+<div class="search_section">
+   <div class="container">
+      <div class="select_box_section">
+         <div class="select_box_main">
+            <div class="row">
+               <!-- Start of Search Form -->
+               <form action="#" method="get" th:action="@{/gallery}" class="form-inline" id="searchForm">
+                  <div class="col-md-3 select-outline">
+                     <label for="location">Pick up location:</label>
+                     <select name="location" id="location" class="form-control">
+                        <option value="">All Locations</option>
+                        <option value="Warszawa" th:selected="${location == 'Warszawa'}">Warszawa</option>
+                        <option value="Kraków" th:selected="${location == 'Kraków'}">Kraków</option>
+                        <option value="Wrocław" th:selected="${location == 'Wrocław'}">Wrocław</option>
+                        <option value="Łódź" th:selected="${location == 'Łódź'}">Łódź</option>
+                        <option value="Poznań" th:selected="${location == 'Poznań'}">Poznań</option>
+                        <option value="Gdańsk" th:selected="${location == 'Gdańsk'}">Gdańsk</option>
+                     </select>
+                  </div>
+                  <div class="col-md-3 select-outline">
+                     <label for="startDate">Start Date:</label>
+                     <input type="date" name="startDate" id="startDate" class="form-control" th:value="${startDate}" placeholder="Start Date">
+                  </div>
+                  <div class="col-md-3 select-outline">
+                     <label for="endDate">End Date:</label>
+                     <input type="date" name="endDate" id="endDate" class="form-control" th:value="${endDate}" placeholder="End Date">
+                  </div>
+                  <div class="col-md-3">
+                     <div class="search_btn">
+                        <button type="submit" class="luto_btn" onclick="setSearchCompleted()">Search Now</button>
+                     </div>
+                  </div>
+               </form>
+               <!-- End of Search Form -->
+            </div>
          </div>
       </div>
    </div>

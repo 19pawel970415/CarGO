@@ -114,14 +114,14 @@ public class GeneralController {
     @GetMapping("/book/{carId}")
     public String showBookingForm(
             @PathVariable Long carId,
-            @RequestParam String location,
+            //@RequestParam String location,
             @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate startDate,
             @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate endDate,
             Model model) {
         Optional<Car> car = carService.findCarById(carId);
         if (car.isPresent()) {
             model.addAttribute("car", car.get());
-            model.addAttribute("location", location);
+            model.addAttribute("location", car.get().getLocation());
             model.addAttribute("startDate", startDate);
             model.addAttribute("endDate", endDate);
             return "book";
