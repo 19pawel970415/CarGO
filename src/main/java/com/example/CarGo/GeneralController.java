@@ -341,7 +341,7 @@ public class GeneralController {
         String content = "Message: " + message + "\n\nThis message was sent by " + name + " from " + email;
 
         try {
-            userService.sendContactFormMessage("19pawel970415@gmail.com", subject, content);
+            userService.sendContactFormMessage("cargomailboxpl@gmail.com", subject, content);
             model.addAttribute("message", "Your message has been sent successfully!");
         } catch (MessagingException e) {
             model.addAttribute("error", "Failed to send your message. Please try again later.");

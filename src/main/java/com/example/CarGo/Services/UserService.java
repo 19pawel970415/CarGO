@@ -39,7 +39,7 @@ public class UserService {
         MimeMessage message = javaMailSender.createMimeMessage();
 
         MimeMessageHelper helper = new MimeMessageHelper(message, true);
-        helper.setFrom("19pawel970415@gmail.com");
+        helper.setFrom("cargomailboxpl@gmail.com");
         helper.setTo(email);
         helper.setSubject("Password Reset Request");
 
@@ -73,7 +73,7 @@ public class UserService {
         MimeMessage message = javaMailSender.createMimeMessage();
         MimeMessageHelper helper = new MimeMessageHelper(message, true);
 
-        helper.setFrom("19pawel970415@gmail.com");
+        helper.setFrom("cargomailboxpl@gmail.com");
         helper.setTo(email);
         helper.setSubject("Welcome to CarGo!");
 
