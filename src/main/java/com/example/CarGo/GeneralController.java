@@ -77,10 +77,12 @@ public class GeneralController {
 
     @GetMapping("/gallery")
     public String showGallery(
-            @RequestParam(value = "year", required = false) Integer year,
+            @RequestParam(value = "yearMin", required = false) Integer yearMin,
+            @RequestParam(value = "yearMax", required = false) Integer yearMax,
             @RequestParam(value = "carType", required = false) ChassisType carType,
             @RequestParam(value = "make", required = false) String make,
-            @RequestParam(value = "pricePerDay", required = false) Double pricePerDay,
+            @RequestParam(value = "priceMin", required = false) Double priceMin,
+            @RequestParam(value = "priceMax", required = false) Double priceMax,
             @RequestParam(value = "gearbox", required = false) GearboxType gearbox,
             @RequestParam(value = "seatCount", required = false) Integer seatCount,
             @RequestParam(value = "location", required = false) String location,
@@ -91,22 +93,22 @@ public class GeneralController {
         List<Car> cars;
 
         if (startDate != null && endDate != null) {
-            cars = carService.findCarsWithFilters(location, gearbox, carType, seatCount, year, pricePerDay, make, startDate, endDate);
+            cars = carService.findCarsWithFilters(location, gearbox, carType, seatCount, yearMin, yearMax, priceMin, priceMax, make, startDate, endDate);
         } else {
             cars = carService.findAllCars();
         }
 
-        // Dodanie wybranych wartości do modelu, aby pozostały w formularzu
         model.addAttribute("cars", cars);
         model.addAttribute("location", location);
         model.addAttribute("startDate", startDate);
         model.addAttribute("endDate", endDate);
-        model.addAttribute("year", year);
+        model.addAttribute("yearMin", yearMin);
+        model.addAttribute("yearMax", yearMax);
         model.addAttribute("carType", carType);
         model.addAttribute("make", make);
-        model.addAttribute("pricePerDay", pricePerDay);
+        model.addAttribute("priceMin", priceMin);
+        model.addAttribute("priceMax", priceMax);
         model.addAttribute("gearbox", gearbox);
-        model.addAttribute("carType", carType);
         model.addAttribute("seatCount", seatCount);
 
         return "gallery";

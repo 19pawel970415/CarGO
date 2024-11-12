@@ -37,62 +37,30 @@ public class CarService {
         return carRepository.findAvailableCars( startDate.atStartOfDay(), endDate.atTime(23, 59, 59));
     }
     public List<Car> findAvailableCarsInLocation(String location, LocalDate startDate, LocalDate endDate) {
-        return carRepository.findAvailableCarsInLocation(location, startDate.atStartOfDay(), endDate.atTime(23, 59, 59));
+        return carRepository.findAvailableCarsInLocation(location, startDate.atStartOfDay(),
+                endDate.atTime(23, 59, 59));
     }
     public List<Car> findCarsWithFilters(String location,
                                          GearboxType gearboxType,
                                          ChassisType chassisType,
                                          Integer seatCount,
-                                         Integer year,
-                                         Double pricePerDay,
+                                         Integer yearMin,  // Minimalny rok produkcji
+                                         Integer yearMax,  // Maksymalny rok produkcji
+                                         Double priceMin,
+                                         Double priceMax,
                                          String make,
                                          LocalDate startDate,
                                          LocalDate endDate) {
-
-        List<Car> cars = findAvailableCars(startDate, endDate);
-
-        if (location != null && !location.isEmpty()) {
-            cars = cars.stream()
-                    .filter(car -> location.equals(car.getLocation()))
-                    .toList();
-        }
-
-        if (gearboxType != null) {
-            cars = cars.stream()
-                    .filter(car -> gearboxType.equals(car.getGearboxType()))
-                    .toList();
-        }
-
-        if (chassisType != null) {
-            cars = cars.stream()
-                    .filter(car -> chassisType.equals(car.getChassisType()))
-                    .toList();
-        }
-
-        if (seatCount != null && seatCount > 0) {
-            cars = cars.stream()
-                    .filter(car -> seatCount.equals(car.getSeatCount()))
-                    .toList();
-        }
-
-        if (year != null && year >= 1886 && year <= LocalDate.now().getYear()) {
-            cars = cars.stream()
-                    .filter(car -> year.equals(car.getYearOfProduction()))
-                    .toList();
-        }
-
-        if (pricePerDay != null && pricePerDay > 0) {
-            cars = cars.stream()
-                    .filter(car -> car.getPricePerDay() <= pricePerDay)
-                    .toList();
-        }
-
-        if (make != null && !make.isEmpty()) {
-            cars = cars.stream()
-                    .filter(car -> make.equals(car.getMake()))
-                    .toList();
-        }
-
-        return cars;
+        return carRepository.findCarsWithFilters(location,
+                gearboxType,
+                chassisType,
+                seatCount,
+                yearMin,
+                yearMax,
+                priceMin,
+                priceMax,
+                make,
+                startDate.atStartOfDay(),
+                endDate.atTime(23, 59, 59));
     }
 }
