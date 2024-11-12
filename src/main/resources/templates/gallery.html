@@ -83,7 +83,9 @@
             <div class="row">
                <!-- Start of Search Form -->
                <form action="#" method="get" th:action="@{/gallery}" class="form-inline" id="searchForm">
-                  <div class="col-md-3 select-outline">
+
+                  <!-- Lokacja -->
+                  <div class="col-md-2 select-outline">
                      <label for="location">Pick up location:</label>
                      <select name="location" id="location" class="form-control">
                         <option value="">All Locations</option>
@@ -95,19 +97,79 @@
                         <option value="Gdańsk" th:selected="${location == 'Gdańsk'}">Gdańsk</option>
                      </select>
                   </div>
-                  <div class="col-md-3 select-outline">
+
+                  <!-- Daty -->
+                  <div class="col-md-2 select-outline">
                      <label for="startDate">Start Date:</label>
                      <input type="date" name="startDate" id="startDate" class="form-control" th:value="${startDate}" placeholder="Start Date">
                   </div>
-                  <div class="col-md-3 select-outline">
+                  <div class="col-md-2 select-outline">
                      <label for="endDate">End Date:</label>
                      <input type="date" name="endDate" id="endDate" class="form-control" th:value="${endDate}" placeholder="End Date">
                   </div>
-                  <div class="col-md-3">
-                     <div class="search_btn">
-                        <button type="submit" class="luto_btn" onclick="setSearchCompleted()">Search Now</button>
+
+                  <!-- Skrzynia Biegów -->
+                  <div class="col-md-2 select-outline">
+                     <label for="gearbox">Gearbox:</label>
+                     <select name="gearbox" id="gearbox" class="form-control">
+                        <option value="">All Gearboxes</option>
+                        <option value="MANUAL" th:selected="${gearbox == 'MANUAL'}">Manual</option>
+                        <option value="AUTOMATIC" th:selected="${gearbox == 'AUTOMATIC'}">Automatic</option>
+                     </select>
+                  </div>
+
+                  <!-- Liczba Miejsc -->
+                  <div class="col-md-2 select-outline">
+                     <label for="seatCount">Seat Count:</label>
+                     <select name="seatCount" id="seatCount" class="form-control">
+                        <option value="">All Seats</option>
+                        <option value="2" th:selected="${seatCount == 2}">2</option>
+                        <option value="4" th:selected="${seatCount == 4}">4</option>
+                        <option value="5" th:selected="${seatCount == 5}">5</option>
+                        <option value="7" th:selected="${seatCount == 7}">7</option>
+                     </select>
+                  </div>
+
+                  <!-- Typ Samochodu -->
+                  <div class="col-md-2 select-outline">
+                     <label for="carType">Car Type:</label>
+                     <select name="carType" id="carType" class="form-control">
+                        <option value="">All Car Types</option>
+                        <option value="SUV" th:selected="${carType == 'SUV'}">SUV</option>
+                        <option value="SEDAN" th:selected="${carType == 'SEDAN'}">Sedan</option>
+                        <option value="HATCHBACK" th:selected="${carType == 'HATCHBACK'}">Hatchback</option>
+                        <option value="COUPE" th:selected="${carType == 'COUPE'}">Coupe</option>
+                        <option value="COMPACT" th:selected="${carType == 'COMPACT'}">Compact</option>
+                        <option value="WAGON" th:selected="${carType == 'WAGON'}">Wagon</option>
+                     </select>
+                  </div>
+
+                  <!-- Cena za Dzień -->
+                  <div class="col-md-3 select-outline">
+                     <label for="pricePerDay">Price per day:</label>
+                     <input type="number" name="pricePerDay" id="pricePerDay" class="form-control" th:value="${pricePerDay}" placeholder="Max Price">
+                  </div>
+
+                  <!-- Marka -->
+                  <div class="col-md-3 select-outline">
+                     <label for="make">Car Make:</label>
+                     <input type="text" name="make" id="make" class="form-control" th:value="${make}" placeholder="Car Make">
+                  </div>
+
+                  <!-- Rok Produkcji -->
+                  <div class="col-md-3 select-outline">
+                     <label for="year">Year of Production:</label>
+                     <input type="number" name="year" id="year" class="form-control" th:value="${year}" placeholder="Year">
+                  </div>
+
+                  <div class="right_luto_btn">
+                     <div class="col-md-3">
+                        <div class="search_btn">
+                           <button type="submit" class="luto_btn" onclick="setSearchCompleted()">Search Now</button>
+                        </div>
                      </div>
                   </div>
+
                </form>
                <!-- End of Search Form -->
             </div>

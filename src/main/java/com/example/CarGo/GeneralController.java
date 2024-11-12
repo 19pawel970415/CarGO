@@ -4,10 +4,7 @@ import com.example.CarGo.DB.UserRepository;
 import com.example.CarGo.Services.CarService;
 import com.example.CarGo.Services.ReservationService;
 import com.example.CarGo.Services.UserService;
-import com.example.CarGo.models.Car;
-import com.example.CarGo.models.Reservation;
-import com.example.CarGo.models.ReservationStatus;
-import com.example.CarGo.models.User;
+import com.example.CarGo.models.*;
 import jakarta.mail.MessagingException;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -80,6 +77,12 @@ public class GeneralController {
 
     @GetMapping("/gallery")
     public String showGallery(
+            @RequestParam(value = "year", required = false) Integer year,
+            @RequestParam(value = "carType", required = false) ChassisType carType,
+            @RequestParam(value = "make", required = false) String make,
+            @RequestParam(value = "pricePerDay", required = false) Double pricePerDay,
+            @RequestParam(value = "gearbox", required = false) GearboxType gearbox,
+            @RequestParam(value = "seatCount", required = false) Integer seatCount,
             @RequestParam(value = "location", required = false) String location,
             @RequestParam(value = "startDate", required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate startDate,
             @RequestParam(value = "endDate", required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate endDate,
@@ -88,17 +91,8 @@ public class GeneralController {
         List<Car> cars;
 
         if (startDate != null && endDate != null) {
-            // Sprawdź dostępność w zakresie dat, opcjonalnie filtrowane przez lokalizację
-            if (location != null && !location.isEmpty()) {
-                cars = carService.findAvailableCarsInLocation(location, startDate, endDate);
-            } else {
-                cars = carService.findAvailableCars(startDate, endDate);
-            }
-        } else if (location != null && !location.isEmpty()) {
-            // Tylko lokalizacja jest określona
-            cars = carService.findCarsByLocation(location);
+            cars = carService.findCarsWithFilters(location, gearbox, carType, seatCount, year, pricePerDay, make, startDate, endDate);
         } else {
-            // Brak filtrów, pokaż wszystkie samochody
             cars = carService.findAllCars();
         }
 
@@ -107,6 +101,13 @@ public class GeneralController {
         model.addAttribute("location", location);
         model.addAttribute("startDate", startDate);
         model.addAttribute("endDate", endDate);
+        model.addAttribute("year", year);
+        model.addAttribute("carType", carType);
+        model.addAttribute("make", make);
+        model.addAttribute("pricePerDay", pricePerDay);
+        model.addAttribute("gearbox", gearbox);
+        model.addAttribute("carType", carType);
+        model.addAttribute("seatCount", seatCount);
 
         return "gallery";
     }
@@ -114,7 +115,6 @@ public class GeneralController {
     @GetMapping("/book/{carId}")
     public String showBookingForm(
             @PathVariable Long carId,
-            //@RequestParam String location,
             @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate startDate,
             @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate endDate,
             Model model) {
