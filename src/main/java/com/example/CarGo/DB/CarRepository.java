@@ -2,6 +2,7 @@ package com.example.CarGo.DB;
 
 import com.example.CarGo.models.Car;
 import com.example.CarGo.models.ChassisType;
+import com.example.CarGo.models.FuelType;
 import com.example.CarGo.models.GearboxType;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
@@ -43,6 +44,7 @@ public interface CarRepository extends JpaRepository<Car, Long> {
             "(:priceMin IS NULL OR c.pricePerDay >= :priceMin) AND " +  // Filtrujemy po minimalnej cenie
             "(:priceMax IS NULL OR c.pricePerDay <= :priceMax) AND " +  // Filtrujemy po maksymalnej cenie
             "(:make IS NULL OR :make = '' OR c.make = :make) AND " +
+            "(:fuelType IS NULL OR c.fuelType = :fuelType) AND " + // Dodano filtr fuelType
             "NOT EXISTS (SELECT r FROM Reservation r WHERE r.car = c " +
             "AND (r.reservationStart <= :endDate AND r.reservationEnd >= :startDate))")
     List<Car> findCarsWithFilters(
@@ -50,11 +52,12 @@ public interface CarRepository extends JpaRepository<Car, Long> {
             @Param("gearboxType") GearboxType gearboxType,
             @Param("chassisType") ChassisType chassisType,
             @Param("seatCount") Integer seatCount,
-            @Param("yearMin") Integer yearMin,    // Dodano obsługę yearMin
-            @Param("yearMax") Integer yearMax,    // Dodano obsługę yearMax
+            @Param("yearMin") Integer yearMin,
+            @Param("yearMax") Integer yearMax,
             @Param("priceMin") Double priceMin,
             @Param("priceMax") Double priceMax,
             @Param("make") String make,
+            @Param("fuelType") FuelType fuelType, // Dodano parametr fuelType
             @Param("startDate") LocalDateTime startDate,
             @Param("endDate") LocalDateTime endDate);
 }

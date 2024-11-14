@@ -144,6 +144,18 @@
                      </select>
                   </div>
 
+                  <!-- Typ Paliwa (Fuel Type) -->
+                  <div class="col-md-2 select-outline">
+                     <label for="fuelType">Fuel Type:</label>
+                     <select name="fuelType" id="fuelType" class="form-control">
+                        <option value="">All Fuel Types</option>
+                        <option value="PETROL" th:selected="${fuelType?.name() == 'PETROL'}">Petrol</option>
+                        <option value="DIESEL" th:selected="${fuelType?.name() == 'DIESEL'}">Diesel</option>
+                        <option value="HYBRID" th:selected="${fuelType?.name() == 'HYBRID'}">Hybrid</option>
+                        <option value="ELECTRIC" th:selected="${fuelType?.name() == 'ELECTRIC'}">Electric</option>
+                     </select>
+                  </div>
+
                   <!-- Marka -->
                   <div class="col-md-3 select-outline">
                      <label for="make">Car Make:</label>

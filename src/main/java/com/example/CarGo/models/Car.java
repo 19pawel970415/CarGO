@@ -40,6 +40,10 @@ public class Car {
     private GearboxType gearboxType;
 
     @Column
+    @Enumerated(EnumType.STRING)
+    private FuelType fuelType;
+
+    @Column
     private int seatCount;
 
     @Column
@@ -156,5 +160,13 @@ public class Car {
 
     public void setReservations(List<Reservation> reservations) {
         this.reservations = reservations;
+    }
+
+    public FuelType getFuelType() {
+        return fuelType;
+    }
+
+    public void setFuelType(FuelType fuelType) {
+        this.fuelType = fuelType;
     }
 }

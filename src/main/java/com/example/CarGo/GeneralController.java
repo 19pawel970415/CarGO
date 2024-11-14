@@ -86,6 +86,7 @@ public class GeneralController {
             @RequestParam(value = "gearbox", required = false) GearboxType gearbox,
             @RequestParam(value = "seatCount", required = false) Integer seatCount,
             @RequestParam(value = "location", required = false) String location,
+            @RequestParam(value = "fuelType", required = false) FuelType fuelType,
             @RequestParam(value = "startDate", required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate startDate,
             @RequestParam(value = "endDate", required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate endDate,
             Model model) {
@@ -93,7 +94,7 @@ public class GeneralController {
         List<Car> cars;
 
         if (startDate != null && endDate != null) {
-            cars = carService.findCarsWithFilters(location, gearbox, carType, seatCount, yearMin, yearMax, priceMin, priceMax, make, startDate, endDate);
+            cars = carService.findCarsWithFilters(location, gearbox, carType, seatCount, yearMin, yearMax, priceMin, priceMax, make, fuelType, startDate, endDate);
         } else {
             cars = carService.findAllCars();
         }
@@ -110,6 +111,7 @@ public class GeneralController {
         model.addAttribute("priceMax", priceMax);
         model.addAttribute("gearbox", gearbox);
         model.addAttribute("seatCount", seatCount);
+        model.addAttribute("fuelType", fuelType);
 
         return "gallery";
     }
