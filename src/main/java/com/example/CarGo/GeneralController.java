@@ -151,6 +151,7 @@ public class GeneralController {
             @RequestParam("login") String login,
             @RequestParam("password") String password,
             @RequestParam("confirmPassword") String confirmPassword,
+            @RequestParam(value = "subscribe", required = false) boolean subscribeCheckbox,
             Model model) {
         // Walidacja hasła
         if (!password.equals(confirmPassword)) {
@@ -167,6 +168,13 @@ public class GeneralController {
         // Rejestracja użytkownika
         String result = userService.registerUser(user);
         if (result.equals("User registered successfully")) {
+            if (subscribeCheckbox) {
+                try {
+                    userService.sendSubscriptionConfirmation(email);
+                } catch (MessagingException e) {
+                    throw new RuntimeException(e);
+                }
+            }
             return "redirect:/login";
         } else {
             model.addAttribute("error", result);
