@@ -1,5 +1,6 @@
 package com.example.CarGo;
 
+import com.example.CarGo.DB.PersonRepository;
 import com.example.CarGo.DB.UserRepository;
 import com.example.CarGo.Services.CarService;
 import com.example.CarGo.Services.ReservationService;
@@ -35,6 +36,8 @@ public class GeneralController {
     private UserService userService;
     @Autowired
     private UserRepository userRepository;
+    @Autowired
+    private PersonRepository personRepository;
 
 
     @GetMapping(value = {"/", "/index"})
@@ -191,14 +194,26 @@ public class GeneralController {
             @RequestParam("password") String password,
             HttpSession session,
             Model model) {
-        // Wyszukiwanie użytkownika na podstawie loginu
-        Optional<User> userOptional = userRepository.findByLogin(login);
-        // Sprawdzenie, czy użytkownik istnieje i czy hasło jest poprawne
-        if (userOptional.isPresent()) {
-            User user = userOptional.get();
-            if (user.getPassword().equals(password)) {
+
+        // Wyszukiwanie użytkownika na podstawie loginu w całym systemie
+        Optional<Person> personOptional = personRepository.findByLogin(login);
+
+        if (personOptional.isPresent()) {
+            Person person = personOptional.get();
+
+            // Sprawdzamy, czy hasło jest zgodne z danym użytkownikiem
+            String storedPassword = null;
+            if (person instanceof User) {
+                storedPassword = ((User) person).getPassword();
+            } else if (person instanceof Manager) {
+                storedPassword = ((Manager) person).getPassword();
+            } else if (person instanceof Admin) {
+                storedPassword = ((Admin) person).getPassword();
+            }
+
+            if (storedPassword != null && storedPassword.equals(password)) {
                 // Zapisanie użytkownika w sesji
-                session.setAttribute("loggedInUser", user);
+                session.setAttribute("loggedInUser", person);
                 return "redirect:/index";
             } else {
                 model.addAttribute("error", "Invalid password");
