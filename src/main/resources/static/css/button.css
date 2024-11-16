@@ -16,3 +16,15 @@
 .right_luto_btn {
     padding-top:25px
 }
+
+   /* Usunięcie strzałek z pól liczbowych */
+   input[type="number"]::-webkit-inner-spin-button,
+   input[type="number"]::-webkit-outer-spin-button {
+      -webkit-appearance: none; /* Wyłączenie w przeglądarkach opartych na WebKit */
+      margin: 0;
+   }
+
+   input[type="number"] {
+      -moz-appearance: textfield; /* Wyłączenie w przeglądarkach Firefox */
+   }
+

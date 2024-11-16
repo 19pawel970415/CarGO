@@ -176,32 +176,37 @@
                   <!-- Cena za Dzień (Price Range) -->
                   <div class="col-md-3 select-outline">
                      <label for="priceMin">Min Price per day:</label>
-                     <input type="range" name="priceMin" id="priceMin" min="50" max="400" step="10"
-                            th:value="${priceMin != null ? priceMin : 0}"
-                            oninput="document.getElementById('priceMinDisplay').innerText = this.value">
-                     <span id="priceMinDisplay" th:text="${priceMin != null ? priceMin : 0}">0</span> PLN
+                     <div class="input-group">
+                        <button type="button" class="btn btn-outline-secondary" onclick="adjustValue('priceMin', -10)">-</button>
+                        <input type="number" name="priceMin" id="priceMin" class="form-control" min="50" max="400" step="10" th:value="${priceMin != null ? priceMin : 50}" />
+                        <button type="button" class="btn btn-outline-secondary" onclick="adjustValue('priceMin', 10)">+</button>
+                     </div>
 
                      <label for="priceMax">Max Price per day:</label>
-                     <input type="range" name="priceMax" id="priceMax" min="50" max="400" step="10"
-                            th:value="${priceMax != null ? priceMax : 400}"
-                            oninput="document.getElementById('priceMaxDisplay').innerText = this.value">
-                     <span id="priceMaxDisplay" th:text="${priceMax != null ? priceMax : 400}">400</span> PLN
+                     <div class="input-group">
+                        <button type="button" class="btn btn-outline-secondary" onclick="adjustValue('priceMax', -10)">-</button>
+                        <input type="number" name="priceMax" id="priceMax" class="form-control" min="50" max="400" step="10" th:value="${priceMax != null ? priceMax : 400}" />
+                        <button type="button" class="btn btn-outline-secondary" onclick="adjustValue('priceMax', 10)">+</button>
+                     </div>
                   </div>
 
                   <!-- Rok Produkcji (Year Range) -->
                   <div class="col-md-3 select-outline">
                      <label for="yearMin">Min Year:</label>
-                     <input type="range" name="yearMin" id="yearMin" min="2001" max="2024" step="1"
-                            th:value="${yearMin != null ? yearMin : 2001}"
-                            oninput="document.getElementById('yearMinDisplay').innerText = this.value">
-                     <span id="yearMinDisplay" th:text="${yearMin != null ? yearMin : 2001}">2001</span>
+                     <div class="input-group">
+                        <button type="button" class="btn btn-outline-secondary" onclick="adjustValue('yearMin', -1)">-</button>
+                        <input type="number" name="yearMin" id="yearMin" class="form-control" min="2001" max="2024" step="1" th:value="${yearMin != null ? yearMin : 2001}" />
+                        <button type="button" class="btn btn-outline-secondary" onclick="adjustValue('yearMin', 1)">+</button>
+                     </div>
 
                      <label for="yearMax">Max Year:</label>
-                     <input type="range" name="yearMax" id="yearMax" min="2001" max="2024" step="1"
-                            th:value="${yearMax != null ? yearMax : 2024}"
-                            oninput="document.getElementById('yearMaxDisplay').innerText = this.value">
-                     <span id="yearMaxDisplay" th:text="${yearMax != null ? yearMax : 2024}">2024</span>
+                     <div class="input-group">
+                        <button type="button" class="btn btn-outline-secondary" onclick="adjustValue('yearMax', -1)">-</button>
+                        <input type="number" name="yearMax" id="yearMax" class="form-control" min="2001" max="2024" step="1" th:value="${yearMax != null ? yearMax : 2024}" />
+                        <button type="button" class="btn btn-outline-secondary" onclick="adjustValue('yearMax', 1)">+</button>
+                     </div>
                   </div>
+
 
                   <div class="right_luto_btn">
                      <div class="col-md-3">
@@ -364,5 +369,6 @@
 <script src="js/subscribe.js"></script>
 <script src="js/enteringDatesAndClickingSearchNowCheck.js"></script>
 <script src="js/galleryPreviewModeInfo.js"></script>
+<script src="js/adjustValue.js"></script>
 </body>
 </html>
