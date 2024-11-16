@@ -159,7 +159,18 @@
                   <!-- Marka -->
                   <div class="col-md-3 select-outline">
                      <label for="make">Car Make:</label>
-                     <input type="text" name="make" id="make" class="form-control" th:value="${make}" placeholder="Car Make">
+                     <select name="make" id="make" class="form-control">
+                        <option value="">All Makes</option>
+                        <option value="Toyota" th:selected="${make == 'Toyota'}">Toyota</option>
+                        <option value="Ford" th:selected="${make == 'Ford'}">Ford</option>
+                        <option value="BMW" th:selected="${make == 'BMW'}">BMW</option>
+                        <option value="Hyundai" th:selected="${make == 'Hyundai'}">Hyundai</option>
+                        <option value="Volkswagen" th:selected="${make == 'Volkswagen'}">Volkswagen</option>
+                        <option value="Mazda" th:selected="${make == 'Mazda'}">Mazda</option>
+                        <option value="Nissan" th:selected="${make == 'Nissan'}">Nissan</option>
+                        <option value="Tesla" th:selected="${make == 'Tesla'}">Tesla</option>
+                        <option value="Audi" th:selected="${make == 'Audi'}">Audi</option>
+                     </select>
                   </div>
 
                   <!-- Cena za Dzień (Price Range) -->
