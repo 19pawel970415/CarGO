@@ -165,28 +165,28 @@
                   <!-- Cena za Dzień (Price Range) -->
                   <div class="col-md-3 select-outline">
                      <label for="priceMin">Min Price per day:</label>
-                     <input type="range" name="priceMin" id="priceMin" min="95" max="250" step="10"
+                     <input type="range" name="priceMin" id="priceMin" min="50" max="400" step="10"
                             th:value="${priceMin != null ? priceMin : 0}"
                             oninput="document.getElementById('priceMinDisplay').innerText = this.value">
                      <span id="priceMinDisplay" th:text="${priceMin != null ? priceMin : 0}">0</span> PLN
 
                      <label for="priceMax">Max Price per day:</label>
-                     <input type="range" name="priceMax" id="priceMax" min="95" max="250" step="10"
-                            th:value="${priceMax != null ? priceMax : 250}"
+                     <input type="range" name="priceMax" id="priceMax" min="50" max="400" step="10"
+                            th:value="${priceMax != null ? priceMax : 400}"
                             oninput="document.getElementById('priceMaxDisplay').innerText = this.value">
-                     <span id="priceMaxDisplay" th:text="${priceMax != null ? priceMax : 250}">250</span> PLN
+                     <span id="priceMaxDisplay" th:text="${priceMax != null ? priceMax : 400}">400</span> PLN
                   </div>
 
                   <!-- Rok Produkcji (Year Range) -->
                   <div class="col-md-3 select-outline">
                      <label for="yearMin">Min Year:</label>
-                     <input type="range" name="yearMin" id="yearMin" min="2007" max="2024" step="1"
-                            th:value="${yearMin != null ? yearMin : 2007}"
+                     <input type="range" name="yearMin" id="yearMin" min="2001" max="2024" step="1"
+                            th:value="${yearMin != null ? yearMin : 2001}"
                             oninput="document.getElementById('yearMinDisplay').innerText = this.value">
-                     <span id="yearMinDisplay" th:text="${yearMin != null ? yearMin : 2007}">2007</span>
+                     <span id="yearMinDisplay" th:text="${yearMin != null ? yearMin : 2001}">2001</span>
 
                      <label for="yearMax">Max Year:</label>
-                     <input type="range" name="yearMax" id="yearMax" min="2007" max="2024" step="1"
+                     <input type="range" name="yearMax" id="yearMax" min="2001" max="2024" step="1"
                             th:value="${yearMax != null ? yearMax : 2024}"
                             oninput="document.getElementById('yearMaxDisplay').innerText = this.value">
                      <span id="yearMaxDisplay" th:text="${yearMax != null ? yearMax : 2024}">2024</span>

@@ -34,19 +34,19 @@ public interface CarRepository extends JpaRepository<Car, Long> {
     List<Car> findAvailableCars(@Param("startDate") LocalDateTime startDate,
                                 @Param("endDate") LocalDateTime endDate);
 
-    @Query("SELECT c FROM Car c WHERE " +
-            "(:location IS NULL OR :location = '' OR c.location = :location) AND " +
+    @Query("SELECT c FROM Car c " +
+            "WHERE (:location IS NULL OR :location = '' OR c.location = :location) AND " +
             "(:gearboxType IS NULL OR c.gearboxType = :gearboxType) AND " +
             "(:chassisType IS NULL OR c.chassisType = :chassisType) AND " +
             "(:seatCount IS NULL OR c.seatCount = :seatCount) AND " +
-            "(:yearMin IS NULL OR c.yearOfProduction >= :yearMin) AND " +  // Filtrujemy po minimalnym roku produkcji
-            "(:yearMax IS NULL OR c.yearOfProduction <= :yearMax) AND " +  // Filtrujemy po maksymalnym roku produkcji
-            "(:priceMin IS NULL OR c.pricePerDay >= :priceMin) AND " +  // Filtrujemy po minimalnej cenie
-            "(:priceMax IS NULL OR c.pricePerDay <= :priceMax) AND " +  // Filtrujemy po maksymalnej cenie
+            "(:yearMin IS NULL OR c.yearOfProduction >= :yearMin) AND " +
+            "(:yearMax IS NULL OR c.yearOfProduction <= :yearMax) AND " +
+            "(:priceMin IS NULL OR c.pricePerDay >= :priceMin) AND " +
+            "(:priceMax IS NULL OR c.pricePerDay <= :priceMax) AND " +
             "(:make IS NULL OR :make = '' OR c.make = :make) AND " +
-            "(:fuelType IS NULL OR c.fuelType = :fuelType) AND " + // Dodano filtr fuelType
-            "NOT EXISTS (SELECT r FROM Reservation r WHERE r.car = c " +
-            "AND (r.reservationStart <= :endDate AND r.reservationEnd >= :startDate))")
+            "(:fuelType IS NULL OR c.fuelType = :fuelType) AND " +
+            "(NOT EXISTS (SELECT r FROM Reservation r WHERE r.car = c AND " +
+            "(r.reservationStart <= :endDate AND r.reservationEnd >= :startDate)))")
     List<Car> findCarsWithFilters(
             @Param("location") String location,
             @Param("gearboxType") GearboxType gearboxType,
@@ -57,9 +57,8 @@ public interface CarRepository extends JpaRepository<Car, Long> {
             @Param("priceMin") Double priceMin,
             @Param("priceMax") Double priceMax,
             @Param("make") String make,
-            @Param("fuelType") FuelType fuelType, // Dodano parametr fuelType
+            @Param("fuelType") FuelType fuelType,
             @Param("startDate") LocalDateTime startDate,
             @Param("endDate") LocalDateTime endDate);
 }
-
 
