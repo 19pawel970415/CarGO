@@ -290,10 +290,6 @@ public class GeneralController {
         session.invalidate();  // Usunięcie wszystkich danych z sesji
         return "redirect:/index";  // Przekierowanie na stronę główną
     }
-    @GetMapping("/indexSignedIn")
-    public String showIndexSignedIn() {
-        return "indexSignedIn";
-    }
 
     @PostMapping("/reserve")
     public String reserveCar(
@@ -377,4 +373,56 @@ public class GeneralController {
         return "contact";
     }
 
+    @GetMapping("/account_details")
+    public String showAccountDetails(@RequestParam(required = false) String success, Model model) {
+        if (success != null) {
+            model.addAttribute("success", "Your account details have been updated successfully.");
+        }
+        return "account_details";
+    }
+
+    @PostMapping("/updateDetails")
+    public String updateUserDetails(
+            @RequestParam("firstName") String firstName,
+            @RequestParam("lastName") String lastName,
+            @RequestParam("email") String email,
+            @RequestParam("phoneNumber") String phoneNumber,
+            @RequestParam("login") String login,
+            @RequestParam("password") String password,
+            @RequestParam("confirmPassword") String confirmPassword,
+            HttpSession session,
+            Model model){
+
+        // Pobranie aktualnie zalogowanego użytkownika z sesji
+        User currentUser =  (User) session.getAttribute("loggedInUser");
+
+        // Walidacja hasła
+        if (!password.equals(confirmPassword)) {
+            model.addAttribute("error", "Passwords do not match");
+            return "account_details";
+        }
+
+        // Aktualizacja danych użytkownika
+        currentUser.setFirstName(firstName);
+        currentUser.setLastName(lastName);
+        currentUser.setEmail(email);
+        currentUser.setPhoneNumber(phoneNumber);
+        currentUser.setLogin(login);
+        currentUser.setPassword(password);
+
+        // Zapis zmian w bazie danych
+        String result = userService.updateUser(currentUser);
+
+        if (result.equals("User updated successfully")) {
+            return "redirect:/account_details?success";
+        } else {
+            model.addAttribute("error", result);
+            return "account_details";
+        }
+    }
+
+    @GetMapping("/view_reservations")
+    public String showViewReservations() {
+        return "view_reservations";
+    }
 }

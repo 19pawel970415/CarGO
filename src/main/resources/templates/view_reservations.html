@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Registration</title>
+  <!-- Bootstrap CSS -->
+  <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
+  <!-- Style CSS -->
+  <link rel="stylesheet" type="text/css" href="css/style.css">
+  <!-- Style register CSS -->
+  <link rel="stylesheet" type="text/css" href="css/register-style.css">
+  <!-- Responsive CSS -->
+  <link rel="stylesheet" href="css/responsive.css">
+  <!-- Font CSS -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&family=Raleway:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <!-- Scrollbar Custom CSS -->
+  <link rel="stylesheet" href="css/jquery.mCustomScrollbar.min.css">
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css">
+  <!-- Button -->
+  <link rel="stylesheet" href="/css/button.css">
+</head>
+<body>
+<!-- header section start -->
+<div class="header_section">
+  <div class="container">
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+      <a class="navbar-brand" href="index"><img src="images/logo.png"></a>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav ml-auto">
+          <li class="nav-item">
+            <a class="nav-link" href="index">Home</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="about">About</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="services">Services</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="gallery">Vehicles</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="client">Client</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="contact">Contact</a>
+          </li>
+          <!-- Przycisk Sign in wyświetlany tylko, gdy użytkownik nie jest zalogowany -->
+          <li class="nav-item" th:if="${session.loggedInUser == null}">
+            <a class="nav-link" href="login">Sign in</a>
+          </li>
+          <!-- Przycisk Sign up wyświetlany tylko, gdy użytkownik nie jest zalogowany -->
+          <li class="nav-item" th:if="${session.loggedInUser == null}">
+            <a class="nav-link" href="register">Sign up</a>
+          </li>
+          <!-- Rozwijana opcja My Account dla zalogowanych użytkowników -->
+          <li class="nav-item dropdown" th:if="${session.loggedInUser != null}">
+            <a class="nav-link dropdown-toggle" href="#" id="myAccountDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              My Account
+            </a>
+            <div class="dropdown-menu" aria-labelledby="myAccountDropdown">
+              <!-- Opcje dla zwykłych użytkowników -->
+              <a class="dropdown-item" href="account_details" th:if="${session.loggedInUser instanceof T(com.example.CarGo.models.User)}">Change Account Details</a>
+              <a class="dropdown-item" href="view_reservations" th:if="${session.loggedInUser instanceof T(com.example.CarGo.models.User)}">View Reservations</a>
+
+              <!-- Opcje dla menedżerów -->
+              <a class="dropdown-item" href="manageReservations" th:if="${session.loggedInUser instanceof T(com.example.CarGo.models.Manager)}">Manage Reservations</a>
+              <a class="dropdown-item" href="manageVehicles" th:if="${session.loggedInUser instanceof T(com.example.CarGo.models.Manager)}">Manage Vehicles</a>
+
+              <!-- Opcje dla administratorów -->
+              <a class="dropdown-item" href="adminDashboard" th:if="${session.loggedInUser instanceof T(com.example.CarGo.models.Admin)}">Admin Dashboard</a>
+              <a class="dropdown-item" href="manageUsers" th:if="${session.loggedInUser instanceof T(com.example.CarGo.models.Admin)}">Manage Users</a>
+            </div>
+          </li>
+          <!-- Przycisk Sign out -->
+          <li class="nav-item" th:if="${session.loggedInUser != null}">
+            <a class="nav-link" href="signout">Sign out</a>
+          </li>
+        </ul>
+      </div>
+    </nav>
+  </div>
+</div>
+<!-- header section end -->
+
+<div class="call_text_main">
+  <div class="container">
+    <div class="call_taital">
+      <div class="location_text_up">
+        <a href="https://www.google.com/maps/place/Wydzia%C5%82+Ekonomiczno-Socjologiczny+Uniwersytetu+%C5%81%C3%B3dzkiego/@51.7752141,19.4611604,17z/data=!3m2!4b1!5s0x471bcb27fb23fb65:0xc900bfbd73fd4323!4m6!3m5!1s0x471bcb27d95ca219:0x7a09bc332d4a8d73!8m2!3d51.7752141!4d19.4637353!16s%2Fg%2F120l7rrv?entry=ttu&g_ep=EgoyMDI0MTAyOS4wIKXMDSoASAFQAw%3D%3D" target="_blank">
+          <i class="fa fa-map-marker" aria-hidden="true"></i>
+          <span class="padding_left_15">Location</span>
+        </a>
+      </div>
+      <div class="location_text_up">
+        <a href="#" onclick="copyToClipboard('(+48) 426355356')">
+          <i class="fa fa-phone" aria-hidden="true"></i>
+          <span class="padding_left_15">(+48) 426355356</span>
+        </a>
+      </div>
+      <div class="location_text_up">
+        <a href="#" onclick="copyToClipboard('cargomailboxpl@gmail.com')">
+          <i class="fa fa-envelope" aria-hidden="true"></i>
+          <span class="padding_left_15">cargomailboxpl@gmail.com</span>
+        </a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Footer Section Start -->
+<div class="footer_section layout_padding">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-12">
+        <div class="footeer_logo"><img src="images/logo.png"></div>
+      </div>
+    </div>
+    <div class="footer_section_2">
+      <div class="row">
+        <div class="col">
+          <h4 class="footer_taital">Subscribe Now</h4>
+          <p class="footer_text">Enter your email and we'll reach you to stay in touch!</p>
+
+          <form action="/subscribe" method="POST" class="form-group">
+            <textarea class="update_mail" placeholder="Enter Your Email" rows="1" id="email" name="email"></textarea>
+            <button type="submit" class="subscribe_bt btn btn-primary">Subscribe</button>
+          </form>
+        </div>
+        <div class="col">
+          <h4 class="footer_taital">Information</h4>
+          <p class="lorem_text">CarGo is the fastest-growing car rental with the HQ in Łódź, Poland.</p>
+        </div>
+        <div class="col">
+          <h4 class="footer_taital">Our offer</h4>
+          <p class="lorem_text">We offer an increasing number of cars in multiple locations.</p>
+        </div>
+        <div class="col">
+          <h4 class="footer_taital">Invesments</h4>
+          <p class="lorem_text">We constantly invest in CarGo increasing our customer base in Poland.</p>
+        </div>
+        <div class="col">
+          <h4 class="footer_taital">Contact Us</h4>
+          <div class="location_text">
+            <a href="https://www.google.com/maps/place/Wydzia%C5%82+Ekonomiczno-Socjologiczny+Uniwersytetu+%C5%81%C3%B3dzkiego/@51.7752141,19.4611604,17z/data=!3m2!4b1!5s0x471bcb27fb23fb65:0xc900bfbd73fd4323!4m6!3m5!1s0x471bcb27d95ca219:0x7a09bc332d4a8d73!8m2!3d51.7752141!4d19.4637353!16s%2Fg%2F120l7rrv?entry=ttu&g_ep=EgoyMDI0MTAyOS4wIKXMDSoASAFQAw%3D%3D" target="_blank">
+              <i class="fa fa-map-marker" aria-hidden="true"></i>
+              <span class="padding_left_15">Location</span>
+            </a>
+          </div>
+          <div class="location_text">
+            <a href="#" onclick="copyToClipboard('(+48) 426355356')">
+              <i class="fa fa-phone" aria-hidden="true"></i>
+              <span class="padding_left_15">(+48) 426355356</span>
+            </a>
+          </div>
+          <div class="location_text">
+            <a href="#" onclick="copyToClipboard('cargomailboxpl@gmail.com')">
+              <i class="fa fa-envelope" aria-hidden="true"></i>
+              <span class="padding_left_15">cargomailboxpl@gmail.com</span>
+            </a>
+          </div>
+          <div class="social_icon">
+            <ul>
+              <li><a href="https://www.facebook.com/" target="_blank"><i class="fa fa-facebook" aria-hidden="true"></i></a></li>
+              <li><a href="https://x.com/" target="_blank"><i class="fa fa-twitter" aria-hidden="true"></i></a></li>
+              <li><a href="https://www.linkedin.com/" target="_blank"><i class="fa fa-linkedin" aria-hidden="true"></i></a></li>
+              <li><a href="https://www.instagram.com/" target="_blank"><i class="fa fa-instagram" aria-hidden="true"></i></a></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- footer section end -->
+<!-- copyright section start -->
+<div class="copyright_section">
+  <div class="container">
+    <div class="row">
+      <div class="col-sm-12">
+        <p class="copyright_text">2023 All Rights Reserved. Design by <a href="https://html.design">Free Html Templates</a> Distributed By <a href="https://themewagon.com">ThemeWagon</a></p>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- copyright section end -->
+
+<!-- Javascript files-->
+<script src="js/jquery.min.js"></script>
+<script src="js/popper.min.js"></script>
+<script src="js/bootstrap.bundle.min.js"></script>
+<script src="js/jquery-3.0.0.min.js"></script>
+<script src="js/plugin.js"></script>
+<script src="js/script.js"></script>
+<script src="js/clipboard.js"></script>
+<script src="js/subscribe.js"></script>
+</body>
+</html>
