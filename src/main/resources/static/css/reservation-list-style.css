@@ -1,0 +1,9 @@
+.reservations-section {
+  padding-top: 40px !important; /* Odstęp nad sekcją */
+  padding-bottom: 40px; /* Odstęp pod sekcją */
+  margin-top: 20px; /* Jeśli potrzebny dodatkowy odstęp od nagłówka */
+  margin-bottom: 20px; /* Jeśli potrzebny dodatkowy odstęp od stopki */
+  background-color: #f9f9f9; /* Jasne tło dla odróżnienia */
+  border-radius: 8px; /* Zaokrąglenie rogów */
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Lekki cień dla głębi */
+}

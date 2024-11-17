@@ -422,7 +422,21 @@ public class GeneralController {
     }
 
     @GetMapping("/view_reservations")
-    public String showViewReservations() {
+    public String showViewReservations(Model model, HttpSession session) {
+        User loggedInUser = (User) session.getAttribute("loggedInUser");
+        if (loggedInUser != null) {
+            List<Reservation> reservations = reservationService.findReservationsByUserId(loggedInUser.getId());
+            model.addAttribute("reservations", reservations);
+        }
         return "view_reservations";
+    }
+
+    @PostMapping("/cancel_reservation")
+    public String cancelReservation(@RequestParam("reservationId") Long reservationId, HttpSession session) {
+        User loggedInUser = (User) session.getAttribute("loggedInUser");
+        if (loggedInUser != null) {
+            reservationService.cancelReservation(reservationId, loggedInUser.getId());
+        }
+        return "redirect:/view_reservations";
     }
 }

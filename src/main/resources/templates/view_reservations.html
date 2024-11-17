@@ -21,6 +21,8 @@
   <link rel="stylesheet" href="https://netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css">
   <!-- Button -->
   <link rel="stylesheet" href="/css/button.css">
+  <!-- reservation list style -->
+  <link rel="stylesheet" href="/css/reservation-list-style.css">
 </head>
 <body>
 <!-- header section start -->
@@ -113,7 +115,49 @@
     </div>
   </div>
 </div>
+<div class="container reservations-section mt-5 mb-5">
+  <h2 class="text-center mb-4">Your Reservations</h2>
+  <table class="table table-bordered table-striped">
+    <thead>
+    <tr>
+      <th>Reservation ID</th>
+      <th>Car</th>
+      <th>Pick-Up Date</th>
+      <th>Return Date</th>
+      <th>Pick-Up Location</th>
+      <th>Drop-Off Location</th>
+      <th>Status</th>
+      <th>Actions</th>
+    </tr>
+    </thead>
+    <tbody>
+    <!-- Wyświetlenie rezerwacji użytkownika -->
+    <tr th:each="reservation : ${reservations}">
+      <td th:text="${reservation.id}"></td>
+      <td th:text="${reservation.car.model}"></td>
+      <td th:text="${#temporals.format(reservation.reservationStart, 'yyyy-MM-dd')}"></td>
+      <td th:text="${#temporals.format(reservation.reservationEnd, 'yyyy-MM-dd')}"></td>
+      <td th:text="${reservation.pickUpPoint}"></td>
+      <td th:text="${reservation.dropOfPoint}"></td>
+      <td th:text="${reservation.status}"></td>
+      <td>
+        <!-- Jeśli rezerwacja jest anulowana -->
+        <span th:if="${reservation.status.name().toLowerCase() == 'cancelled'}">No Action</span>
 
+        <!-- Jeśli rezerwacja nie jest anulowana -->
+        <form action="/cancel_reservation" method="post" style="display: inline;" th:if="${reservation.status.name().toLowerCase() != 'cancelled'}" onsubmit="return confirmCancellation();">
+          <input type="hidden" name="reservationId" th:value="${reservation.id}">
+          <button type="submit" class="btn btn-danger btn-sm">Cancel</button>
+        </form>
+      </td>
+    </tr>
+    <!-- Obsługa przypadku, gdy brak rezerwacji -->
+    <tr th:if="${#lists.isEmpty(reservations)}">
+      <td colspan="8" class="text-center">No reservations found.</td>
+    </tr>
+    </tbody>
+  </table>
+</div>
 <!-- Footer Section Start -->
 <div class="footer_section layout_padding">
   <div class="container">
@@ -200,5 +244,6 @@
 <script src="js/script.js"></script>
 <script src="js/clipboard.js"></script>
 <script src="js/subscribe.js"></script>
+<script src="js/confirm.js"></script>
 </body>
 </html>
