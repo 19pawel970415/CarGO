@@ -136,7 +136,7 @@
       <td th:text="${reservation.id}"></td>
       <td th:text="${reservation.car.model}"></td>
       <td th:text="${#temporals.format(reservation.reservationStart, 'yyyy-MM-dd')}"></td>
-      <td th:text="${#temporals.format(reservation.reservationEnd, 'yyyy-MM-dd')}"></td>
+      <td th:text="${#temporals.format(reservation.reservationEnd.minusDays(1), 'yyyy-MM-dd')}"></td>
       <td th:text="${reservation.pickUpPoint}"></td>
       <td th:text="${reservation.dropOfPoint}"></td>
       <td th:text="${reservation.status}"></td>
