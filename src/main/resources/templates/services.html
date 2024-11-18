@@ -1,32 +1,28 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.w3.org/1999/xhtml">
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
 <head>
-    <!-- basic -->
-    <meta charset="utf-8">
+    <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <!-- mobile metas -->
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="viewport" content="initial-scale=1, maximum-scale=1">
-    <!-- site metas -->
     <title>Services</title>
-    <meta name="keywords" content="">
-    <meta name="description" content="">
-    <meta name="author" content="">
-    <!-- bootstrap css -->
+    <!-- Bootstrap CSS -->
     <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
-    <!-- style css -->
+    <!-- Style CSS -->
     <link rel="stylesheet" type="text/css" href="css/style.css">
-    <!-- Responsive-->
+    <!-- Style register CSS -->
+    <link rel="stylesheet" type="text/css" href="css/register-style.css">
+    <!-- Responsive CSS -->
     <link rel="stylesheet" href="css/responsive.css">
-    <!-- fevicon -->
-    <link rel="icon" href="images/fevicon.png" type="image/gif" />
-    <!-- font css -->
+    <!-- Font CSS -->
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&family=Raleway:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <!-- Scrollbar Custom CSS -->
     <link rel="stylesheet" href="css/jquery.mCustomScrollbar.min.css">
-    <!-- Tweaks for older IEs-->
+    <!-- Font Awesome -->
     <link rel="stylesheet" href="https://netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css">
+    <!-- Button -->
+    <link rel="stylesheet" href="/css/button.css">
+    <!-- reservation list style -->
+    <link rel="stylesheet" href="/css/reservation-list-style.css">
 </head>
 <body>
 <!-- header section start -->
@@ -78,7 +74,7 @@
                             <a class="dropdown-item" href="client" th:if="${session.loggedInUser instanceof T(com.example.CarGo.domain.Admin)}">Manage Users</a>
                         </div>
                     </li>
-                    <!-- Przycisk Sign out wyświetlany tylko, gdy użytkownik jest zalogowany -->
+                    <!-- Przycisk Sign out -->
                     <li class="nav-item" th:if="${session.loggedInUser != null}">
                         <a class="nav-link" href="signout">Sign out</a>
                     </li>
@@ -88,6 +84,7 @@
     </div>
 </div>
 <!-- header section end -->
+
 <div class="call_text_main">
     <div class="container">
         <div class="call_taital">
@@ -112,37 +109,47 @@
         </div>
     </div>
 </div>
-<!-- choose section start -->
-<div class="choose_section layout_padding">
-    <div class="container">
-        <div class="row">
-            <div class="col-md-12">
-                <h1 class="choose_taital">WHY CHOOSE US</h1>
-            </div>
-        </div>
-        <div class="choose_section_2">
-            <div class="row">
-                <div class="col-sm-4">
-                    <div class="icon_1"><img src="images/icon-1.png"></div>
-                    <h4 class="safety_text">SAFETY & SECURITY</h4>
-                    <p class="ipsum_text">variations of passages of Lorem Ipsum available, but the majority have </p>
+
+<div class="container reservations-section mt-5 mb-5">
+    <h2 class="text-center mb-4">Cars</h2>
+    <table class="table table-bordered table-striped">
+        <thead>
+        <tr>
+            <th>Make</th>
+            <th>Model</th>
+            <th>Year of Production</th>
+            <th>Status</th>
+            <th>Action</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="car : ${carsBeforeService}">
+            <td th:text="${car.make}"></td>
+            <td th:text="${car.model}"></td>
+            <td th:text="${car.yearOfProduction}"></td>
+            <td th:text="${car.status}"></td>
+
+            <td>
+                <div th:if="${car.status == T(com.example.CarGo.domain.CarStatus).SERVICED}">
+                    <form th:action="@{/service/ready/{id}(id=${car.id})}" method="post">
+                        <button type="submit" class="btn btn-success">Ready</button>
+                    </form>
                 </div>
-                <div class="col-sm-4">
-                    <div class="icon_1"><img src="images/icon-2.png"></div>
-                    <h4 class="safety_text">Online Booking</h4>
-                    <p class="ipsum_text">variations of passages of Lorem Ipsum available, but the majority have </p>
+                <div th:if="${car.status == T(com.example.CarGo.domain.CarStatus).BEFORE_SERVICE}">
+                    <form th:action="@{/service/start/{id}(id=${car.id})}" method="post">
+                        <button type="submit" class="btn btn-primary">Service</button>
+                    </form>
                 </div>
-                <div class="col-sm-4">
-                    <div class="icon_1"><img src="images/icon-3.png"></div>
-                    <h4 class="safety_text">Best Drivers</h4>
-                    <p class="ipsum_text">variations of passages of Lorem Ipsum available, but the majority have </p>
+                <div th:if="${car.status != T(com.example.CarGo.domain.CarStatus).BEFORE_SERVICE && car.status != T(com.example.CarGo.domain.CarStatus).SERVICED}">
+                    <span class="text-danger">The car is undergoing service.</span>
                 </div>
-            </div>
-        </div>
-    </div>
+            </td>
+        </tr>
+        </tbody>
+    </table>
 </div>
-<!-- choose section end -->
-<!-- footer section start -->
+
+<!-- Footer Section Start -->
 <div class="footer_section layout_padding">
     <div class="container">
         <div class="row">
@@ -218,16 +225,16 @@
     </div>
 </div>
 <!-- copyright section end -->
+
 <!-- Javascript files-->
 <script src="js/jquery.min.js"></script>
 <script src="js/popper.min.js"></script>
 <script src="js/bootstrap.bundle.min.js"></script>
 <script src="js/jquery-3.0.0.min.js"></script>
 <script src="js/plugin.js"></script>
+<script src="js/script.js"></script>
 <script src="js/clipboard.js"></script>
 <script src="js/subscribe.js"></script>
-<!-- sidebar -->
-<script src="js/jquery.mCustomScrollbar.concat.min.js"></script>
-<script src="js/custom.js"></script>
+<script src="js/confirm.js"></script>
 </body>
 </html>

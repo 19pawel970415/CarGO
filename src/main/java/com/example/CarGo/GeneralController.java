@@ -24,6 +24,7 @@ import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Controller
 public class GeneralController {
@@ -44,6 +45,7 @@ public class GeneralController {
     public String showIndex() {
         return "index";
     }
+
     @GetMapping("/about")
     public String showAbout() {
         return "about";
@@ -73,6 +75,7 @@ public class GeneralController {
     public String showClient() {
         return "client";
     }
+
     @GetMapping("/contact")
     public String showContact() {
         return "contact";
@@ -138,13 +141,38 @@ public class GeneralController {
     }
 
     @GetMapping("/services")
-    public String showServices() {
+    public String getCarsBeforeService(Model model) {
+        List<Car> allCars = carService.findAllCars();
+        List<Car> carsBeforeInAfterService = allCars.stream()
+                .filter(c -> (c.getStatus() == CarStatus.BEFORE_SERVICE || c.getStatus() == CarStatus.IN_SERVICE || c.getStatus() == CarStatus.SERVICED))
+                .collect(Collectors.toList());
+        model.addAttribute("carsBeforeService", carsBeforeInAfterService);
         return "services";
     }
+
+    @PostMapping("/service/ready/{id}")
+    public String setCarReadyForRent(@PathVariable Long id) {
+        carService.setCarReadyForRent(id);
+        return "redirect:/services";
+    }
+
+    @PostMapping("/service/start/{id}")
+    public String startService(@PathVariable Long id) {
+        carService.changeStatusToInServiceAndWait(id);
+        try {
+            Thread.sleep(3000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        return "redirect:/services";
+    }
+
+
     @GetMapping("/register")
     public String showRegister() {
         return "register";
     }
+
     @PostMapping("/register")
     public String registerUser(
             @RequestParam("firstName") String firstName,
@@ -184,10 +212,12 @@ public class GeneralController {
             return "register";
         }
     }
+
     @GetMapping("/login")
     public String showLoginForm() {
         return "login";
     }
+
     @PostMapping("/login")
     public String loginUser(
             @RequestParam("login") String login,
@@ -391,10 +421,10 @@ public class GeneralController {
             @RequestParam("password") String password,
             @RequestParam("confirmPassword") String confirmPassword,
             HttpSession session,
-            Model model){
+            Model model) {
 
         // Pobranie aktualnie zalogowanego użytkownika z sesji
-        User currentUser =  (User) session.getAttribute("loggedInUser");
+        User currentUser = (User) session.getAttribute("loggedInUser");
 
         // Walidacja hasła
         if (!password.equals(confirmPassword)) {

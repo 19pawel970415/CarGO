@@ -1,12 +1,10 @@
 package com.example.CarGo.services;
 
 
-import com.example.CarGo.domain.Car;
+import com.example.CarGo.domain.*;
 import com.example.CarGo.db.CarRepository;
-import com.example.CarGo.domain.ChassisType;
-import com.example.CarGo.domain.FuelType;
-import com.example.CarGo.domain.GearboxType;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 import java.time.LocalDate;
 
@@ -65,5 +63,34 @@ public class CarService {
                 fuelType,
                 startDate.atStartOfDay(),
                 endDate.atTime(23, 59, 59));
+    }
+
+    public void setCarReadyForRent(Long carId) {
+        Optional<Car> carOptional = carRepository.findById(carId);
+        if (carOptional.isPresent()) {
+            Car car = carOptional.get();
+            car.setStatus(CarStatus.READY_FOR_RENT);
+            carRepository.save(car);
+        }
+    }
+
+    @Async
+    public void changeStatusToInServiceAndWait(Long carId) {
+        Optional<Car> carOptional = carRepository.findById(carId);
+        if (carOptional.isPresent()) {
+            Car car = carOptional.get();
+            car.setStatus(CarStatus.IN_SERVICE);
+            carRepository.save(car);
+
+            try {
+                // set to a minute just as an example
+                Thread.sleep(60000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+
+            car.setStatus(CarStatus.SERVICED);
+            carRepository.save(car);
+        }
     }
 }
