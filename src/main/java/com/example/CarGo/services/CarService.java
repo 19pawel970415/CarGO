@@ -1,6 +1,7 @@
 package com.example.CarGo.services;
 
 
+import com.example.CarGo.db.ReservationRepository;
 import com.example.CarGo.domain.*;
 import com.example.CarGo.db.CarRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,14 +10,24 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDate;
 
 
+import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class CarService {
 
     @Autowired
     private CarRepository carRepository;
+
+    @Autowired
+    private final ReservationRepository reservationRepository;
+
+    public CarService(ReservationRepository reservationRepository) {
+        this.reservationRepository = reservationRepository;
+    }
 
     public List<Car> findAllCars() {
         return carRepository.findAll();
@@ -92,5 +103,24 @@ public class CarService {
             car.setStatus(CarStatus.SERVICED);
             carRepository.save(car);
         }
+    }
+
+    public void updateCarStatuses() {
+        LocalDateTime today = LocalDateTime.now()
+                .withHour(0)
+                .withMinute(0)
+                .withSecond(0)
+                .withNano(0);
+
+        List<Reservation> reservationsEndingToday = reservationRepository.findByReservationEnd(today);
+
+        List<Car> carsToUpdate = reservationsEndingToday.stream()
+                .map(Reservation::getCar)
+                .filter(Objects::nonNull)
+                .collect(Collectors.toList());
+
+        carsToUpdate.forEach(car -> car.setStatus(CarStatus.BEFORE_SERVICE));
+
+        carRepository.saveAll(carsToUpdate);
     }
 }
