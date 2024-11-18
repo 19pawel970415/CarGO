@@ -37,9 +37,7 @@
             <ul class="navbar-nav ml-auto">
                <li class="nav-item"><a class="nav-link" href="index">Home</a></li>
                <li class="nav-item"><a class="nav-link" href="about">About</a></li>
-               <li class="nav-item"><a class="nav-link" href="services">Services</a></li>
                <li class="nav-item"><a class="nav-link" href="gallery">Vehicles</a></li>
-               <li class="nav-item"><a class="nav-link" href="client">Client</a></li>
                <li class="nav-item"><a class="nav-link" href="contact">Contact</a></li>
                <li class="nav-item" th:if="${session.loggedInUser == null}"><a class="nav-link" href="login">Sign in</a></li>
                <li class="nav-item" th:if="${session.loggedInUser == null}"><a class="nav-link" href="register">Sign up</a></li>
@@ -55,11 +53,11 @@
 
                      <!-- Opcje dla menedżerów -->
                      <a class="dropdown-item" href="manageReservations" th:if="${session.loggedInUser instanceof T(com.example.CarGo.models.Manager)}">Manage Reservations</a>
-                     <a class="dropdown-item" href="manageVehicles" th:if="${session.loggedInUser instanceof T(com.example.CarGo.models.Manager)}">Manage Vehicles</a>
+                     <a class="dropdown-item" href="services" th:if="${session.loggedInUser instanceof T(com.example.CarGo.models.Manager)}">Manage Vehicles</a>
 
                      <!-- Opcje dla administratorów -->
                      <a class="dropdown-item" href="adminDashboard" th:if="${session.loggedInUser instanceof T(com.example.CarGo.models.Admin)}">Admin Dashboard</a>
-                     <a class="dropdown-item" href="manageUsers" th:if="${session.loggedInUser instanceof T(com.example.CarGo.models.Admin)}">Manage Users</a>
+                     <a class="dropdown-item" href="client" th:if="${session.loggedInUser instanceof T(com.example.CarGo.models.Admin)}">Manage Users</a>
                   </div>
                </li>
                <li class="nav-item" th:if="${session.loggedInUser != null}"><a class="nav-link" href="signout">Sign out</a></li>
