@@ -1,9 +1,9 @@
-package com.example.CarGo.DB;
+package com.example.CarGo.db;
 
-import com.example.CarGo.models.Car;
-import com.example.CarGo.models.ChassisType;
-import com.example.CarGo.models.FuelType;
-import com.example.CarGo.models.GearboxType;
+import com.example.CarGo.domain.Car;
+import com.example.CarGo.domain.ChassisType;
+import com.example.CarGo.domain.FuelType;
+import com.example.CarGo.domain.GearboxType;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 import org.springframework.data.jpa.repository.Query;
@@ -11,7 +11,6 @@ import org.springframework.data.repository.query.Param;
 import java.time.LocalDateTime;
 import java.util.List;
 
-import java.util.List;
 import java.util.Optional;
 
 @Repository

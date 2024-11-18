@@ -1,6 +1,6 @@
-package com.example.CarGo.DB;
+package com.example.CarGo.db;
 
-import com.example.CarGo.models.Reservation;
+import com.example.CarGo.domain.Reservation;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

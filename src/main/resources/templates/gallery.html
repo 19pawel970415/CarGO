@@ -48,16 +48,16 @@
                   </a>
                   <div class="dropdown-menu" aria-labelledby="myAccountDropdown">
                      <!-- Opcje dla zwykłych użytkowników -->
-                     <a class="dropdown-item" href="account_details" th:if="${session.loggedInUser instanceof T(com.example.CarGo.models.User)}">Change Account Details</a>
-                     <a class="dropdown-item" href="view_reservations" th:if="${session.loggedInUser instanceof T(com.example.CarGo.models.User)}">View Reservations</a>
+                     <a class="dropdown-item" href="account_details" th:if="${session.loggedInUser instanceof T(com.example.CarGo.domain.User)}">Change Account Details</a>
+                     <a class="dropdown-item" href="view_reservations" th:if="${session.loggedInUser instanceof T(com.example.CarGo.domain.User)}">View Reservations</a>
 
                      <!-- Opcje dla menedżerów -->
-                     <a class="dropdown-item" href="manageReservations" th:if="${session.loggedInUser instanceof T(com.example.CarGo.models.Manager)}">Manage Reservations</a>
-                     <a class="dropdown-item" href="services" th:if="${session.loggedInUser instanceof T(com.example.CarGo.models.Manager)}">Manage Vehicles</a>
+                     <a class="dropdown-item" href="manageReservations" th:if="${session.loggedInUser instanceof T(com.example.CarGo.domain.Manager)}">Manage Reservations</a>
+                     <a class="dropdown-item" href="services" th:if="${session.loggedInUser instanceof T(com.example.CarGo.domain.Manager)}">Manage Vehicles</a>
 
                      <!-- Opcje dla administratorów -->
-                     <a class="dropdown-item" href="adminDashboard" th:if="${session.loggedInUser instanceof T(com.example.CarGo.models.Admin)}">Admin Dashboard</a>
-                     <a class="dropdown-item" href="client" th:if="${session.loggedInUser instanceof T(com.example.CarGo.models.Admin)}">Manage Users</a>
+                     <a class="dropdown-item" href="adminDashboard" th:if="${session.loggedInUser instanceof T(com.example.CarGo.domain.Admin)}">Admin Dashboard</a>
+                     <a class="dropdown-item" href="client" th:if="${session.loggedInUser instanceof T(com.example.CarGo.domain.Admin)}">Manage Users</a>
                   </div>
                </li>
                <li class="nav-item" th:if="${session.loggedInUser != null}"><a class="nav-link" href="signout">Sign out</a></li>

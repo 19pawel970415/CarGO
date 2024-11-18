@@ -1,11 +1,11 @@
 package com.example.CarGo;
 
-import com.example.CarGo.DB.PersonRepository;
-import com.example.CarGo.DB.UserRepository;
-import com.example.CarGo.Services.CarService;
-import com.example.CarGo.Services.ReservationService;
-import com.example.CarGo.Services.UserService;
-import com.example.CarGo.models.*;
+import com.example.CarGo.db.PersonRepository;
+import com.example.CarGo.db.UserRepository;
+import com.example.CarGo.services.CarService;
+import com.example.CarGo.services.ReservationService;
+import com.example.CarGo.services.UserService;
+import com.example.CarGo.domain.*;
 import jakarta.mail.MessagingException;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;

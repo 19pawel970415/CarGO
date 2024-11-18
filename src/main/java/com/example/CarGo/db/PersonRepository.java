@@ -1,6 +1,6 @@
-package com.example.CarGo.DB;
+package com.example.CarGo.db;
 
-import com.example.CarGo.models.Person;
+import com.example.CarGo.domain.Person;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;

@@ -1,18 +1,16 @@
-package com.example.CarGo.Services;
+package com.example.CarGo.services;
 
 
-import com.example.CarGo.models.Car;
-import com.example.CarGo.DB.CarRepository;
-import com.example.CarGo.models.ChassisType;
-import com.example.CarGo.models.FuelType;
-import com.example.CarGo.models.GearboxType;
+import com.example.CarGo.domain.Car;
+import com.example.CarGo.db.CarRepository;
+import com.example.CarGo.domain.ChassisType;
+import com.example.CarGo.domain.FuelType;
+import com.example.CarGo.domain.GearboxType;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Service;
 import java.time.LocalDate;
 
 
-import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 

@@ -1,12 +1,11 @@
-package com.example.CarGo.Services;
+package com.example.CarGo.services;
 
-import com.example.CarGo.DB.UserRepository;
-import com.example.CarGo.models.User;
+import com.example.CarGo.db.UserRepository;
+import com.example.CarGo.domain.User;
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
