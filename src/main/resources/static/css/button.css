@@ -28,3 +28,20 @@
       -moz-appearance: textfield; /* Wyłączenie w przeglądarkach Firefox */
    }
 
+.select-outline {
+    display: flex;
+    flex-direction: column; /* Ustawia kolumnowy układ dla etykiety i pola */
+    align-items: center; /* Wyśrodkowanie w poziomie */
+}
+
+.select-outline label {
+    margin-bottom: 0.5rem; /* Dodatkowy odstęp między etykietą a polem */
+    text-align: center; /* Wyśrodkowanie tekstu w etykiecie */
+}
+
+.form-control {
+    width: 100%; /* Jeśli chcesz, aby pole zajmowało pełną szerokość */
+}
+
+
+
