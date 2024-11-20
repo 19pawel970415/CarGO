@@ -1,5 +1,6 @@
 package com.example.CarGo;
 
+import com.example.CarGo.db.LocationRepository;
 import com.example.CarGo.db.PersonRepository;
 import com.example.CarGo.db.UserRepository;
 import com.example.CarGo.services.CarService;
@@ -39,6 +40,8 @@ public class GeneralController {
     private UserRepository userRepository;
     @Autowired
     private PersonRepository personRepository;
+    @Autowired
+    private LocationRepository locationRepository;
 
 
     @GetMapping(value = {"/", "/index"})
@@ -97,16 +100,18 @@ public class GeneralController {
             @RequestParam(value = "endDate", required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate endDate,
             Model model) {
 
-        List<Car> cars;
+        List<Location> locations = locationRepository.findAll();
 
+        List<Car> cars;
         if (startDate != null && endDate != null) {
-            cars = carService.findCarsWithFilters(location, gearbox, carType, seatCount, yearMin, yearMax, priceMin, priceMax, make, fuelType, startDate, endDate);
+            cars = carService.findCarsWithFilters(new Location(location), gearbox, carType, seatCount, yearMin, yearMax, priceMin, priceMax, make, fuelType, startDate, endDate);
         } else {
             cars = carService.findAllCars();
         }
 
         model.addAttribute("cars", cars);
         model.addAttribute("location", location);
+        model.addAttribute("locations", locations);
         model.addAttribute("startDate", startDate);
         model.addAttribute("endDate", endDate);
         model.addAttribute("yearMin", yearMin);
@@ -131,7 +136,7 @@ public class GeneralController {
         Optional<Car> car = carService.findCarById(carId);
         if (car.isPresent()) {
             model.addAttribute("car", car.get());
-            model.addAttribute("location", car.get().getLocation());
+            model.addAttribute("location", car.get().getLocation().getCity());
             model.addAttribute("startDate", startDate);
             model.addAttribute("endDate", endDate);
             return "book";
@@ -355,7 +360,7 @@ public class GeneralController {
         reservation.setCar(car);
         reservation.setUser(loggedInUser);
         reservation.setPickUpPoint(car.getLocation());
-        reservation.setDropOfPoint(returnLocation);
+        reservation.setDropOfPoint(new Location(returnLocation));
 
         // Save reservation
         reservationService.saveReservation(reservation);

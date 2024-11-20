@@ -33,7 +33,7 @@ public class CarService {
         return carRepository.findAll();
     }
 
-    public List<Car> findCarsByLocation(String location) {
+    public List<Car> findCarsByLocation(Location location) {
         return carRepository.findByLocation(location);
     }
 
@@ -45,12 +45,12 @@ public class CarService {
         return carRepository.findAvailableCars(startDate.atStartOfDay(), endDate.atTime(23, 59, 59));
     }
 
-    public List<Car> findAvailableCarsInLocation(String location, LocalDate startDate, LocalDate endDate) {
-        return carRepository.findAvailableCarsInLocation(location, startDate.atStartOfDay(),
+    public List<Car> findAvailableCarsInLocation(Location location, LocalDate startDate, LocalDate endDate) {
+        return carRepository.findAvailableCarsInLocation(location.getCity(), startDate.atStartOfDay(),
                 endDate.atTime(23, 59, 59));
     }
 
-    public List<Car> findCarsWithFilters(String location,
+    public List<Car> findCarsWithFilters(Location location,
                                          GearboxType gearboxType,
                                          ChassisType chassisType,
                                          Integer seatCount,
@@ -62,7 +62,7 @@ public class CarService {
                                          FuelType fuelType,
                                          LocalDate startDate,
                                          LocalDate endDate) {
-        return carRepository.findCarsWithFilters(location,
+        return carRepository.findCarsWithFilters(location.getCity(),
                 gearboxType,
                 chassisType,
                 seatCount,

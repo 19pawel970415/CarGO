@@ -1,11 +1,15 @@
 package com.example.CarGo.domain;
 
 import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "reservations")
+@Getter
+@Setter
 public class Reservation {
 
     @Id
@@ -26,77 +30,15 @@ public class Reservation {
     @Column(nullable = false)
     private LocalDateTime reservationEnd;
 
-    @Column(nullable = false)
-    private String pickUpPoint;
+    @ManyToOne
+    @JoinColumn(name = "pick_up_point_id", nullable = false)
+    private Location pickUpPoint;
 
-    @Column(nullable = false)
-    private String dropOfPoint;
+    @ManyToOne
+    @JoinColumn(name = "drop_off_point_id", nullable = false)
+    private Location dropOfPoint;
 
     @Enumerated(EnumType.STRING)
     @Column(name = "status", length = 20)
     private ReservationStatus status;
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public User getUser() {
-        return user;
-    }
-
-    public void setUser(User user) {
-        this.user = user;
-    }
-
-    public Car getCar() {
-        return car;
-    }
-
-    public void setCar(Car car) {
-        this.car = car;
-    }
-
-    public LocalDateTime getReservationStart() {
-        return reservationStart;
-    }
-
-    public void setReservationStart(LocalDateTime reservationStart) {
-        this.reservationStart = reservationStart;
-    }
-
-    public LocalDateTime getReservationEnd() {
-        return reservationEnd;
-    }
-
-    public void setReservationEnd(LocalDateTime reservationEnd) {
-        this.reservationEnd = reservationEnd;
-    }
-
-    public String getPickUpPoint() {
-        return pickUpPoint;
-    }
-
-    public void setPickUpPoint(String pickUpPoint) {
-        this.pickUpPoint = pickUpPoint;
-    }
-
-    public String getDropOfPoint() {
-        return dropOfPoint;
-    }
-
-    public void setDropOfPoint(String dropOfPoint) {
-        this.dropOfPoint = dropOfPoint;
-    }
-
-    public ReservationStatus getStatus() {
-        return status;
-    }
-
-    public void setStatus(ReservationStatus status) {
-        this.status = status;
-    }
 }

@@ -13,16 +13,18 @@ import java.util.Optional;
 @Repository
 public interface CarRepository extends JpaRepository<Car, Long> {
 
-    List<Car> findByLocation(String location);
+    List<Car> findByLocation(Location location);
 
     Optional<Car> findById(Long id);
 
-    @Query("SELECT c FROM Car c WHERE c.location = :location AND " +
+    @Query("SELECT c FROM Car c WHERE c.location.city = :location AND " +
             "NOT EXISTS (SELECT r FROM Reservation r WHERE r.car = c " +
             "AND (r.reservationStart <= :endDate AND r.reservationEnd >= :startDate))")
     List<Car> findAvailableCarsInLocation(@Param("location") String location,
                                           @Param("startDate") LocalDateTime startDate,
                                           @Param("endDate") LocalDateTime endDate);
+
+
 
     @Query("SELECT c FROM Car c WHERE " +
             "NOT EXISTS (SELECT r FROM Reservation r WHERE r.car = c " +
@@ -31,7 +33,7 @@ public interface CarRepository extends JpaRepository<Car, Long> {
                                 @Param("endDate") LocalDateTime endDate);
 
     @Query("SELECT c FROM Car c " +
-            "WHERE (:location IS NULL OR :location = '' OR c.location = :location) AND " +
+            "WHERE (:location IS NULL OR :location = '' OR c.location.city = :location) AND " +
             "(:gearboxType IS NULL OR c.gearboxType = :gearboxType) AND " +
             "(:chassisType IS NULL OR c.chassisType = :chassisType) AND " +
             "(:seatCount IS NULL OR c.seatCount = :seatCount) AND " +
@@ -56,5 +58,6 @@ public interface CarRepository extends JpaRepository<Car, Long> {
             @Param("fuelType") FuelType fuelType,
             @Param("startDate") LocalDateTime startDate,
             @Param("endDate") LocalDateTime endDate);
+
 }
 

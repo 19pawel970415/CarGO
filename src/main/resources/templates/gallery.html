@@ -101,17 +101,15 @@
                <!-- Start of Search Form -->
                <form action="#" method="get" th:action="@{/gallery}" class="form-inline" id="searchForm">
 
-                  <!-- Lokacja -->
                   <div class="col-md-2 select-outline">
                      <label for="location">Pick up location:</label>
                      <select name="location" id="location" class="form-control">
                         <option value="">All Locations</option>
-                        <option value="Warszawa" th:selected="${location == 'Warszawa'}">Warszawa</option>
-                        <option value="Kraków" th:selected="${location == 'Kraków'}">Kraków</option>
-                        <option value="Wrocław" th:selected="${location == 'Wrocław'}">Wrocław</option>
-                        <option value="Łódź" th:selected="${location == 'Łódź'}">Łódź</option>
-                        <option value="Poznań" th:selected="${location == 'Poznań'}">Poznań</option>
-                        <option value="Gdańsk" th:selected="${location == 'Gdańsk'}">Gdańsk</option>
+                        <th:block th:each="location : ${locations}">
+                           <option th:value="${location.city}"
+                                   th:text="${location.city}"
+                                   th:selected="${location.city == location}"></option>
+                        </th:block>
                      </select>
                   </div>
 
@@ -261,7 +259,7 @@
                   <p class="looking_text" th:text="'VIN: ' + ${car.vin}">VIN: N/A</p>
                   <p class="looking_text" th:text="'Year of Production: ' + ${car.yearOfProduction}">Year of Production: N/A</p>
                   <p class="looking_text" th:text="'Seat Count: ' + ${car.seatCount}">Seat Count: N/A</p>
-                  <p class="looking_text" th:text="'Location: ' + ${car.location}">Location: N/A</p>
+                  <p class="looking_text" th:text="'Location: ' + ${car.location.city}">Location: N/A</p>
                   <!-- Rent Now button with conditional logic and check for search completion -->
                   <div class="read_bt">
                      <a th:if="${session.loggedInUser != null}"
