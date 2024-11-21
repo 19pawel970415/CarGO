@@ -30,11 +30,11 @@ public class Reservation {
     @Column(nullable = false)
     private LocalDateTime reservationEnd;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.PERSIST)
     @JoinColumn(name = "pick_up_point_id", nullable = false)
     private Location pickUpPoint;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.PERSIST)
     @JoinColumn(name = "drop_off_point_id", nullable = false)
     private Location dropOfPoint;
 
