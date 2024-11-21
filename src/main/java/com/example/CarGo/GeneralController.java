@@ -4,6 +4,7 @@ import com.example.CarGo.db.LocationRepository;
 import com.example.CarGo.db.PersonRepository;
 import com.example.CarGo.db.UserRepository;
 import com.example.CarGo.services.CarService;
+import com.example.CarGo.services.LocationService;
 import com.example.CarGo.services.ReservationService;
 import com.example.CarGo.services.UserService;
 import com.example.CarGo.domain.*;
@@ -42,6 +43,8 @@ public class GeneralController {
     private PersonRepository personRepository;
     @Autowired
     private LocationRepository locationRepository;
+    @Autowired
+    private LocationService locationService;
 
 
     @GetMapping(value = {"/", "/index"})
@@ -142,6 +145,21 @@ public class GeneralController {
             return "book";
         } else {
             return "redirect:/gallery";
+        }
+    }
+
+    @PostMapping("/delete-location")
+    @ResponseBody
+    public ResponseEntity<String> deleteLocation(@RequestBody LocationRequest locationRequest) {
+        String locationName = locationRequest.getLocation();
+
+        // Wywołaj metodę serwisową, aby usunąć lokalizację
+        boolean deleted = locationService.deleteLocation(locationName);
+
+        if (deleted) {
+            return ResponseEntity.ok("Location deleted successfully.");
+        } else {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error deleting location.");
         }
     }
 
