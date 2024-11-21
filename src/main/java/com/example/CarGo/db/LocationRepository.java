@@ -10,6 +10,7 @@ import org.springframework.stereotype.Repository;
 public interface LocationRepository extends JpaRepository<Location, Long> {
 
     void deleteByCity(String city);
+    boolean existsByCity(String city);
 
     // Sprawdź, czy lokalizacja jest używana
     @Query("SELECT COUNT(r) > 0 FROM Reservation r WHERE r.pickUpPoint.city = :locationName OR r.dropOfPoint.city = :locationName")

@@ -148,6 +148,21 @@ public class GeneralController {
         }
     }
 
+    @PostMapping("/add-location")
+    @ResponseBody
+    public ResponseEntity<String> addLocation(@RequestBody LocationRequest locationRequest) {
+        String locationName = locationRequest.getLocation();
+
+        // Wywołaj metodę serwisową, aby dodać lokalizację
+        boolean added = locationService.addLocation(locationName);
+
+        if (added) {
+            return ResponseEntity.ok("Location added successfully.");
+        } else {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error adding location.");
+        }
+    }
+
     @PostMapping("/delete-location")
     @ResponseBody
     public ResponseEntity<String> deleteLocation(@RequestBody LocationRequest locationRequest) {

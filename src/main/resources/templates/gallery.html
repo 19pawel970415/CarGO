@@ -429,8 +429,33 @@
    </div>
 </div>
 
+<!-- Modal: Add New Location -->
+<div class="modal fade" id="addLocationModal" tabindex="-1" aria-labelledby="addLocationModalLabel" aria-hidden="true">
+   <div class="modal-dialog">
+      <div class="modal-content">
+         <div class="modal-header">
+            <h5 class="modal-title" id="addLocationModalLabel">Add New Location</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+         </div>
+         <div class="modal-body">
+            <form id="addLocationForm">
+               <div class="mb-3">
+                  <label for="newLocationInput" class="form-label">Enter New Location</label>
+                  <input type="text" class="form-control" id="newLocationInput" placeholder="e.g., New York">
+               </div>
+            </form>
+         </div>
+         <div class="modal-footer">
+            <button type="button" class="btn btn-success" id="saveLocationBtn">Save</button>
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+         </div>
+      </div>
+   </div>
+</div>
 
-<!-- Modal 3: Lista lokalizacji -->
+
+
+<!-- Modal: Lista lokalizacji -->
 <div class="modal fade" id="locationModal" tabindex="-1" aria-labelledby="locationModalLabel" aria-hidden="true">
    <div class="modal-dialog">
       <div class="modal-content">
@@ -478,8 +503,45 @@
    </div>
 </div>
 
+<!-- Modal: TODO Seat Count Add-->
+<div class="modal fade" id="todoSeatCountModal" tabindex="-1" aria-labelledby="todoSeatCountModalLabel" aria-hidden="true">
+   <div class="modal-dialog">
+      <div class="modal-content">
+         <div class="modal-header">
+            <h5 class="modal-title" id="todoSeatCountModalLabel">Seat Count - Add</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+         </div>
+         <div class="modal-body">
+            TODO: Implementing adding Seat Count options
+         </div>
+         <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+         </div>
+      </div>
+   </div>
+</div>
 
-<!-- Modal 4: TODO Seat Count List -->
+<!-- Modal: TODO Car Make Add -->
+<div class="modal fade" id="todoCarMakeModal" tabindex="-1" aria-labelledby="todoCarMakeModalLabel" aria-hidden="true">
+   <div class="modal-dialog">
+      <div class="modal-content">
+         <div class="modal-header">
+            <h5 class="modal-title" id="todoCarMakeModalLabel">Car Make - Add</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+         </div>
+         <div class="modal-body">
+            TODO: Implementing adding Car Make options
+         </div>
+         <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+         </div>
+      </div>
+   </div>
+</div>
+
+
+
+<!-- Modal: TODO Seat Count List Delete -->
 <div class="modal fade" id="seatCountModal" tabindex="-1" aria-labelledby="seatCountModalLabel" aria-hidden="true">
    <div class="modal-dialog">
       <div class="modal-content">
@@ -498,7 +560,7 @@
    </div>
 </div>
 
-<!-- Modal 5: TODO Car Make Class and Table -->
+<!-- Modal: TODO Car Make Class and Table Delete -->
 <div class="modal fade" id="carMakeModal" tabindex="-1" aria-labelledby="carMakeModalLabel" aria-hidden="true">
    <div class="modal-dialog">
       <div class="modal-content">

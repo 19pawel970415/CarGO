@@ -74,11 +74,67 @@ document.getElementById('carMakeBtn').addEventListener('click', function () {
 // Obsługa przycisku Delete w drugim oknie modalnym
 document.getElementById('deleteBtn').addEventListener('click', openFilterSpecificModal);
 
-// Obsługa przycisku Add w drugim oknie modalnym (na razie brak specyficznej logiki)
+// Obsługa przycisku zapisu lokalizacji
+document.getElementById('saveLocationBtn').addEventListener('click', function () {
+    const newLocation = document.getElementById('newLocationInput').value.trim();
+
+    if (newLocation) {
+        // Wyślij zapytanie AJAX, aby zapisać nową lokalizację (przykładowa ścieżka API)
+        fetch('/add-location', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ location: newLocation })
+        })
+        .then(response => {
+            if (response.ok) {
+                alert('Location added successfully!');
+                const addLocationModal = bootstrap.Modal.getInstance(document.getElementById('addLocationModal'));
+                addLocationModal.hide();
+
+                // Odśwież stronę lub zaktualizuj widok
+                location.reload(); // lub zaktualizuj widok dynamicznie
+            } else {
+                alert('Error adding location! The location already exists in the database.');
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            alert('Error adding location! The location already exists in the database.');
+        });
+    } else {
+        alert('Please enter a valid location!');
+    }
+});
+
+// Obsługa przycisku Add
 document.getElementById('addBtn').addEventListener('click', function () {
-    alert('Add action triggered!');
     const addDeleteModal = bootstrap.Modal.getInstance(document.getElementById('addDeleteModal'));
-    addDeleteModal.hide(); // Zamknij drugie okno modalne
+    addDeleteModal.hide(); // Zamknij modal Add/Delete
+
+    switch (selectedFilter) {
+        case 'pickupLocation':
+            // Otwórz modal do dodawania nowej lokalizacji
+            const addLocationModal = new bootstrap.Modal(document.getElementById('addLocationModal'));
+            addLocationModal.show();
+            break;
+
+        case 'seatCount':
+            // Wyświetl modal z TODO dla Seat Count
+            const todoSeatCountModal = new bootstrap.Modal(document.getElementById('todoSeatCountModal'));
+            todoSeatCountModal.show();
+            break;
+
+        case 'carMake':
+            // Wyświetl modal z TODO dla Car Make
+            const todoCarMakeModal = new bootstrap.Modal(document.getElementById('todoCarMakeModal'));
+            todoCarMakeModal.show();
+            break;
+
+        default:
+            alert('Unknown filter selected!');
+    }
 });
 
 // Funkcja obsługi przycisku Back
@@ -163,12 +219,12 @@ document.getElementById('confirmDeleteBtn').addEventListener('click', function (
                 // Odśwież stronę po usunięciu
                 location.reload();  // lub window.location.reload();
             } else {
-                alert('Error deleting location!');
+                alert('Error deleting location! At least one of the cars or/and reservations is assigned to this location. Delete the car(s) and/or the reservation(s) first to delete this location.');
             }
         })
         .catch(error => {
             console.error('Error:', error);
-            alert('Error deleting location!');
+            alert('Error deleting location! At least one of the cars or/and reservations is assigned to this location. Delete the car(s) and/or the reservation(s) first to delete this location.');
         });
     } else {
         alert('Please select a location to delete!');
