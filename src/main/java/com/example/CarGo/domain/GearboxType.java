@@ -3,6 +3,10 @@ package com.example.CarGo.domain;
 public enum GearboxType {
 
     MANUAL,
-    AUTOMATIC;
-
+    AUTOMATIC,
+    CVT,
+    DCT,
+    SEMI_AUTOMATIC,
+    TIPTRONIC,
+    ELECTRIC_VEHICLE;
 }

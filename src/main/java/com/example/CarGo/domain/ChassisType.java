@@ -7,6 +7,10 @@ public enum ChassisType {
     WAGON,
     COUPE,
     HATCHBACK,
+    PICKUP,
+    SPORT_COUPE,
+    VAN,
+    CROSSOVER,
     COMPACT;
 
 }

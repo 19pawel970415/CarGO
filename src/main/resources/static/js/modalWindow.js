@@ -256,6 +256,12 @@ document.getElementById('confirmDeleteBtn').addEventListener('click', function (
                 const confirmDeleteModal = bootstrap.Modal.getInstance(document.getElementById('confirmDeleteModal'));
                 confirmDeleteModal.hide();
 
+                // Czyszczenie formularza lokalizacji
+                document.getElementById('locationToDelete').value = '';
+
+                // Komunikat o pomyślnym usunięciu
+                alert('Location deleted successfully!');
+
                 // Odśwież stronę po usunięciu
                 location.reload();  // lub window.location.reload();
             } else {
@@ -319,10 +325,7 @@ document.getElementById('confirmDeleteCarMakeBtn').addEventListener('click', fun
             document.getElementById('carMakeToDelete').value = '';  // Opcjonalne: czyszczenie formularza
             alert('Car Make deleted successfully!');
 
-            // Zamknięcie wszystkich modali i odświeżenie strony
-            setTimeout(function () {
-                location.reload();  // Odświeżenie strony
-            }, 0); // Natychmiastowe odświeżenie
+            location.reload();  // Odświeżenie strony
         } else {
             alert('Error deleting Car Make! At least one of the cars is assigned to this Car Make. Delete the car(s) first.');
         }

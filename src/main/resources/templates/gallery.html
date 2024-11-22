@@ -130,8 +130,14 @@
                         <option value="">All Gearboxes</option>
                         <option value="MANUAL" th:selected="${gearbox?.name() == 'MANUAL'}">Manual</option>
                         <option value="AUTOMATIC" th:selected="${gearbox?.name() == 'AUTOMATIC'}">Automatic</option>
+                        <option value="CVT" th:selected="${gearbox?.name() == 'CVT'}">CVT</option>
+                        <option value="DCT" th:selected="${gearbox?.name() == 'DCT'}">DCT</option>
+                        <option value="SEMI_AUTOMATIC" th:selected="${gearbox?.name() == 'SEMI_AUTOMATIC'}">Semi-Automatic</option>
+                        <option value="TIPTRONIC" th:selected="${gearbox?.name() == 'TIPTRONIC'}">Tiptronic</option>
+                        <option value="ELECTRIC_VEHICLE" th:selected="${gearbox?.name() == 'ELECTRIC_VEHICLE'}">Electric Vehicle</option>
                      </select>
                   </div>
+
 
                   <!-- Liczba Miejsc -->
                   <div class="col-md-2 select-outline">
@@ -150,12 +156,16 @@
                      <label for="carType">Car Type:</label>
                      <select name="carType" id="carType" class="form-control">
                         <option value="">All Car Types</option>
-                        <option value="SUV" th:selected="${carType?.name() == 'SUV'}">SUV</option>
                         <option value="SEDAN" th:selected="${carType?.name() == 'SEDAN'}">Sedan</option>
-                        <option value="HATCHBACK" th:selected="${carType?.name() == 'HATCHBACK'}">Hatchback</option>
-                        <option value="COUPE" th:selected="${carType?.name() == 'COUPE'}">Coupe</option>
-                        <option value="COMPACT" th:selected="${carType?.name() == 'COMPACT'}">Compact</option>
+                        <option value="SUV" th:selected="${carType?.name() == 'SUV'}">SUV</option>
                         <option value="WAGON" th:selected="${carType?.name() == 'WAGON'}">Wagon</option>
+                        <option value="COUPE" th:selected="${carType?.name() == 'COUPE'}">Coupe</option>
+                        <option value="HATCHBACK" th:selected="${carType?.name() == 'HATCHBACK'}">Hatchback</option>
+                        <option value="PICKUP" th:selected="${carType?.name() == 'PICKUP'}">Pickup</option>
+                        <option value="SPORT_COUPE" th:selected="${carType?.name() == 'SPORT_COUPE'}">Sport Coupe</option>
+                        <option value="VAN" th:selected="${carType?.name() == 'VAN'}">Van</option>
+                        <option value="CROSSOVER" th:selected="${carType?.name() == 'CROSSOVER'}">Crossover</option>
+                        <option value="COMPACT" th:selected="${carType?.name() == 'COMPACT'}">Compact</option>
                      </select>
                   </div>
 
