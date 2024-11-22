@@ -515,26 +515,6 @@
    </div>
 </div>
 
-<!-- Modal: TODO Car Make Add -->
-<div class="modal fade" id="todoCarMakeModal" tabindex="-1" aria-labelledby="todoCarMakeModalLabel" aria-hidden="true">
-   <div class="modal-dialog">
-      <div class="modal-content">
-         <div class="modal-header">
-            <h5 class="modal-title" id="todoCarMakeModalLabel">Car Make - Add</h5>
-            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-         </div>
-         <div class="modal-body">
-            TODO: Implementing adding Car Make options
-         </div>
-         <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-         </div>
-      </div>
-   </div>
-</div>
-
-
-
 <!-- Modal: TODO Seat Count List Delete -->
 <div class="modal fade" id="seatCountModal" tabindex="-1" aria-labelledby="seatCountModalLabel" aria-hidden="true">
    <div class="modal-dialog">
@@ -554,7 +534,31 @@
    </div>
 </div>
 
-<!-- Modal: TODO Car Make Class and Table Delete -->
+<!-- Modal: Add Car Make -->
+<div class="modal fade" id="addCarMakeModal" tabindex="-1" aria-labelledby="addCarMakeModalLabel" aria-hidden="true">
+   <div class="modal-dialog">
+      <div class="modal-content">
+         <div class="modal-header">
+            <h5 class="modal-title" id="addCarMakeModalLabel">Add Car Make</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+         </div>
+         <div class="modal-body">
+            <form id="addCarMakeForm">
+               <div class="mb-3">
+                  <label for="carMakeInput" class="form-label">Enter Car Make</label>
+                  <input type="text" class="form-control" id="carMakeInput" placeholder="e.g., Toyota" required>
+               </div>
+            </form>
+         </div>
+         <div class="modal-footer">
+            <button type="button" class="btn btn-success" id="saveCarMakeBtn">Save</button>
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+         </div>
+      </div>
+   </div>
+</div>
+
+<!-- Modal: TODO Car Make Delete -->
 <div class="modal fade" id="carMakeModal" tabindex="-1" aria-labelledby="carMakeModalLabel" aria-hidden="true">
    <div class="modal-dialog">
       <div class="modal-content">

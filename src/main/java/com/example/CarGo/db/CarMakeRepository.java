@@ -9,5 +9,9 @@ import java.util.Optional;
 @Repository
 public interface CarMakeRepository extends JpaRepository<CarMake, Long> {
     Optional<CarMake> findByName(String name);
+
+    boolean existsByName(String name);
 }
+
+
 

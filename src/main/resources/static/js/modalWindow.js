@@ -30,14 +30,17 @@ function openFilterSpecificModal() {
                 return;
         }
 
-        // Otwórz wybrany modal
-        const specificModal = new bootstrap.Modal(document.getElementById(modalId));
-        specificModal.show();
+        // Opóźnione otwieranie drugiego modala
+        setTimeout(function() {
+            const specificModal = new bootstrap.Modal(document.getElementById(modalId));
+            specificModal.show();
+        }, 100); // Dodanie opóźnienia 100ms
 
         // Usuń nasłuchiwanie, aby uniknąć wielokrotnego wywołania
         addDeleteModalElement.removeEventListener('hidden.bs.modal', showSpecificModal);
     });
 }
+
 
 // Funkcja do otwierania drugiego modala
 function openAddDeleteModal(filter) {
@@ -73,6 +76,44 @@ document.getElementById('carMakeBtn').addEventListener('click', function () {
 
 // Obsługa przycisku Delete w drugim oknie modalnym
 document.getElementById('deleteBtn').addEventListener('click', openFilterSpecificModal);
+
+// Obsługa przycisku zapisu marki samochodu
+document.getElementById('saveCarMakeBtn').addEventListener('click', function () {
+    const carMakeInput = document.getElementById('carMakeInput').value.trim();
+
+    if (carMakeInput) {
+        // Wyślij zapytanie AJAX, aby zapisać nową markę samochodu (przykładowa ścieżka API)
+        fetch('/car-make/add', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ make: carMakeInput })
+        })
+        .then(response => {
+            if (response.ok) {
+                alert('Car Make added successfully!');
+                const addCarMakeModal = bootstrap.Modal.getInstance(document.getElementById('addCarMakeModal'));
+                addCarMakeModal.hide();
+
+                // Odśwież stronę lub zaktualizuj widok
+                location.reload(); // lub zaktualizuj widok dynamicznie
+            } else {
+                response.text().then(text => {
+                    alert('Error adding Car Make! The Car Make already exists in the database.');
+                });
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            alert('Error adding Car Make! The Car Make already exists in the database.');
+        });
+    } else {
+        alert('Please enter a valid Car Make!');
+    }
+});
+
+
 
 // Obsługa przycisku zapisu lokalizacji
 document.getElementById('saveLocationBtn').addEventListener('click', function () {
@@ -127,9 +168,8 @@ document.getElementById('addBtn').addEventListener('click', function () {
             break;
 
         case 'carMake':
-            // Wyświetl modal z TODO dla Car Make
-            const todoCarMakeModal = new bootstrap.Modal(document.getElementById('todoCarMakeModal'));
-            todoCarMakeModal.show();
+            const addCarMakeModal = new bootstrap.Modal(document.getElementById('addCarMakeModal'));
+            addCarMakeModal.show();
             break;
 
         default:

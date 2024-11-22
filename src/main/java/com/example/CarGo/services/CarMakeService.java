@@ -33,5 +33,15 @@ public class CarMakeService {
         }
         return false;
     }
+
+    public void addCarMake(String make) {
+        if (carMakeRepository.existsByName(make)) {
+            throw new IllegalArgumentException("Car Make already exists");
+        }
+
+        CarMake carMake = new CarMake();
+        carMake.setName(make);
+        carMakeRepository.save(carMake);
+    }
 }
 

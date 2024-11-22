@@ -22,6 +22,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -132,6 +133,19 @@ public class GeneralController {
         model.addAttribute("fuelType", fuelType);
 
         return "gallery";
+    }
+
+    @PostMapping("/car-make/add")
+    @ResponseBody
+    public ResponseEntity<String> addCarMake(@RequestBody Map<String, String> request) {
+        String make = request.get("make");
+
+        if (make == null || make.trim().isEmpty()) {
+            return ResponseEntity.badRequest().body("Car Make cannot be empty");
+        }
+
+        carMakeService.addCarMake(make.trim());
+        return ResponseEntity.ok("Car Make added successfully");
     }
 
 
