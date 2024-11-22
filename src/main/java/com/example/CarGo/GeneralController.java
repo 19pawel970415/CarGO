@@ -3,10 +3,7 @@ package com.example.CarGo;
 import com.example.CarGo.db.LocationRepository;
 import com.example.CarGo.db.PersonRepository;
 import com.example.CarGo.db.UserRepository;
-import com.example.CarGo.services.CarService;
-import com.example.CarGo.services.LocationService;
-import com.example.CarGo.services.ReservationService;
-import com.example.CarGo.services.UserService;
+import com.example.CarGo.services.*;
 import com.example.CarGo.domain.*;
 import jakarta.mail.MessagingException;
 import jakarta.servlet.http.HttpSession;
@@ -45,6 +42,8 @@ public class GeneralController {
     private LocationRepository locationRepository;
     @Autowired
     private LocationService locationService;
+    @Autowired
+    private CarMakeService carMakeService;
 
 
     @GetMapping(value = {"/", "/index"})
@@ -112,9 +111,14 @@ public class GeneralController {
             cars = carService.findAllCars();
         }
 
+        List<String> carMakes = carMakeService.findAllCarMakes().stream()
+                .map(cm -> cm.getName())
+                .collect(Collectors.toList());
+
         model.addAttribute("cars", cars);
-        model.addAttribute("location", location);
         model.addAttribute("locations", locations);
+        model.addAttribute("carMakes", carMakes);
+        model.addAttribute("location", location);
         model.addAttribute("startDate", startDate);
         model.addAttribute("endDate", endDate);
         model.addAttribute("yearMin", yearMin);
@@ -129,6 +133,7 @@ public class GeneralController {
 
         return "gallery";
     }
+
 
     @GetMapping("/book/{carId}")
     public String showBookingForm(

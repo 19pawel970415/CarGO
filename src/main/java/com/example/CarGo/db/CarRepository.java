@@ -41,7 +41,7 @@ public interface CarRepository extends JpaRepository<Car, Long> {
             "(:yearMax IS NULL OR c.yearOfProduction <= :yearMax) AND " +
             "(:priceMin IS NULL OR c.pricePerDay >= :priceMin) AND " +
             "(:priceMax IS NULL OR c.pricePerDay <= :priceMax) AND " +
-            "(:make IS NULL OR :make = '' OR c.make = :make) AND " +
+            "(:make IS NULL OR :make = '' OR c.make.name = :make) AND " +
             "(:fuelType IS NULL OR c.fuelType = :fuelType) AND " +
             "(NOT EXISTS (SELECT r FROM Reservation r WHERE r.car = c AND " +
             "(r.reservationStart <= :endDate AND r.reservationEnd >= :startDate)))")
@@ -58,6 +58,5 @@ public interface CarRepository extends JpaRepository<Car, Long> {
             @Param("fuelType") FuelType fuelType,
             @Param("startDate") LocalDateTime startDate,
             @Param("endDate") LocalDateTime endDate);
-
 }
 
