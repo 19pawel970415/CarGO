@@ -128,11 +128,11 @@
     <!-- Wyświetlenie rezerwacji użytkownika -->
     <tr th:each="reservation : ${reservations}">
       <td th:text="${reservation.id}"></td>
-      <td th:text="${reservation.car.model}"></td>
+      <td th:text="|${reservation.car.make.name} ${reservation.car.model}|"></td>
       <td th:text="${#temporals.format(reservation.reservationStart, 'yyyy-MM-dd')}"></td>
       <td th:text="${#temporals.format(reservation.reservationEnd.minusDays(1), 'yyyy-MM-dd')}"></td>
-      <td th:text="${reservation.pickUpPoint}"></td>
-      <td th:text="${reservation.dropOfPoint}"></td>
+      <td th:text="${reservation.pickUpPoint.city}"></td>
+      <td th:text="${reservation.dropOfPoint.city}"></td>
       <td th:text="${reservation.status}"></td>
       <td>
         <!-- Jeśli rezerwacja jest anulowana -->
