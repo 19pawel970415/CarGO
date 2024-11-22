@@ -558,24 +558,54 @@
    </div>
 </div>
 
-<!-- Modal: TODO Car Make Delete -->
+<!-- Modal: Car Make Delete -->
 <div class="modal fade" id="carMakeModal" tabindex="-1" aria-labelledby="carMakeModalLabel" aria-hidden="true">
    <div class="modal-dialog">
       <div class="modal-content">
          <div class="modal-header">
-            <h5 class="modal-title" id="carMakeModalLabel">TODO Car Make Class and Table</h5>
+            <h5 class="modal-title" id="carMakeModalLabel">Car Make</h5>
             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
          </div>
          <div class="modal-body">
-            <p>TODO: Implement Car Make Class and Table</p>
+            <div class="col-md-12">
+               <label for="carMakeToDelete">Select a car make you want to delete:</label>
+               <select name="carMake" id="carMakeToDelete" class="form-control">
+                  <option value="">All Car Makes</option>
+                  <th:block th:each="carMake : ${carMakes}">
+                     <option th:value="${carMake}" th:text="${carMake}"></option>
+                  </th:block>
+               </select>
+            </div>
          </div>
          <div class="modal-footer">
-            <!-- Zmieniony przycisk Close na Back -->
+            <!-- Delete button -->
+            <button type="button" class="btn btn-danger" id="deleteCarMakeBtn">Delete</button>
+            <!-- Back button -->
             <button type="button" class="btn btn-secondary" id="backCarMakeBtn">Back</button>
          </div>
       </div>
    </div>
 </div>
+
+<!-- Modal potwierdzenia usunięcia Car Make -->
+<div class="modal fade" id="confirmDeleteCarMakeModal" tabindex="-1" aria-labelledby="confirmDeleteCarMakeModalLabel" aria-hidden="true">
+   <div class="modal-dialog">
+      <div class="modal-content">
+         <div class="modal-header">
+            <h5 class="modal-title" id="confirmDeleteCarMakeModalLabel">Confirm Car Make Deletion</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+         </div>
+         <div class="modal-body">
+            Are you sure you want to delete the selected car make?
+         </div>
+         <div class="modal-footer">
+            <button type="button" class="btn btn-danger" id="confirmDeleteCarMakeBtn">Confirm</button>
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+         </div>
+      </div>
+   </div>
+</div>
+
 
 <!-- copyright section end -->
 <!-- JS scripts -->

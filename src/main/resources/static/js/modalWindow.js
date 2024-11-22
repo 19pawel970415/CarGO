@@ -271,6 +271,69 @@ document.getElementById('confirmDeleteBtn').addEventListener('click', function (
     }
 });
 
+// Funkcja do pokazania modala z potwierdzeniem usunięcia
+function showConfirmDeleteModal() {
+    const confirmDeleteCarMakeModal = new bootstrap.Modal(document.getElementById('confirmDeleteCarMakeModal'));
+    confirmDeleteCarMakeModal.show();
+}
+
+// Funkcja do zamknięcia modali
+function hideModals() {
+    const carMakeModal = bootstrap.Modal.getInstance(document.getElementById('carMakeModal'));
+    if (carMakeModal) {
+        carMakeModal.hide();
+    }
+
+    const confirmDeleteCarMakeModal = bootstrap.Modal.getInstance(document.getElementById('confirmDeleteCarMakeModal'));
+    if (confirmDeleteCarMakeModal) {
+        confirmDeleteCarMakeModal.hide();
+    }
+}
+
+// Obsługa przycisku Delete w modal Car Make
+document.getElementById('deleteCarMakeBtn').addEventListener('click', showConfirmDeleteModal);
+
+// Obsługa potwierdzenia usunięcia marki samochodu
+document.getElementById('confirmDeleteCarMakeBtn').addEventListener('click', function () {
+    const selectedCarMake = document.getElementById('carMakeToDelete').value;
+
+    if (!selectedCarMake) {
+        alert('Please select a Car Make to delete!');
+        return;
+    }
+
+    // Wyślij zapytanie AJAX do serwera w celu usunięcia marki samochodu
+    fetch('/delete-car-make', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ make: selectedCarMake })
+    })
+    .then(response => {
+        if (response.ok) {
+            // Po pomyślnym usunięciu marki samochodu, ukrywamy modale
+            hideModals();
+
+            // Odświeżenie DOM-u (lub zmiana widoku, jeśli nie chcesz pełnego reloadu)
+            document.getElementById('carMakeToDelete').value = '';  // Opcjonalne: czyszczenie formularza
+            alert('Car Make deleted successfully!');
+
+            // Zamknięcie wszystkich modali i odświeżenie strony
+            setTimeout(function () {
+                location.reload();  // Odświeżenie strony
+            }, 0); // Natychmiastowe odświeżenie
+        } else {
+            alert('Error deleting Car Make! At least one of the cars is assigned to this Car Make. Delete the car(s) first.');
+        }
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        alert('Error deleting Car Make! At least one of the cars is assigned to this Car Make. Delete the car(s) first.');
+    });
+});
+
+
 // Zapobieganie kumulacji stylów Bootstrap
 document.addEventListener('shown.bs.modal', function () {
     const scrollbarWidth = window.innerWidth - document.documentElement.clientWidth;

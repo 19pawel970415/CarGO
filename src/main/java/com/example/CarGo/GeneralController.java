@@ -148,6 +148,23 @@ public class GeneralController {
         return ResponseEntity.ok("Car Make added successfully");
     }
 
+    @PostMapping("/delete-car-make")
+    @ResponseBody
+    public ResponseEntity<String> deleteCarMake(@RequestBody CarMakeRequest carMakeRequest) {
+        String carMakeName = carMakeRequest.getMake(); // Assuming the request contains a carMake property
+
+        // Call the service method to delete the car make
+        boolean deleted = carMakeService.deleteCarMake(carMakeName);
+
+        if (deleted) {
+            return ResponseEntity.ok("Car Make deleted successfully.");
+        } else {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body("Error deleting Car Make. At least one of the cars or reservations is assigned to this Car Make. Delete the car(s) and/or the reservation(s) first.");
+        }
+    }
+
+
 
     @GetMapping("/book/{carId}")
     public String showBookingForm(
