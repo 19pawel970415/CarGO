@@ -7,3 +7,32 @@
   border-radius: 8px; /* Zaokrąglenie rogów */
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Lekki cień dla głębi */
 }
+
+.reservation-wrapper {
+  margin: 20px auto;
+  padding: 20px;
+  background-color: #f9f9f9; /* Dla odróżnienia sekcji */
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.reservations-section {
+  padding: 15px;
+  border: 1px solid #ddd; /* Delikatna ramka */
+  background-color: #ffffff;
+}
+
+.reservations-section h2 {
+  color: #333;
+  font-weight: 600;
+}
+
+.table {
+  margin-bottom: 0; /* Uniknięcie pustej przestrzeni */
+}
+
+html, body {
+    margin: 0;
+    padding: 0;
+    overflow-x: hidden; /* Ukryj ewentualne przesunięcia */
+}

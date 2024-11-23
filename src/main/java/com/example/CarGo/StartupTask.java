@@ -25,6 +25,8 @@ public class StartupTask {
         System.out.println("Reservation statuses have been updated.");
         System.out.println("Car statuses have been updated.");
     }
+
+    //TODO na birząco aktaulizacja raportów
 }
 
 

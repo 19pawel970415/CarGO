@@ -84,7 +84,6 @@
   </div>
 </div>
 <!-- header section end -->
-
 <div class="call_text_main">
   <div class="container">
     <div class="call_taital">
@@ -109,49 +108,52 @@
     </div>
   </div>
 </div>
-<div class="container reservations-section mt-5 mb-5">
-  <h2 class="text-center mb-4">Your Reservations</h2>
-  <table class="table table-bordered table-striped">
-    <thead>
-    <tr>
-      <th>Reservation ID</th>
-      <th>Car</th>
-      <th>Pick-Up Date</th>
-      <th>Return Date</th>
-      <th>Pick-Up Location</th>
-      <th>Drop-Off Location</th>
-      <th>Status</th>
-      <th>Actions</th>
-    </tr>
-    </thead>
-    <tbody>
-    <!-- Wyświetlenie rezerwacji użytkownika -->
-    <tr th:each="reservation : ${reservations}">
-      <td th:text="${reservation.id}"></td>
-      <td th:text="|${reservation.car.make.name} ${reservation.car.model}|"></td>
-      <td th:text="${#temporals.format(reservation.reservationStart, 'yyyy-MM-dd')}"></td>
-      <td th:text="${#temporals.format(reservation.reservationEnd.minusDays(1), 'yyyy-MM-dd')}"></td>
-      <td th:text="${reservation.pickUpPoint.city}"></td>
-      <td th:text="${reservation.dropOfPoint.city}"></td>
-      <td th:text="${reservation.status}"></td>
-      <td>
-        <!-- Jeśli rezerwacja jest anulowana -->
-        <span th:if="${reservation.status.name().toLowerCase() == 'cancelled'}">No Action</span>
+<!-- Table Start -->
+<div class="reservation-wrapper">
+  <div class="container reservations-section mt-5 mb-5">
+    <h2 class="text-center mb-4">Your Reservations</h2>
+    <table class="table table-bordered table-striped">
+      <thead>
+      <tr>
+        <th>Reservation ID</th>
+        <th>Car</th>
+        <th>Pick-Up Date</th>
+        <th>Return Date</th>
+        <th>Pick-Up Location</th>
+        <th>Drop-Off Location</th>
+        <th>Status</th>
+        <th>Actions</th>
+      </tr>
+      </thead>
+      <tbody>
+      <!-- Wyświetlenie rezerwacji użytkownika -->
+      <tr th:each="reservation : ${reservations}">
+        <td th:text="${reservation.id}"></td>
+        <td th:text="|${reservation.car.make.name} ${reservation.car.model}|"></td>
+        <td th:text="${#temporals.format(reservation.reservationStart, 'yyyy-MM-dd')}"></td>
+        <td th:text="${#temporals.format(reservation.reservationEnd.minusDays(1), 'yyyy-MM-dd')}"></td>
+        <td th:text="${reservation.pickUpPoint.city}"></td>
+        <td th:text="${reservation.dropOfPoint.city}"></td>
+        <td th:text="${reservation.status}"></td>
+        <td>
+          <!-- Jeśli rezerwacja jest anulowana -->
+          <span th:if="${reservation.status.name().toLowerCase() == 'cancelled'}">No Action</span>
 
-        <!-- Jeśli rezerwacja nie jest anulowana -->
-        <form action="/cancel_reservation" method="post" style="display: inline;" th:if="${reservation.status.name().toLowerCase() != 'cancelled'}" onsubmit="return confirmCancellation();">
-          <input type="hidden" name="reservationId" th:value="${reservation.id}">
-          <button type="submit" class="btn btn-danger btn-sm">Cancel</button>
-        </form>
-      </td>
-    </tr>
-    <!-- Obsługa przypadku, gdy brak rezerwacji -->
-    <tr th:if="${#lists.isEmpty(reservations)}">
-      <td colspan="8" class="text-center">No reservations found.</td>
-    </tr>
-    </tbody>
-  </table>
+          <!-- Jeśli rezerwacja nie jest anulowana -->
+          <form action="/cancel_reservation" method="post" style="display: inline;" th:if="${reservation.status.name().toLowerCase() != 'cancelled'}" onsubmit="return confirmCancellation();">
+            <input type="hidden" name="reservationId" th:value="${reservation.id}">
+            <button type="submit" class="btn btn-danger btn-sm">Cancel</button>
+          </form>
+        </td>
+      </tr>
+      <!-- Obsługa przypadku, gdy brak rezerwacji -->
+      <tr th:if="${#lists.isEmpty(reservations)}">
+        <td colspan="8" class="text-center">No reservations found.</td>
+      </tr>
+      </tbody>    </table>
+  </div>
 </div>
+<!-- Table End -->
 <!-- Footer Section Start -->
 <div class="footer_section layout_padding">
   <div class="container">
