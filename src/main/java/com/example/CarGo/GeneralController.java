@@ -105,6 +105,17 @@ public class GeneralController {
 
         List<Location> locations = locationRepository.findAll();
 
+        // Validate startDate and endDate on the server side
+        if (startDate != null && startDate.isBefore(LocalDate.now())) {
+            model.addAttribute("dateError", "Start date cannot be in the past.");
+            return "gallery";  // Return the same page with an error message
+        }
+
+        if (startDate != null && endDate != null && startDate.isAfter(endDate)) {
+            model.addAttribute("dateError", "Start date cannot be after the end date.");
+            return "gallery";  // Return the same page with an error message
+        }
+
         List<Car> cars;
         if (startDate != null && endDate != null) {
             cars = carService.findCarsWithFilters(new Location(location), gearbox, carType, seatCount, yearMin, yearMax, priceMin, priceMax, make, fuelType, startDate, endDate);
