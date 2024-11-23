@@ -124,7 +124,7 @@
         </thead>
         <tbody>
         <tr th:each="car : ${carsBeforeService}">
-            <td th:text="${car.make}"></td>
+            <td th:text="${car.make.name}"></td>
             <td th:text="${car.model}"></td>
             <td th:text="${car.yearOfProduction}"></td>
             <td th:text="${car.status}"></td>
