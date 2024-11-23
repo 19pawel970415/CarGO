@@ -226,19 +226,19 @@
                      </div>
                   </div>
 
-                  <div class="right_luto_btn">
-                     <div class="col-md-2">
+                  <div class="row justify-content-start align-items-center">
+                     <div class="col-auto">
                         <div class="search_btn">
                            <button type="submit" class="luto_btn" onclick="setSearchCompleted()">Search Now</button>
                         </div>
                      </div>
-                  </div>
 
-                  <div class="col-md-2" th:if="${session.loggedInUser instanceof T(com.example.CarGo.domain.Admin)}">
-                     <div class="manage_filters_btn">
-                        <button type="button" class="btn btn-danger btn-sm" data-bs-toggle="modal" data-bs-target="#manageFiltersModal">
-                           Manage Filters
-                        </button>
+                     <div class="col-auto" th:if="${session.loggedInUser instanceof T(com.example.CarGo.domain.Admin)}">
+                        <div class="manage_filters_btn">
+                           <button type="button" class="btn btn-danger btn-sm" data-bs-toggle="modal" data-bs-target="#manageFiltersModal">
+                              Manage Filters
+                           </button>
+                        </div>
                      </div>
                   </div>
 
