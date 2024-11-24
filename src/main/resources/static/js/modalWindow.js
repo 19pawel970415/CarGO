@@ -149,6 +149,41 @@ document.getElementById('saveLocationBtn').addEventListener('click', function ()
     }
 });
 
+// Obsługa przycisku zapisu dla liczby miejsc
+document.getElementById('saveSeatCountButton').addEventListener('click', function () {
+    const seatCountId = document.getElementById('seatCountModalAddlId').value.trim();
+
+    if (seatCountId) {
+        // Wyślij zapytanie AJAX, aby zapisać wybraną liczbę miejsc (przykładowa ścieżka API)
+        fetch('/add-seat-count', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ seatCountId: seatCountId })
+        })
+        .then(response => {
+            if (response.ok) {
+                alert('Seat count added successfully!');
+                const todoSeatCountModal = bootstrap.Modal.getInstance(document.getElementById('todoSeatCountModal'));
+                todoSeatCountModal.hide();
+
+                // Odśwież stronę lub zaktualizuj widok
+                location.reload(); // lub zaktualizuj widok dynamicznie
+            } else {
+                alert('Error adding seat count! The seat count may already exist or there was a problem.');
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            alert('Error adding seat count! Please try again.');
+        });
+    } else {
+        alert('Please select a valid seat count!');
+    }
+});
+
+
 // Obsługa przycisku Add
 document.getElementById('addBtn').addEventListener('click', function () {
     const addDeleteModal = bootstrap.Modal.getInstance(document.getElementById('addDeleteModal'));

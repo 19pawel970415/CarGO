@@ -21,4 +21,18 @@ public class SeatCountService {
     public Optional<SeatCount> findSeatCountById(Long id) {
         return seatCountRepository.findById(id);
     }
+
+    public boolean addSeatCount(Long seatCountId) {
+        Optional<SeatCount> seatCountOptional = seatCountRepository.findById(seatCountId);
+
+        if (seatCountOptional.isPresent()) {
+            SeatCount seatCount = seatCountOptional.get();
+            if (!seatCount.isAvailable()) {
+                seatCount.setAvailable(true);  // Ustaw dostępność
+                seatCountRepository.save(seatCount);  // Zapisz zaktualizowaną liczbę miejsc
+                return true;
+            }
+        }
+        return false;
+    }
 }

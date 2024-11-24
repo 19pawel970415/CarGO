@@ -228,6 +228,22 @@ public class GeneralController {
         }
     }
 
+    @PostMapping("/add-seat-count")
+    @ResponseBody
+    public ResponseEntity<String> addSeatCount(@RequestBody SeatCountRequest seatCountRequest) {
+        Long seatCountId = seatCountRequest.getSeatCountId();
+
+        // Wywołaj metodę serwisową, aby dodać liczbę miejsc
+        boolean added = seatCountService.addSeatCount(seatCountId);
+
+        if (added) {
+            return ResponseEntity.ok("Seat count added successfully.");
+        } else {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error adding seat count.");
+        }
+    }
+
+
     @GetMapping("/services")
     public String getCarsBeforeService(Model model) {
         List<Car> allCars = carService.findAllCars();
