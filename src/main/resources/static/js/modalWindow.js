@@ -264,6 +264,13 @@ document.getElementById('deleteLocationBtn').addEventListener('click', function 
     confirmDeleteModal.show();
 });
 
+// Obsługa przycisku usunięcia Seat Count
+document.getElementById('deleteSeatCountButton').addEventListener('click', function () {
+    // Pokaż modal z potwierdzeniem usunięcia
+    const confirmDeleteModal = new bootstrap.Modal(document.getElementById('confirmDeleteSeatCountModal'));
+    confirmDeleteModal.show();
+});
+
 // Obsługa przycisku Anuluj w modalu potwierdzenia
 document.getElementById('confirmDeleteModal').addEventListener('hidden.bs.modal', function () {
     // Po zamknięciu modala potwierdzenia, nie robimy nic więcej (pozostajemy w modalu Location)
@@ -370,6 +377,45 @@ document.getElementById('confirmDeleteCarMakeBtn').addEventListener('click', fun
         alert('Error deleting Car Make! At least one of the cars is assigned to this Car Make. Delete the car(s) first.');
     });
 });
+
+// Obsługa potwierdzenia usunięcia Seat Count
+document.getElementById('confirmDeleteSeatCountBtn').addEventListener('click', function () {
+    const selectedSeatCountId = document.getElementById('seatCountModalDeleteId').value;
+
+    if (!selectedSeatCountId) {
+        alert('Please select a Seat Count to delete!');
+        return;
+    }
+
+    // Wyślij zapytanie AJAX do serwera w celu usunięcia Seat Count
+    fetch('/delete-seat-count', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ seatCountId: selectedSeatCountId })
+    })
+    .then(response => {
+        if (response.ok) {
+            // Po pomyślnym usunięciu Seat Count, ukrywamy modale
+            hideModals();
+
+            // Opcjonalne: czyszczenie formularza
+            document.getElementById('seatCountModalDeleteId').value = '';
+            alert('Seat Count deleted successfully!');
+
+            // Odświeżenie strony
+            location.reload();
+        } else {
+            alert('Error deleting Seat Count! It is assigned to a car or cars. Delete the car(s) before deleting this Seat Count.');
+        }
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        alert('Error deleting Seat Count! It is assigned to a car or cars. Delete the car(s) before deleting this Seat Count.');
+    });
+});
+
 
 
 // Zapobieganie kumulacji stylów Bootstrap

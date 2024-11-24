@@ -178,8 +178,6 @@ public class GeneralController {
         }
     }
 
-
-
     @GetMapping("/book/{carId}")
     public String showBookingForm(
             @PathVariable Long carId,
@@ -242,6 +240,24 @@ public class GeneralController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error adding seat count.");
         }
     }
+
+    @PostMapping("/delete-seat-count")
+    @ResponseBody
+    public ResponseEntity<String> deleteSeatCount(@RequestBody SeatCountRequest seatCountRequest) {
+        Long seatCountId = seatCountRequest.getSeatCountId(); // Assuming the request contains a seatCountId property
+
+        // Wywołaj metodę serwisową, aby usunąć Seat Count
+        boolean deleted = seatCountService.deactivateSeatCount(seatCountId);
+
+        if (deleted) {
+            System.out.println("Skasjfnnkasjbfkaskjasbnvfkja");
+            return ResponseEntity.ok("Seat Count deleted successfully.");
+        } else {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body("Error deleting Seat Count. It might be assigned to an active reservation.");
+        }
+    }
+
 
 
     @GetMapping("/services")

@@ -35,4 +35,23 @@ public class SeatCountService {
         }
         return false;
     }
+
+    public boolean deactivateSeatCount(Long seatCountId) {
+        Optional<SeatCount> seatCountOptional = seatCountRepository.findById(seatCountId);
+
+        if (seatCountOptional.isPresent()) {
+            SeatCount seatCount = seatCountOptional.get();
+
+            // Walidacja: sprawdzenie powiązania z samochodem
+            if (seatCountRepository.isAssignedToCar(seatCount.getId())) { // Zakładamy, że istnieje metoda isAssignedToCar()
+                return false; // Nie można dezaktywować, jeśli jest powiązany z samochodem
+            }
+
+            seatCount.setAvailable(false); // Ustawienie dostępności na false
+            seatCountRepository.save(seatCount); // Zapis zaktualizowanego obiektu
+            return true;
+        }
+
+        return false; // Jeśli Seat Count nie istnieje
+    }
 }
