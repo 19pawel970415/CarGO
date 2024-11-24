@@ -53,7 +53,7 @@ public class CarService {
     public List<Car> findCarsWithFilters(Location location,
                                          GearboxType gearboxType,
                                          ChassisType chassisType,
-                                         Integer seatCount,
+                                         Long seatCount,
                                          Integer yearMin,
                                          Integer yearMax,
                                          Double priceMin,

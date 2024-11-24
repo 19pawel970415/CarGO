@@ -5,6 +5,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
+
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -25,18 +26,18 @@ public interface CarRepository extends JpaRepository<Car, Long> {
                                           @Param("endDate") LocalDateTime endDate);
 
 
-
     @Query("SELECT c FROM Car c WHERE " +
             "NOT EXISTS (SELECT r FROM Reservation r WHERE r.car = c " +
             "AND (r.reservationStart <= :endDate AND r.reservationEnd >= :startDate))")
     List<Car> findAvailableCars(@Param("startDate") LocalDateTime startDate,
                                 @Param("endDate") LocalDateTime endDate);
 
+
     @Query("SELECT c FROM Car c " +
             "WHERE (:location IS NULL OR :location = '' OR c.location.city = :location) AND " +
             "(:gearboxType IS NULL OR c.gearboxType = :gearboxType) AND " +
             "(:chassisType IS NULL OR c.chassisType = :chassisType) AND " +
-            "(:seatCount IS NULL OR c.seatCount = :seatCount) AND " +
+            "(:seatCountId IS NULL OR c.seatCount.id = :seatCountId) AND " +
             "(:yearMin IS NULL OR c.yearOfProduction >= :yearMin) AND " +
             "(:yearMax IS NULL OR c.yearOfProduction <= :yearMax) AND " +
             "(:priceMin IS NULL OR c.pricePerDay >= :priceMin) AND " +
@@ -49,7 +50,7 @@ public interface CarRepository extends JpaRepository<Car, Long> {
             @Param("location") String location,
             @Param("gearboxType") GearboxType gearboxType,
             @Param("chassisType") ChassisType chassisType,
-            @Param("seatCount") Integer seatCount,
+            @Param("seatCountId") Long seatCountId,
             @Param("yearMin") Integer yearMin,
             @Param("yearMax") Integer yearMax,
             @Param("priceMin") Double priceMin,

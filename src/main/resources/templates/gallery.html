@@ -141,15 +141,15 @@
 
                   <!-- Liczba Miejsc -->
                   <div class="col-md-2 select-outline">
-                     <label for="seatCount">Seat Count:</label>
-                     <select name="seatCount" id="seatCount" class="form-control">
-                        <option value="">All Seats</option>
-                        <option value="2" th:selected="${seatCount == 2}">2</option>
-                        <option value="4" th:selected="${seatCount == 4}">4</option>
-                        <option value="5" th:selected="${seatCount == 5}">5</option>
-                        <option value="7" th:selected="${seatCount == 7}">7</option>
+                     <label for="seatCountId">Seat Count:</label>
+                     <select name="seatCountId" id="seatCountId" class="form-control">
+                        <option value="">All Seat Counts</option>
+                        <th:block th:each="seatCount : ${seatCounts}">
+                           <option th:value="${seatCount.id}" th:selected="${seatCountId == seatCount.id}" th:text="${seatCount.count}"></option>
+                        </th:block>
                      </select>
                   </div>
+
 
                   <!-- Typ Samochodu (Car Type) -->
                   <div class="col-md-2 select-outline">

@@ -44,8 +44,9 @@ public class Car {
     @Enumerated(EnumType.STRING)
     private FuelType fuelType;
 
-    @Column
-    private int seatCount;
+    @ManyToOne
+    @JoinColumn(name = "seat_count_id", nullable = false)
+    private SeatCount seatCount;
 
     @Column
     private Double pricePerDay;
@@ -132,11 +133,11 @@ public class Car {
         this.fuelType = fuelType;
     }
 
-    public int getSeatCount() {
+    public SeatCount getSeatCount() {
         return seatCount;
     }
 
-    public void setSeatCount(int seatCount) {
+    public void setSeatCount(SeatCount seatCount) {
         this.seatCount = seatCount;
     }
 

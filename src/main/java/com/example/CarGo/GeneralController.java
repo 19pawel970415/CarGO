@@ -45,6 +45,8 @@ public class GeneralController {
     private LocationService locationService;
     @Autowired
     private CarMakeService carMakeService;
+    @Autowired
+    private SeatCountService seatCountService;
 
 
     @GetMapping(value = {"/", "/index"})
@@ -96,7 +98,7 @@ public class GeneralController {
             @RequestParam(value = "priceMin", required = false) Double priceMin,
             @RequestParam(value = "priceMax", required = false) Double priceMax,
             @RequestParam(value = "gearbox", required = false) GearboxType gearbox,
-            @RequestParam(value = "seatCount", required = false) Integer seatCount,
+            @RequestParam(value = "seatCountId", required = false) Long seatCountId,
             @RequestParam(value = "location", required = false) String location,
             @RequestParam(value = "fuelType", required = false) FuelType fuelType,
             @RequestParam(value = "startDate", required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate startDate,
@@ -104,6 +106,7 @@ public class GeneralController {
             Model model) {
 
         List<Location> locations = locationRepository.findAll();
+        List<SeatCount> seatCounts = seatCountService.findAllAvailableSeatCounts();
 
         // Validate startDate and endDate on the server side
         if (startDate != null && startDate.isBefore(LocalDate.now())) {
@@ -118,7 +121,7 @@ public class GeneralController {
 
         List<Car> cars;
         if (startDate != null && endDate != null) {
-            cars = carService.findCarsWithFilters(new Location(location), gearbox, carType, seatCount, yearMin, yearMax, priceMin, priceMax, make, fuelType, startDate, endDate);
+            cars = carService.findCarsWithFilters(new Location(location), gearbox, carType, seatCountId, yearMin, yearMax, priceMin, priceMax, make, fuelType, startDate, endDate);
         } else {
             cars = carService.findAllCars();
         }
@@ -140,7 +143,7 @@ public class GeneralController {
         model.addAttribute("priceMin", priceMin);
         model.addAttribute("priceMax", priceMax);
         model.addAttribute("gearbox", gearbox);
-        model.addAttribute("seatCount", seatCount);
+        model.addAttribute("seatCounts", seatCounts);
         model.addAttribute("fuelType", fuelType);
 
         return "gallery";
