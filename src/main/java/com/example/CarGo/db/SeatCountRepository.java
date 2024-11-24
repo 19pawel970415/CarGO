@@ -9,6 +9,6 @@ import java.util.List;
 @Repository
 public interface SeatCountRepository extends JpaRepository<SeatCount, Long> {
 
-    List<SeatCount> findByAvailableTrue();
+    List<SeatCount> findAll();
 }
 

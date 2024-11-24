@@ -106,7 +106,7 @@ public class GeneralController {
             Model model) {
 
         List<Location> locations = locationRepository.findAll();
-        List<SeatCount> seatCounts = seatCountService.findAllAvailableSeatCounts();
+        List<SeatCount> seatCounts = seatCountService.findAllSeatCounts();
 
         // Validate startDate and endDate on the server side
         if (startDate != null && startDate.isBefore(LocalDate.now())) {

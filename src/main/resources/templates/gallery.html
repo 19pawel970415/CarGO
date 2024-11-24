@@ -145,7 +145,12 @@
                      <select name="seatCountId" id="seatCountId" class="form-control">
                         <option value="">All Seat Counts</option>
                         <th:block th:each="seatCount : ${seatCounts}">
-                           <option th:value="${seatCount.id}" th:selected="${seatCountId == seatCount.id}" th:text="${seatCount.count}"></option>
+                           <option
+                                   th:value="${seatCount.id}"
+                                   th:selected="${seatCountId == seatCount.id}"
+                                   th:if="${seatCount.available}"
+                                   th:text="${seatCount.count}">
+                           </option>
                         </th:block>
                      </select>
                   </div>
@@ -512,14 +517,25 @@
    <div class="modal-dialog">
       <div class="modal-content">
          <div class="modal-header">
-            <h5 class="modal-title" id="todoSeatCountModalLabel">Seat Count - Add</h5>
+            <h5 class="modal-title" id="todoSeatCountModalLabel">Add Seat Count</h5>
             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
          </div>
          <div class="modal-body">
-            TODO: Implementing adding Seat Count options
+            <select name="seatCountId" id="seatCountModalAddlId" class="form-control">
+               <option value="">All Seat Counts</option>
+               <th:block th:each="seatCount : ${seatCounts}">
+                  <option
+                          th:value="${seatCount.id}"
+                          th:selected="${seatCountId == seatCount.id}"
+                          th:if="${seatCount.available == false}"
+                          th:text="${seatCount.count}">
+                  </option>
+               </th:block>
+            </select>
          </div>
          <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            <button type="button" class="btn btn-success" id="saveSeatCountButton">Save</button>
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
          </div>
       </div>
    </div>
@@ -530,14 +546,24 @@
    <div class="modal-dialog">
       <div class="modal-content">
          <div class="modal-header">
-            <h5 class="modal-title" id="seatCountModalLabel">TODO Seat Count List</h5>
+            <h5 class="modal-title" id="seatCountModalLabel">Delete Seat Count</h5>
             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
          </div>
          <div class="modal-body">
-            <p>TODO: Implement Seat Count List</p>
+            <select name="seatCountId" id="seatCountModalDeleteId" class="form-control">
+               <option value="">All Seat Counts</option>
+               <th:block th:each="seatCount : ${seatCounts}">
+                  <option
+                          th:value="${seatCount.id}"
+                          th:selected="${seatCountId == seatCount.id}"
+                          th:if="${seatCount.available}"
+                          th:text="${seatCount.count}">
+                  </option>
+               </th:block>
+            </select>
          </div>
          <div class="modal-footer">
-            <!-- Zmieniony przycisk Close na Back -->
+            <button type="button" class="btn btn-danger" id="deleteSeatCountButton">Delete</button>
             <button type="button" class="btn btn-secondary" id="backSeatCountBtn">Back</button>
          </div>
       </div>

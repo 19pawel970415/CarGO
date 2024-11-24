@@ -14,8 +14,8 @@ public class SeatCountService {
     @Autowired
     private SeatCountRepository seatCountRepository;
 
-    public List<SeatCount> findAllAvailableSeatCounts() {
-        return seatCountRepository.findByAvailableTrue();
+    public List<SeatCount> findAllSeatCounts() {
+        return seatCountRepository.findAll();
     }
 
     public Optional<SeatCount> findSeatCountById(Long id) {
