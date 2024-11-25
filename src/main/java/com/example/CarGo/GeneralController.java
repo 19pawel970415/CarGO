@@ -144,6 +144,7 @@ public class GeneralController {
         model.addAttribute("priceMax", priceMax);
         model.addAttribute("gearbox", gearbox);
         model.addAttribute("seatCounts", seatCounts);
+        model.addAttribute("seatCountId", seatCountId);
         model.addAttribute("fuelType", fuelType);
 
         return "gallery";

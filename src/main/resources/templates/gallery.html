@@ -105,10 +105,10 @@
                      <label for="location">Pick up location:</label>
                      <select name="location" id="location" class="form-control">
                         <option value="">All Locations</option>
-                        <th:block th:each="location : ${locations}">
-                           <option th:value="${location.city}"
-                                   th:text="${location.city}"
-                                   th:selected="${location.city == location}"></option>
+                        <th:block th:each="loc : ${locations}">
+                           <option th:value="${loc.city}"
+                                   th:text="${loc.city}"
+                                   th:selected="${loc.city == location}"></option>
                         </th:block>
                      </select>
                   </div>
