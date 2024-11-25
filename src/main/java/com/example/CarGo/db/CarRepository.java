@@ -20,21 +20,21 @@ public interface CarRepository extends JpaRepository<Car, Long> {
 
     @Query("SELECT c FROM Car c WHERE c.location.city = :location AND " +
             "NOT EXISTS (SELECT r FROM Reservation r WHERE r.car = c " +
-            "AND (r.reservationStart <= :endDate AND r.reservationEnd >= :startDate))")
+            "AND (r.reservationStart <= :endDate AND r.reservationEnd >= :startDate) " +
+            "AND r.status NOT IN ('CANCELLED', 'COMPLETED'))")
     List<Car> findAvailableCarsInLocation(@Param("location") String location,
                                           @Param("startDate") LocalDateTime startDate,
                                           @Param("endDate") LocalDateTime endDate);
 
-
     @Query("SELECT c FROM Car c WHERE " +
             "NOT EXISTS (SELECT r FROM Reservation r WHERE r.car = c " +
-            "AND (r.reservationStart <= :endDate AND r.reservationEnd >= :startDate))")
+            "AND (r.reservationStart <= :endDate AND r.reservationEnd >= :startDate) " +
+            "AND r.status NOT IN ('CANCELLED', 'COMPLETED'))")
     List<Car> findAvailableCars(@Param("startDate") LocalDateTime startDate,
                                 @Param("endDate") LocalDateTime endDate);
 
-
-    @Query("SELECT c FROM Car c " +
-            "WHERE (:location IS NULL OR :location = '' OR c.location.city = :location) AND " +
+    @Query("SELECT c FROM Car c WHERE " +
+            "(:location IS NULL OR :location = '' OR c.location.city = :location) AND " +
             "(:gearboxType IS NULL OR c.gearboxType = :gearboxType) AND " +
             "(:chassisType IS NULL OR c.chassisType = :chassisType) AND " +
             "(:seatCountId IS NULL OR c.seatCount.id = :seatCountId) AND " +
@@ -45,7 +45,8 @@ public interface CarRepository extends JpaRepository<Car, Long> {
             "(:make IS NULL OR :make = '' OR c.make.name = :make) AND " +
             "(:fuelType IS NULL OR c.fuelType = :fuelType) AND " +
             "(NOT EXISTS (SELECT r FROM Reservation r WHERE r.car = c AND " +
-            "(r.reservationStart <= :endDate AND r.reservationEnd >= :startDate)))")
+            "(r.reservationStart <= :endDate AND r.reservationEnd >= :startDate) " +
+            "AND r.status NOT IN ('CANCELLED', 'COMPLETED')))")
     List<Car> findCarsWithFilters(
             @Param("location") String location,
             @Param("gearboxType") GearboxType gearboxType,
@@ -60,4 +61,3 @@ public interface CarRepository extends JpaRepository<Car, Long> {
             @Param("startDate") LocalDateTime startDate,
             @Param("endDate") LocalDateTime endDate);
 }
-
