@@ -136,14 +136,21 @@
         <td th:text="${reservation.dropOfPoint.city}"></td>
         <td th:text="${reservation.status}"></td>
         <td>
-          <!-- Jeśli rezerwacja jest anulowana -->
+          <!-- If the reservation is cancelled, show "No Action" -->
           <span th:if="${reservation.status.name().toLowerCase() == 'cancelled'}">No Action</span>
 
-          <!-- Jeśli rezerwacja nie jest anulowana -->
-          <form action="/cancel_reservation" method="post" style="display: inline;" th:if="${reservation.status.name().toLowerCase() != 'cancelled'}" onsubmit="return confirmCancellation();">
+          <!-- If the reservation is neither cancelled, active, nor completed, show the cancel button -->
+          <form action="/cancel_reservation" method="post" style="display: inline;"
+                th:if="${reservation.status.name().toLowerCase() != 'cancelled' and reservation.status.name().toLowerCase() != 'active' and reservation.status.name().toLowerCase() != 'completed'}"
+                onsubmit="return confirmCancellation();">
             <input type="hidden" name="reservationId" th:value="${reservation.id}">
             <button type="submit" class="btn btn-danger btn-sm">Cancel</button>
           </form>
+
+          <!-- If the reservation is active or completed, show "Cannot Cancel" message -->
+          <span th:if="${reservation.status.name().toLowerCase() == 'active' or reservation.status.name().toLowerCase() == 'completed'}">
+        Cannot Cancel
+    </span>
         </td>
       </tr>
       <!-- Obsługa przypadku, gdy brak rezerwacji -->
