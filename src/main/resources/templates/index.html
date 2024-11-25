@@ -75,7 +75,7 @@
 
                      <!-- Opcje dla administratorów -->
                      <a class="dropdown-item" href="adminDashboard" th:if="${session.loggedInUser instanceof T(com.example.CarGo.domain.Admin)}">Admin Dashboard</a>
-                     <a class="dropdown-item" href="client" th:if="${session.loggedInUser instanceof T(com.example.CarGo.domain.Admin)}">Manage Users</a>
+                     <a class="dropdown-item" href="personnel_management" th:if="${session.loggedInUser instanceof T(com.example.CarGo.domain.Admin)}">Manage Users</a>
                   </div>
                </li>
                <!-- Przycisk Sign out -->

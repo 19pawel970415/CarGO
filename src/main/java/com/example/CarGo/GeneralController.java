@@ -47,6 +47,8 @@ public class GeneralController {
     private CarMakeService carMakeService;
     @Autowired
     private SeatCountService seatCountService;
+    @Autowired
+    private PersonService personService;
 
 
     @GetMapping(value = {"/", "/index"})
@@ -601,5 +603,20 @@ public class GeneralController {
             reservationService.cancelReservation(reservationId, loggedInUser.getId());
         }
         return "redirect:/view_reservations";
+    }
+
+    @GetMapping("/personnel_management")
+    public String showPersonnelManagement(Model model) {
+        // Pobierz listy użytkowników, menedżerów i administratorów
+        List<Person> users = personService.getAllUsers();
+        List<Person> managers = personService.getAllManagers();
+        List<Person> admins = personService.getAllAdmins();
+
+        // Przekaż dane do widoku
+        model.addAttribute("users", users);
+        model.addAttribute("managers", managers);
+        model.addAttribute("admins", admins);
+
+        return "personnel_management";
     }
 }
