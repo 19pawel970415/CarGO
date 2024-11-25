@@ -108,6 +108,18 @@ public class GeneralController {
         List<Location> locations = locationRepository.findAll();
         List<SeatCount> seatCounts = seatCountService.findAllSeatCounts();
 
+        // Validate price range
+        if (priceMin != null && priceMax != null && priceMin > priceMax) {
+            model.addAttribute("priceError", "Min price cannot be greater than max price.");
+            return "gallery"; // Return the same page with an error message
+        }
+
+        // Validate year range
+        if (yearMin != null && yearMax != null && yearMin > yearMax) {
+            model.addAttribute("yearError", "Min year cannot be greater than max year.");
+            return "gallery"; // Return the same page with an error message
+        }
+
         // Validate startDate and endDate on the server side
         if (startDate != null && startDate.isBefore(LocalDate.now())) {
             model.addAttribute("dateError", "Start date cannot be in the past.");
