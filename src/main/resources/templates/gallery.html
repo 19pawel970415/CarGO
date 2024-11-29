@@ -285,6 +285,10 @@
                      <a th:if="${session.loggedInUser == null}" href="#" data-toggle="modal" data-target="#loginModal"
                         onclick="checkSearchCompleted(event)">Rent Now</a>
                   </div>
+                  <div class="admin-buttons" th:if="${session.loggedInUser instanceof T(com.example.CarGo.domain.Admin)}">
+                     <button class="btn btn-primary" onclick="editCar(${car.id})">Edit</button>
+                     <button class="btn btn-danger" onclick="deleteCar(${car.id})">Delete</button>
+                  </div>
                </div>
             </div>
             <!-- End of loop -->
@@ -438,7 +442,7 @@
    </div>
 </div>
 
-<!-- Modal: Add New Location -->
+<!-- Modal: Location Add -->
 <div class="modal fade" id="addLocationModal" tabindex="-1" aria-labelledby="addLocationModalLabel" aria-hidden="true">
    <div class="modal-dialog">
       <div class="modal-content">
@@ -464,7 +468,7 @@
 
 
 
-<!-- Modal: Lista lokalizacji -->
+<!-- Modal: Location delete -->
 <div class="modal fade" id="locationModal" tabindex="-1" aria-labelledby="locationModalLabel" aria-hidden="true">
    <div class="modal-dialog">
       <div class="modal-content">
@@ -512,7 +516,7 @@
    </div>
 </div>
 
-<!-- Modal: TODO Seat Count Add-->
+<!-- Modal: Seat Count Add-->
 <div class="modal fade" id="todoSeatCountModal" tabindex="-1" aria-labelledby="todoSeatCountModalLabel" aria-hidden="true">
    <div class="modal-dialog">
       <div class="modal-content">
@@ -541,7 +545,7 @@
    </div>
 </div>
 
-<!-- Modal: TODO Seat Count List Delete -->
+<!-- Modal: Seat Count Delete -->
 <div class="modal fade" id="seatCountModal" tabindex="-1" aria-labelledby="seatCountModalLabel" aria-hidden="true">
    <div class="modal-dialog">
       <div class="modal-content">

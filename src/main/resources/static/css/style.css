@@ -1144,3 +1144,11 @@ textarea#comment::placeholder {
         font-size: 16px;
         line-height: 1;
     }
+
+    .admin-buttons {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 10px;
+        margin-top: 10px;
+    }
