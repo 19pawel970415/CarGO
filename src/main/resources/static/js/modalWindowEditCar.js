@@ -3,10 +3,10 @@ function openEditCarModal(event) {
    var carId = event.target.getAttribute('data-id');
 
    // Sending AJAX request to the server to fetch car details
-   fetch('/car/' + carId)  // Change the endpoint based on your backend setup
+   fetch('/car/' + carId)
       .then(response => response.json())
       .then(data => {
-         // Setting the car details in the modal
+         // Ustawianie wartości w polach
          document.getElementById('carMake').innerText = 'Make: ' + data.make.name;
          document.getElementById('carModel').innerText = 'Model: ' + data.model;
          document.getElementById('carVin').innerText = 'VIN: ' + data.vin;
@@ -15,9 +15,11 @@ function openEditCarModal(event) {
          document.getElementById('carGearboxType').innerText = 'Gearbox Type: ' + data.gearboxType;
          document.getElementById('carFuelType').innerText = 'Fuel Type: ' + data.fuelType;
          document.getElementById('carSeatCount').innerText = 'Seat Count: ' + data.seatCount.count;
-         document.getElementById('carLocation').innerText = 'Location: ' + data.location.city;
-         document.getElementById('carRegistrationNumber').innerText = 'Registration Number: ' + data.registrationNumber;
-         document.getElementById('carPricePerDay').innerText = 'Price Per Day: ' + data.pricePerDay;
+
+         // Edytowalne pola
+         document.getElementById('carLocationInput').value = data.location.city;
+         document.getElementById('carRegistrationNumberInput').value = data.registrationNumber;
+         document.getElementById('carPricePerDayInput').value = data.pricePerDay;
 
          // Show the modal
          $('#editCarModal').modal('show');
