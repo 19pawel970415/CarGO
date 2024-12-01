@@ -49,6 +49,10 @@ public class GeneralController {
     private SeatCountService seatCountService;
     @Autowired
     private PersonService personService;
+    @Autowired
+    private AdminService adminService;
+    @Autowired
+    private ManagerService managerService;
 
 
     @GetMapping(value = {"/", "/index"})
@@ -618,5 +622,119 @@ public class GeneralController {
         model.addAttribute("admins", admins);
 
         return "personnel_management";
+    }
+
+    @GetMapping("/addAdmin")
+    public String showAddAdmin() {
+        return "addAdmin";
+    }
+
+    @PostMapping("/registerAdmin")
+    public String registerAdmin(
+            @RequestParam("firstName") String firstName,
+            @RequestParam("lastName") String lastName,
+            @RequestParam("email") String email,
+            @RequestParam("phoneNumber") String phoneNumber,
+            @RequestParam("login") String login,
+            @RequestParam("password") String password,
+            @RequestParam("confirmPassword") String confirmPassword,
+            Model model) {
+        // Walidacja hasła
+        if (!password.equals(confirmPassword)) {
+            model.addAttribute("error", "Passwords do not match");
+            return "addAdmin";
+        }
+        Admin admin = new Admin();
+        admin.setFirstName(firstName);
+        admin.setLastName(lastName);
+        admin.setEmail(email);
+        admin.setPhoneNumber(phoneNumber);
+        admin.setLogin(login);
+        admin.setPassword(password);
+        // Rejestracja użytkownika
+        String result = adminService.registerAdmin(admin);
+
+        if (result.equals("Admin registered successfully")) {
+            return "redirect:/personnel_management";
+        } else {
+            model.addAttribute("error", result);
+            return "addAdmin";
+        }
+    }
+
+    @GetMapping("/addManager")
+    public String showAddManager() {
+        return "addManager";
+    }
+
+    @PostMapping("/registerManager")
+    public String registerManager(
+            @RequestParam("firstName") String firstName,
+            @RequestParam("lastName") String lastName,
+            @RequestParam("email") String email,
+            @RequestParam("phoneNumber") String phoneNumber,
+            @RequestParam("login") String login,
+            @RequestParam("password") String password,
+            @RequestParam("confirmPassword") String confirmPassword,
+            Model model) {
+        // Walidacja hasła
+        if (!password.equals(confirmPassword)) {
+            model.addAttribute("error", "Passwords do not match");
+            return "addManager";
+        }
+        Manager manager = new Manager();
+        manager.setFirstName(firstName);
+        manager.setLastName(lastName);
+        manager.setEmail(email);
+        manager.setPhoneNumber(phoneNumber);
+        manager.setLogin(login);
+        manager.setPassword(password);
+        // Rejestracja użytkownika
+        String result = managerService.registerManager(manager);
+
+        if (result.equals("Manager registered successfully")) {
+            return "redirect:/personnel_management";
+        } else {
+            model.addAttribute("error", result);
+            return "addManager";
+        }
+    }
+
+    @GetMapping("/addUser")
+    public String showAddUser() {
+        return "addUser";
+    }
+
+    @PostMapping("/registerUser")
+    public String registerUser(
+            @RequestParam("firstName") String firstName,
+            @RequestParam("lastName") String lastName,
+            @RequestParam("email") String email,
+            @RequestParam("phoneNumber") String phoneNumber,
+            @RequestParam("login") String login,
+            @RequestParam("password") String password,
+            @RequestParam("confirmPassword") String confirmPassword,
+            Model model) {
+        // Walidacja hasła
+        if (!password.equals(confirmPassword)) {
+            model.addAttribute("error", "Passwords do not match");
+            return "addUser";
+        }
+        User user = new User();
+        user.setFirstName(firstName);
+        user.setLastName(lastName);
+        user.setEmail(email);
+        user.setPhoneNumber(phoneNumber);
+        user.setLogin(login);
+        user.setPassword(password);
+        // Rejestracja użytkownika
+        String result = userService.registerUser(user);
+
+        if (result.equals("User registered successfully")) {
+            return "redirect:/personnel_management";
+        } else {
+            model.addAttribute("error", result);
+            return "addUser";
+        }
     }
 }

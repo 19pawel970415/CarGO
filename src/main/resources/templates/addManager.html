@@ -19,71 +19,30 @@
     <link rel="stylesheet" href="css/jquery.mCustomScrollbar.min.css">
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css">
-    <!-- Button -->
-    <link rel="stylesheet" href="/css/button.css">
-    <!-- reservation list style -->
-    <link rel="stylesheet" href="/css/reservation-list-style.css">
 </head>
 <body>
-<!-- header section start -->
+<!-- Header section with navbar -->
 <div class="header_section">
     <div class="container">
         <nav class="navbar navbar-expand-lg navbar-light bg-light">
-            <a class="navbar-brand" href="index"><img src="images/logo.png"></a>
+            <a class="navbar-brand" href="index"><img src="images/logo.png" alt="Logo"></a>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav ml-auto">
-                    <li class="nav-item">
-                        <a class="nav-link" href="index">Home</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="about">About</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="gallery">Vehicles</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="contact">Contact</a>
-                    </li>
-                    <!-- Przycisk Sign in wyświetlany tylko, gdy użytkownik nie jest zalogowany -->
-                    <li class="nav-item" th:if="${session.loggedInUser == null}">
-                        <a class="nav-link" href="login">Sign in</a>
-                    </li>
-                    <!-- Przycisk Sign up wyświetlany tylko, gdy użytkownik nie jest zalogowany -->
-                    <li class="nav-item" th:if="${session.loggedInUser == null}">
-                        <a class="nav-link" href="register">Sign up</a>
-                    </li>
-                    <!-- Rozwijana opcja My Account dla zalogowanych użytkowników -->
-                    <li class="nav-item dropdown" th:if="${session.loggedInUser != null}">
-                        <a class="nav-link dropdown-toggle" href="#" id="myAccountDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            My Account
-                        </a>
-                        <div class="dropdown-menu" aria-labelledby="myAccountDropdown">
-                            <!-- Opcje dla zwykłych użytkowników -->
-                            <a class="dropdown-item" href="account_details" th:if="${session.loggedInUser instanceof T(com.example.CarGo.domain.User)}">Change Account Details</a>
-                            <a class="dropdown-item" href="view_reservations" th:if="${session.loggedInUser instanceof T(com.example.CarGo.domain.User)}">View Reservations</a>
-
-                            <!-- Opcje dla menedżerów -->
-                            <a class="dropdown-item" href="manageReservations" th:if="${session.loggedInUser instanceof T(com.example.CarGo.domain.Manager)}">Manage Reservations</a>
-                            <a class="dropdown-item" href="services" th:if="${session.loggedInUser instanceof T(com.example.CarGo.domain.Manager)}">Manage Vehicles</a>
-
-                            <!-- Opcje dla administratorów -->
-                            <a class="dropdown-item" href="adminDashboard" th:if="${session.loggedInUser instanceof T(com.example.CarGo.domain.Admin)}">Admin Dashboard</a>
-                            <a class="dropdown-item" href="personnel_management" th:if="${session.loggedInUser instanceof T(com.example.CarGo.domain.Admin)}">Manage Users</a>
-                        </div>
-                    </li>
-                    <!-- Przycisk Sign out -->
-                    <li class="nav-item" th:if="${session.loggedInUser != null}">
-                        <a class="nav-link" href="signout">Sign out</a>
-                    </li>
+                    <li class="nav-item"><a class="nav-link" href="index">Home</a></li>
+                    <li class="nav-item"><a class="nav-link" href="about">About</a></li>
+                    <li class="nav-item"><a class="nav-link" href="gallery">Vehicles</a></li>
+                    <li class="nav-item"><a class="nav-link" href="contact">Contact</a></li>
+                    <li class="nav-item"><a class="nav-link" href="login">Sign in</a></li>
+                    <li class="nav-item"><a class="nav-link" href="register">Sign up</a></li>
                 </ul>
             </div>
         </nav>
     </div>
 </div>
-<!-- header section end -->
+<!-- Header section end -->
 <div class="call_text_main">
     <div class="container">
         <div class="call_taital">
@@ -108,126 +67,47 @@
         </div>
     </div>
 </div>
-<!-- Personnel Management section start -->
-<br><br><br><br><br><br>
 
-<div class="container personnel-management mt-5 mb-5">
-    <h2 class="text-center mb-4">Personnel Management</h2>
-
-    <!-- Managers Table -->
-    <h3>Managers</h3>
-    <table class="table table-bordered table-striped">
-        <thead>
-        <tr>
-            <th>ID</th>
-            <th>First Name</th>
-            <th>Last Name</th>
-            <th>Email</th>
-            <th>Phone Number</th>
-            <th>Actions</th>
-        </tr>
-        </thead>
-        <tbody>
-        <!-- Loop through managers -->
-        <tr th:each="manager : ${managers}">
-            <td th:text="${manager.id}"></td>
-            <td th:text="${manager.firstName}"></td>
-            <td th:text="${manager.lastName}"></td>
-            <td th:text="${manager.email}"></td>
-            <td th:text="${manager.phoneNumber}"></td>
-            <td>
-                <!-- Add action buttons if needed -->
-                <button class="btn btn-primary btn-sm">Edit</button>
-                <button class="btn btn-danger btn-sm">Delete</button>
-            </td>
-        </tr>
-        <!-- If no managers, display this row -->
-        <tr th:if="${#lists.isEmpty(managers)}">
-            <td colspan="6" class="text-center">No managers found.</td>
-        </tr>
-        </tbody>
-    </table>
-    <button class="btn btn-success btn-sm mt-2" onclick="window.location.href='addManager'">Add Manager</button>
-
-    <br><br><br>
-
-    <!-- Admins Table -->
-    <h3>Admins</h3>
-    <table class="table table-bordered table-striped">
-        <thead>
-        <tr>
-            <th>ID</th>
-            <th>First Name</th>
-            <th>Last Name</th>
-            <th>Email</th>
-            <th>Phone Number</th>
-            <th>Actions</th>
-        </tr>
-        </thead>
-        <tbody>
-        <!-- Loop through admins -->
-        <tr th:each="admin : ${admins}">
-            <td th:text="${admin.id}"></td>
-            <td th:text="${admin.firstName}"></td>
-            <td th:text="${admin.lastName}"></td>
-            <td th:text="${admin.email}"></td>
-            <td th:text="${admin.phoneNumber}"></td>
-            <td>
-                <!-- Add action buttons if needed -->
-                <button class="btn btn-primary btn-sm">Edit</button>
-                <button class="btn btn-danger btn-sm">Delete</button>
-            </td>
-        </tr>
-        <!-- If no admins, display this row -->
-        <tr th:if="${#lists.isEmpty(admins)}">
-            <td colspan="6" class="text-center">No admins found.</td>
-        </tr>
-        </tbody>
-    </table>
-    <button class="btn btn-success btn-sm mt-2" onclick="window.location.href='addAdmin'">Add Admin</button>
-
-    <br><br><br>
-
-    <!-- Users Table -->
-    <h3>Users</h3>
-    <table class="table table-bordered table-striped">
-        <thead>
-        <tr>
-            <th>ID</th>
-            <th>First Name</th>
-            <th>Last Name</th>
-            <th>Email</th>
-            <th>Phone Number</th>
-            <th>Actions</th>
-        </tr>
-        </thead>
-        <tbody>
-        <!-- Loop through users -->
-        <tr th:each="user : ${users}">
-            <td th:text="${user.id}"></td>
-            <td th:text="${user.firstName}"></td>
-            <td th:text="${user.lastName}"></td>
-            <td th:text="${user.email}"></td>
-            <td th:text="${user.phoneNumber}"></td>
-            <td>
-                <!-- Add action buttons if needed -->
-                <button class="btn btn-primary btn-sm">Edit</button>
-                <button class="btn btn-danger btn-sm">Delete</button>
-            </td>
-        </tr>
-        <!-- If no users, display this row -->
-        <tr th:if="${#lists.isEmpty(users)}">
-            <td colspan="6" class="text-center">No users found.</td>
-        </tr>
-        </tbody>
-    </table>
-    <button class="btn btn-success btn-sm mt-2" onclick="window.location.href='addUser'">Add User</button>
-
+<!-- Registration Section Start -->
+<div class="contact_section layout_padding">
+    <div class="container">
+        <div class="registration-form-container">
+            <h1>Add Manager</h1>
+            <!-- Wyświetlanie komunikatu o błędzie, jeśli istnieje -->
+            <div th:if="${error}" class="alert alert-danger" role="alert">
+                <p th:text="${error}"></p>
+            </div>
+            <form action="/registerManager" method="POST" onsubmit="return validatePasswords()">
+                <div class="form-group">
+                    <input type="text" placeholder="First Name" name="firstName" required>
+                </div>
+                <div class="form-group">
+                    <input type="text" placeholder="Last Name" name="lastName" required>
+                </div>
+                <div class="form-group">
+                    <input type="email" placeholder="Email" name="email" required>
+                </div>
+                <div class="form-group">
+                    <input type="text" placeholder="Phone Number" name="phoneNumber" required>
+                </div>
+                <div class="form-group">
+                    <input type="text" placeholder="Login" name="login" required>
+                </div>
+                <div class="form-group">
+                    <input type="password" placeholder="Password" name="password" required>
+                </div>
+                <div class="form-group">
+                    <input type="password" placeholder="Confirm Password" name="confirmPassword" required>
+                </div>
+                <div class="form-group">
+                    <button type="submit" class="btn btn-primary">Add Manager</button>
+                </div>
+            </form>
+        </div>
+    </div>
 </div>
+<!-- Registration Section End -->
 
-<br><br><br>
-
-<!-- Personnel Management section end -->
 <!-- Footer Section Start -->
 <div class="footer_section layout_padding">
     <div class="container">
@@ -314,6 +194,5 @@
 <script src="js/script.js"></script>
 <script src="js/clipboard.js"></script>
 <script src="js/subscribe.js"></script>
-<script src="js/confirm.js"></script>
 </body>
 </html>
