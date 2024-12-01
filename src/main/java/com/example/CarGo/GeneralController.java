@@ -16,6 +16,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.nio.file.Paths;
 import java.time.LocalDate;
@@ -737,7 +738,39 @@ public class GeneralController {
             return "addUser";
         }
     }
+    @PostMapping("/deleteUser")
+    public String deleteUser(@RequestParam("userId") Long userId, RedirectAttributes redirectAttributes) {
+        boolean result = userService.deleteUserById(userId);
 
+        if (result) {
+            redirectAttributes.addFlashAttribute("success", "User deleted successfully");
+        } else {
+            redirectAttributes.addFlashAttribute("error", "Failed to delete user");
+        }
+        return "redirect:/personnel_management";
+    }
+    @PostMapping("/deleteManager")
+    public String deleteManager(@RequestParam("managerId") Long managerId, RedirectAttributes redirectAttributes) {
+        boolean result = managerService.deleteManagerById(managerId);
+
+        if (result) {
+            redirectAttributes.addFlashAttribute("success", "Manager deleted successfully");
+        } else {
+            redirectAttributes.addFlashAttribute("error", "Failed to delete user");
+        }
+        return "redirect:/personnel_management";
+    }
+    @PostMapping("/deleteAdmin")
+    public String deleteAdmin(@RequestParam("adminId") Long adminId, RedirectAttributes redirectAttributes) {
+        boolean result = adminService.deleteAdminById(adminId);
+
+        if (result) {
+            redirectAttributes.addFlashAttribute("success", "Admin deleted successfully");
+        } else {
+            redirectAttributes.addFlashAttribute("error", "Failed to delete user");
+        }
+        return "redirect:/personnel_management";
+    }
     @GetMapping("/car/{id}")
     @ResponseBody  // This annotation will return the response as JSON
     public CarRequest getCar(@PathVariable Long id) {

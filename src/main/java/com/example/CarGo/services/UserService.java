@@ -129,4 +129,12 @@ public class UserService {
         userRepository.save(user);
         return "User updated successfully";
     }
+    public boolean deleteUserById(Long userId) {
+        try {
+            userRepository.deleteById(userId);
+            return true;
+        } catch (Exception e) {
+            return false;
+        }
+    }
 }

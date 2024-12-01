@@ -15,4 +15,12 @@ public class AdminService {
         adminRepository.save(admin);
         return "Admin registered successfully";
     }
+    public boolean deleteAdminById(Long adminId) {
+        try {
+            adminRepository.deleteById(adminId);
+            return true;
+        } catch (Exception e) {
+            return false;
+        }
+    }
 }

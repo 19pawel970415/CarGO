@@ -15,4 +15,12 @@ public class ManagerService {
         managerRepository.save(manager);
         return "Manager registered successfully";
     }
+    public boolean deleteManagerById(Long managerId) {
+        try {
+            managerRepository.deleteById(managerId);
+            return true;
+        } catch (Exception e) {
+            return false;
+        }
+    }
 }
