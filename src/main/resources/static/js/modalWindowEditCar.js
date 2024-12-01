@@ -1,28 +1,40 @@
-// Funkcja otwierająca modal
+// Function to open modal and fetch car data via AJAX
 function openEditCarModal(event) {
-   // Pobieramy ID samochodu z atrybutu data-id
    var carId = event.target.getAttribute('data-id');
 
-   // Ustawiamy ID w modalu
-   document.getElementById('modalCarId').innerText = 'Car id: ' + carId;
+   // Sending AJAX request to the server to fetch car details
+   fetch('/car/' + carId)  // Change the endpoint based on your backend setup
+      .then(response => response.json())
+      .then(data => {
+         // Setting the car details in the modal
+         document.getElementById('carMake').innerText = 'Make: ' + data.make.name;
+         document.getElementById('carModel').innerText = 'Model: ' + data.model;
+         document.getElementById('carVin').innerText = 'VIN: ' + data.vin;
+         document.getElementById('carYear').innerText = 'Year: ' + data.yearOfProduction;
+         document.getElementById('carChassisType').innerText = 'Chassis Type: ' + data.chassisType;
+         document.getElementById('carGearboxType').innerText = 'Gearbox Type: ' + data.gearboxType;
+         document.getElementById('carFuelType').innerText = 'Fuel Type: ' + data.fuelType;
+         document.getElementById('carSeatCount').innerText = 'Seat Count: ' + data.seatCount.count;
+         document.getElementById('carLocation').innerText = 'Location: ' + data.location.city;
+         document.getElementById('carRegistrationNumber').innerText = 'Registration Number: ' + data.registrationNumber;
+         document.getElementById('carPricePerDay').innerText = 'Price Per Day: ' + data.pricePerDay;
 
-   // Otwieramy modal
-   $('#editCarModal').modal('show');
+         // Show the modal
+         $('#editCarModal').modal('show');
+      })
+      .catch(error => {
+         console.error('Error fetching car details:', error);
+      });
 }
 
-// Obsługa przycisku "Save changes"
+// Handling "Save changes" button click
 document.getElementById('saveChangesBtn').addEventListener('click', function() {
    alert("Changes saved for car with ID: " + document.getElementById('modalCarId').innerText);
 });
 
-// Obsługa przycisku "Close"
+// Handling "Close" button click
 document.getElementById('closeEditCarModalBtn').addEventListener('click', function() {
-   // Zamykamy modal
    $('#editCarModal').modal('hide');
-
-   // Usuwamy tło (backdrop), jeśli nie znika automatycznie
    $('.modal-backdrop').remove();
-
-   // Zabezpieczamy, aby nie było pozostałości po backdropie
    $('body').removeClass('modal-open');
 });

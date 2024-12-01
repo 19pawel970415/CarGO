@@ -123,4 +123,25 @@ public class CarService {
 
         carRepository.saveAll(carsToUpdate);
     }
+
+    public CarRequest getCarById(Long id) {
+        Car car = carRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("Car not found"));
+
+        return new CarRequest(
+                car.getId(),
+                car.getMake(),
+                car.getModel(),
+                car.getRegistrationNumber(),
+                car.getVin(),
+                car.getYearOfProduction(),
+                car.getChassisType(),
+                car.getGearboxType(),
+                car.getFuelType(),
+                car.getSeatCount(),
+                car.getPricePerDay(),
+                car.getLocation(),
+                car.getStatus()
+        );
+    }
 }

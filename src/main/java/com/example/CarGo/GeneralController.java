@@ -737,4 +737,14 @@ public class GeneralController {
             return "addUser";
         }
     }
+
+    @GetMapping("/car/{id}")
+    @ResponseBody  // This annotation will return the response as JSON
+    public CarRequest getCar(@PathVariable Long id) {
+        // Get car by ID
+        CarRequest carRequest = carService.getCarById(id);
+
+        // Return the car details as JSON
+        return carRequest;
+    }
 }
