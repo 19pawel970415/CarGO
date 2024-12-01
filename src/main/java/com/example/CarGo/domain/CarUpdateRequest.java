@@ -7,7 +7,7 @@ import lombok.Setter;
 @Setter
 public class CarUpdateRequest {
     private Long id;
-//    private String location;
+    private Location location;
     private String registrationNumber;
     private Double pricePerDay;
 }

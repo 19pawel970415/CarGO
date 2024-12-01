@@ -1,12 +1,15 @@
 package com.example.CarGo.services;
 
 
+import com.example.CarGo.db.LocationRepository;
 import com.example.CarGo.db.ReservationRepository;
 import com.example.CarGo.domain.*;
 import com.example.CarGo.db.CarRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
 import java.time.LocalDate;
 
 
@@ -25,8 +28,12 @@ public class CarService {
     @Autowired
     private final ReservationRepository reservationRepository;
 
-    public CarService(ReservationRepository reservationRepository) {
+    @Autowired
+    private final LocationRepository locationRepository;
+
+    public CarService(ReservationRepository reservationRepository, LocationRepository locationRepository) {
         this.reservationRepository = reservationRepository;
+        this.locationRepository = locationRepository;
     }
 
     public List<Car> findAllCars() {
@@ -145,14 +152,23 @@ public class CarService {
         );
     }
 
+    @Transactional
     public void updateCar(CarUpdateRequest request) {
         Car car = carRepository.findById(request.getId())
                 .orElseThrow(() -> new IllegalArgumentException("Car not found"));
 
-//        car.setLocation();
+        if (request.getLocation() != null) {
+            Location location = locationRepository.findByCity(request.getLocation().getCity())
+                    .orElseGet(() -> locationRepository.save(new Location(request.getLocation().getCity())));
+
+            car.setLocation(location);
+        }
+
         car.setRegistrationNumber(request.getRegistrationNumber());
         car.setPricePerDay(request.getPricePerDay());
+
         carRepository.save(car);
     }
+
 
 }

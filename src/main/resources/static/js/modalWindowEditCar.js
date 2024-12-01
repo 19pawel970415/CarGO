@@ -40,7 +40,7 @@ document.getElementById('closeEditCarModalBtn').addEventListener('click', functi
 document.getElementById('saveChangesBtn').addEventListener('click', function() {
    var updatedCarData = {
       id: document.getElementById('modalCarId').value,
-//      location: document.getElementById('carLocationInput').value,
+      location: { city: document.getElementById('carLocationInput').value },
       registrationNumber: document.getElementById('carRegistrationNumberInput').value,
       pricePerDay: parseFloat(document.getElementById('carPricePerDayInput').value)
    };
