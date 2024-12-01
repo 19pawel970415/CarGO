@@ -286,7 +286,8 @@
                         onclick="checkSearchCompleted(event)">Rent Now</a>
                   </div>
                   <div class="admin-buttons" th:if="${session.loggedInUser instanceof T(com.example.CarGo.domain.Admin)}">
-                     <button class="btn btn-primary" onclick="editCar(${car.id})">Edit</button>
+                     <button class="btn btn-primary" data-toggle="modal" data-target="#editCarModal"
+                              th:attr="data-id=${car.id}" onclick="openEditCarModal(event)">Edit</button>
                      <button class="btn btn-danger" onclick="deleteCar(${car.id})">Delete</button>
                   </div>
                </div>
@@ -665,6 +666,23 @@
    </div>
 </div>
 
+<!-- Modal Structure -->
+<div class="modal fade" id="editCarModal" tabindex="-1" role="dialog" aria-labelledby="editCarModalLabel" aria-hidden="true">
+   <div class="modal-dialog" role="document">
+      <div class="modal-content">
+         <div class="modal-header">
+            <h5 class="modal-title" id="editCarModalLabel">Edit Car</h5>
+         </div>
+         <div class="modal-body">
+            <p id="modalCarId">Car id: </p>
+         </div>
+         <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" id="closeEditCarModalBtn">Close</button>
+            <button type="button" class="btn btn-primary" id="saveChangesBtn">Save changes</button>
+         </div>
+      </div>
+   </div>
+</div>
 
 <!-- copyright section end -->
 <!-- JS scripts -->
@@ -679,5 +697,6 @@
 <script src="js/adjustValue.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
 <script src="js/modalWindow.js"></script>
+<script src="js/modalWindowEditCar.js"></script>
 </body>
 </html>
