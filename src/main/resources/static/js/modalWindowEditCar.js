@@ -7,6 +7,7 @@ function openEditCarModal(event) {
       .then(response => response.json())
       .then(data => {
          // Ustawianie wartości w polach
+         document.getElementById('modalCarId').value = carId;
          document.getElementById('carMake').innerText = 'Make: ' + data.make.name;
          document.getElementById('carModel').innerText = 'Model: ' + data.model;
          document.getElementById('carVin').innerText = 'VIN: ' + data.vin;
@@ -29,14 +30,41 @@ function openEditCarModal(event) {
       });
 }
 
-// Handling "Save changes" button click
-document.getElementById('saveChangesBtn').addEventListener('click', function() {
-   alert("Changes saved for car with ID: " + document.getElementById('modalCarId').innerText);
-});
-
 // Handling "Close" button click
 document.getElementById('closeEditCarModalBtn').addEventListener('click', function() {
    $('#editCarModal').modal('hide');
    $('.modal-backdrop').remove();
    $('body').removeClass('modal-open');
+});
+
+document.getElementById('saveChangesBtn').addEventListener('click', function() {
+   var updatedCarData = {
+      id: document.getElementById('modalCarId').value,
+//      location: document.getElementById('carLocationInput').value,
+      registrationNumber: document.getElementById('carRegistrationNumberInput').value,
+      pricePerDay: parseFloat(document.getElementById('carPricePerDayInput').value)
+   };
+
+   fetch('/car/update', {
+      method: 'PUT',  // Zakładam, że używamy metody PUT
+      headers: {
+         'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(updatedCarData)
+   })
+      .then(response => {
+         if (response.ok) {
+            alert('Changes saved successfully!');
+            $('#editCarModal').modal('hide');
+            $('.modal-backdrop').remove();
+            $('body').removeClass('modal-open');
+            location.reload();
+         } else {
+            throw new Error('Failed to save changes.');
+         }
+      })
+      .catch(error => {
+         console.error('Error saving changes:', error);
+         alert('Could not save changes. Please try again.');
+      });
 });

@@ -780,4 +780,11 @@ public class GeneralController {
         // Return the car details as JSON
         return carRequest;
     }
+
+    @PutMapping("/car/update")
+    @ResponseStatus(HttpStatus.OK)
+    public void updateCar(@RequestBody CarUpdateRequest request) {
+        carService.updateCar(request);
+    }
+
 }

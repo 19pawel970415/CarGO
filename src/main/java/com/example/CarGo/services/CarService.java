@@ -144,4 +144,15 @@ public class CarService {
                 car.getStatus()
         );
     }
+
+    public void updateCar(CarUpdateRequest request) {
+        Car car = carRepository.findById(request.getId())
+                .orElseThrow(() -> new IllegalArgumentException("Car not found"));
+
+//        car.setLocation();
+        car.setRegistrationNumber(request.getRegistrationNumber());
+        car.setPricePerDay(request.getPricePerDay());
+        carRepository.save(car);
+    }
+
 }
