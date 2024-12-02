@@ -6,30 +6,28 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Registration</title>
     <!-- Bootstrap CSS -->
-    <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="/css/bootstrap.min.css">
     <!-- Style CSS -->
-    <link rel="stylesheet" type="text/css" href="css/style.css">
+    <link rel="stylesheet" type="text/css" href="/css/style.css">
     <!-- Style register CSS -->
-    <link rel="stylesheet" type="text/css" href="css/register-style.css">
+    <link rel="stylesheet" type="text/css" href="/css/register-style.css">
     <!-- Responsive CSS -->
-    <link rel="stylesheet" href="css/responsive.css">
+    <link rel="stylesheet" href="/css/responsive.css">
     <!-- Font CSS -->
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&family=Raleway:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <!-- Scrollbar Custom CSS -->
-    <link rel="stylesheet" href="css/jquery.mCustomScrollbar.min.css">
+    <link rel="stylesheet" href="/css/jquery.mCustomScrollbar.min.css">
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css">
     <!-- Button -->
     <link rel="stylesheet" href="/css/button.css">
-    <!-- reservation list style -->
-    <link rel="stylesheet" href="/css/reservation-list-style.css">
 </head>
 <body>
 <!-- header section start -->
 <div class="header_section">
     <div class="container">
         <nav class="navbar navbar-expand-lg navbar-light bg-light">
-            <a class="navbar-brand" href="index"><img src="images/logo.png"></a>
+            <a class="navbar-brand" href="index"><img src="/images/logo.png"></a>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
@@ -71,7 +69,7 @@
 
                             <!-- Opcje dla administratorów -->
                             <a class="dropdown-item" href="adminDashboard" th:if="${session.loggedInUser instanceof T(com.example.CarGo.domain.Admin)}">Admin Dashboard</a>
-                            <a class="dropdown-item" href="personnel_management" th:if="${session.loggedInUser instanceof T(com.example.CarGo.domain.Admin)}">Manage Users</a>
+                            <a class="dropdown-item" href="client" th:if="${session.loggedInUser instanceof T(com.example.CarGo.domain.Admin)}">Manage Users</a>
                         </div>
                     </li>
                     <!-- Przycisk Sign out -->
@@ -84,6 +82,7 @@
     </div>
 </div>
 <!-- header section end -->
+
 <div class="call_text_main">
     <div class="container">
         <div class="call_taital">
@@ -108,149 +107,63 @@
         </div>
     </div>
 </div>
-<!-- Personnel Management section start -->
-<br><br><br><br><br><br>
-
-<!-- Notification messages (Success/Error) -->
-<div th:if="${success}" class="alert alert-success">
-    <span th:text="${success}"></span>
+<!-- Account Details Section Start -->
+<div class="container">
+    <h1>Edit Admin Details</h1>
+    <!-- Wyświetlanie komunikatu o błędzie, jeśli istnieje -->
+    <div th:if="${error}" class="alert alert-danger" role="alert">
+        <p th:text="${error}"></p>
+    </div>
+    <!-- Wyświetlanie komunikatu o sukcesie, jeśli istnieje -->
+    <div th:if="${success}" class="alert alert-success" role="alert">
+        <p th:text="${success}"></p>
+    </div>
+    <form th:action="@{/updateAdmin}" method="post">
+        <input type="hidden" name="id" th:value="${admin.id}" />
+        <div class="form-group">
+            <label for="firstName">First Name:</label>
+            <input type="text" id="firstName" name="firstName" th:value="${admin.firstName}" class="form-control" required />
+        </div>
+        <div class="form-group">
+            <label for="lastName">Last Name:</label>
+            <input type="text" id="lastName" name="lastName" th:value="${admin.lastName}" class="form-control" required />
+        </div>
+        <div class="form-group">
+            <label for="email">Email:</label>
+            <input type="email" id="email" name="email" th:value="${admin.email}" class="form-control" required />
+        </div>
+        <div class="form-group">
+            <label for="phoneNumber">Phone Number:</label>
+            <input type="text" id="phoneNumber" name="phoneNumber" th:value="${admin.phoneNumber}" class="form-control" required />
+        </div>
+        <div class="form-group">
+            <label for="login">Login:</label>
+            <input type="text" id="login" name="login" th:value="${admin.login}" class="form-control" required />
+        </div>
+        <div class="form-group">
+            <label for="password">New Password:</label>
+            <input type="password" id="password" name="password" class="form-control" required />
+        </div>
+        <div class="form-group">
+            <label for="confirmPassword">Confirm New Password:</label>
+            <input type="password" id="confirmPassword" name="confirmPassword" class="form-control" required />
+        </div>
+        <div class="button-group">
+            <button type="submit" class="luto_btn">Update</button>
+            <button type="button" class="luto_btn" onclick="window.history.back()">Return</button>
+        </div>
+    </form>
 </div>
-<div th:if="${error}" class="alert alert-danger">
-    <span th:text="${error}"></span>
-</div>
+<!-- Account Details Section End -->
 
-<div class="container personnel-management mt-5 mb-5">
-    <h2 class="text-center mb-4">Personnel Management</h2>
+<br><br><br><br>
 
-    <!-- Managers Table -->
-    <h3>Managers</h3>
-    <table class="table table-bordered table-striped">
-        <thead>
-        <tr>
-            <th>ID</th>
-            <th>First Name</th>
-            <th>Last Name</th>
-            <th>Email</th>
-            <th>Phone Number</th>
-            <th>Actions</th>
-        </tr>
-        </thead>
-        <tbody>
-        <!-- Loop through managers -->
-        <tr th:each="manager : ${managers}">
-            <td th:text="${manager.id}"></td>
-            <td th:text="${manager.firstName}"></td>
-            <td th:text="${manager.lastName}"></td>
-            <td th:text="${manager.email}"></td>
-            <td th:text="${manager.phoneNumber}"></td>
-            <td>
-                <!-- Add action buttons if needed -->
-                <a th:href="@{/editManager/{id}(id=${manager.id})}" class="btn btn-primary btn-sm">Edit</a>
-                <form th:action="@{/deleteManager}" method="post" style="display: inline;">
-                    <input type="hidden" name="managerId" th:value="${manager.id}" />
-                    <button class="btn btn-danger btn-sm" type="submit">Delete</button>
-                </form>
-            </td>
-        </tr>
-        <!-- If no managers, display this row -->
-        <tr th:if="${#lists.isEmpty(managers)}">
-            <td colspan="6" class="text-center">No managers found.</td>
-        </tr>
-        </tbody>
-    </table>
-    <button class="btn btn-success btn-sm mt-2" onclick="window.location.href='addManager'">Add Manager</button>
-
-    <br><br><br>
-
-    <!-- Admins Table -->
-    <h3>Admins</h3>
-    <table class="table table-bordered table-striped">
-        <thead>
-        <tr>
-            <th>ID</th>
-            <th>First Name</th>
-            <th>Last Name</th>
-            <th>Email</th>
-            <th>Phone Number</th>
-            <th>Actions</th>
-        </tr>
-        </thead>
-        <tbody>
-        <!-- Loop through admins -->
-        <tr th:each="admin : ${admins}">
-            <td th:text="${admin.id}"></td>
-            <td th:text="${admin.firstName}"></td>
-            <td th:text="${admin.lastName}"></td>
-            <td th:text="${admin.email}"></td>
-            <td th:text="${admin.phoneNumber}"></td>
-            <td>
-                <!-- Add action buttons if needed -->
-                <a th:href="@{/editAdmin/{id}(id=${admin.id})}" class="btn btn-primary btn-sm">Edit</a>
-                <form th:action="@{/deleteAdmin}" method="post" style="display: inline;">
-                    <input type="hidden" name="adminId" th:value="${admin.id}" />
-                    <button class="btn btn-danger btn-sm" type="submit">Delete</button>
-                </form>
-            </td>
-        </tr>
-        <!-- If no admins, display this row -->
-        <tr th:if="${#lists.isEmpty(admins)}">
-            <td colspan="6" class="text-center">No admins found.</td>
-        </tr>
-        </tbody>
-    </table>
-    <button class="btn btn-success btn-sm mt-2" onclick="window.location.href='addAdmin'">Add Admin</button>
-
-    <br><br><br>
-
-    <!-- Users Table -->
-    <h3>Users</h3>
-    <table class="table table-bordered table-striped">
-        <thead>
-        <tr>
-            <th>ID</th>
-            <th>First Name</th>
-            <th>Last Name</th>
-            <th>Email</th>
-            <th>Phone Number</th>
-            <th>Actions</th>
-        </tr>
-        </thead>
-        <tbody>
-        <!-- Loop through users -->
-        <tr th:each="user : ${users}">
-            <td th:text="${user.id}"></td>
-            <td th:text="${user.firstName}"></td>
-            <td th:text="${user.lastName}"></td>
-            <td th:text="${user.email}"></td>
-            <td th:text="${user.phoneNumber}"></td>
-            <td>
-                <!-- Add action buttons if needed -->
-                <a th:href="@{/editUser/{id}(id=${user.id})}" class="btn btn-primary btn-sm">Edit</a>
-                <form th:action="@{/deleteUser}" method="post" style="display: inline;">
-                    <input type="hidden" name="userId" th:value="${user.id}" />
-                    <button class="btn btn-danger btn-sm" type="submit">Delete</button>
-                </form>
-            </td>
-        </tr>
-        <!-- If no users, display this row -->
-        <tr th:if="${#lists.isEmpty(users)}">
-            <td colspan="6" class="text-center">No users found.</td>
-        </tr>
-        </tbody>
-    </table>
-    <button class="btn btn-success btn-sm mt-2" onclick="window.location.href='addUser'">Add User</button>
-
-</div>
-
-<br><br><br>
-
-<!-- Personnel Management section end -->
 <!-- Footer Section Start -->
 <div class="footer_section layout_padding">
     <div class="container">
         <div class="row">
             <div class="col-md-12">
-                <div class="footeer_logo"><img src="images/logo.png"></div>
+                <div class="footeer_logo"><img src="/images/logo.png"></div>
             </div>
         </div>
         <div class="footer_section_2">
@@ -260,7 +173,7 @@
                     <p class="footer_text">Enter your email and we'll reach you to stay in touch!</p>
 
                     <form action="/subscribe" method="POST" class="form-group">
-                        <textarea class="update_mail" placeholder="Enter Your Email" rows="1" id="email" name="email"></textarea>
+                        <textarea class="update_mail" placeholder="Enter Your Email" rows="1" id="email1" name="email"></textarea>
                         <button type="submit" class="subscribe_bt btn btn-primary">Subscribe</button>
                     </form>
                 </div>
@@ -323,14 +236,13 @@
 <!-- copyright section end -->
 
 <!-- Javascript files-->
-<script src="js/jquery.min.js"></script>
-<script src="js/popper.min.js"></script>
-<script src="js/bootstrap.bundle.min.js"></script>
-<script src="js/jquery-3.0.0.min.js"></script>
-<script src="js/plugin.js"></script>
-<script src="js/script.js"></script>
-<script src="js/clipboard.js"></script>
-<script src="js/subscribe.js"></script>
-<script src="js/confirm.js"></script>
+<script src="/js/jquery.min.js"></script>
+<script src="/js/popper.min.js"></script>
+<script src="/js/bootstrap.bundle.min.js"></script>
+<script src="/js/jquery-3.0.0.min.js"></script>
+<script src="/js/plugin.js"></script>
+<script src="/js/script.js"></script>
+<script src="/js/clipboard.js"></script>
+<script src="/js/subscribe.js"></script>
 </body>
 </html>

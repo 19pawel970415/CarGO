@@ -1,8 +1,6 @@
 package com.example.CarGo;
 
-import com.example.CarGo.db.LocationRepository;
-import com.example.CarGo.db.PersonRepository;
-import com.example.CarGo.db.UserRepository;
+import com.example.CarGo.db.*;
 import com.example.CarGo.services.*;
 import com.example.CarGo.domain.*;
 import jakarta.mail.MessagingException;
@@ -54,6 +52,10 @@ public class GeneralController {
     private AdminService adminService;
     @Autowired
     private ManagerService managerService;
+    @Autowired
+    private ManagerRepository managerRepository;
+    @Autowired
+    private AdminRepository adminRepository;
 
 
     @GetMapping(value = {"/", "/index"})
@@ -787,4 +789,149 @@ public class GeneralController {
         carService.updateCar(request);
     }
 
+    @PostMapping("/updateManager")
+    public String updateManager(
+            @RequestParam("id") Long id,
+            @RequestParam("firstName") String firstName,
+            @RequestParam("lastName") String lastName,
+            @RequestParam("email") String email,
+            @RequestParam("phoneNumber") String phoneNumber,
+            @RequestParam("login") String login,
+            @RequestParam("password") String password,
+            @RequestParam("confirmPassword") String confirmPassword,
+            Model model) {
+
+        if (!password.equals(confirmPassword)) {
+            model.addAttribute("error", "Passwords do not match");
+            return "editManager";
+        }
+
+        // Znajdź menedżera i zaktualizuj dane
+        Manager manager = managerRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("Manager not found"));
+
+        manager.setFirstName(firstName);
+        manager.setLastName(lastName);
+        manager.setEmail(email);
+        manager.setPhoneNumber(phoneNumber);
+        manager.setLogin(login);
+        manager.setPassword(password);
+
+        // Zapisz zmiany
+        String result = managerService.updateManager(manager);
+
+        if (result.equals("Manager updated successfully")) {
+            return "redirect:/personnel_management?success";
+        } else {
+            model.addAttribute("error", result);
+            return "editManager";
+        }
+    }
+
+    @GetMapping("/editManager/{id}")
+    public String editManager(@PathVariable Long id, Model model) {
+        // Pobierz menedżera z bazy danych
+        Manager manager = managerRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("Manager not found"));
+
+        // Dodaj menedżera do modelu
+        model.addAttribute("manager", manager);
+
+        // Wyświetl stronę edycji
+        return "editManager";
+    }
+
+    @PostMapping("/updateAdmin")
+    public String updateAdmin(
+            @RequestParam("id") Long id,
+            @RequestParam("firstName") String firstName,
+            @RequestParam("lastName") String lastName,
+            @RequestParam("email") String email,
+            @RequestParam("phoneNumber") String phoneNumber,
+            @RequestParam("login") String login,
+            @RequestParam("password") String password,
+            @RequestParam("confirmPassword") String confirmPassword,
+            Model model) {
+
+        if (!password.equals(confirmPassword)) {
+            model.addAttribute("error", "Passwords do not match");
+            return "editAdmin";
+        }
+
+        Admin admin = adminRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("Admin not found"));
+
+        admin.setFirstName(firstName);
+        admin.setLastName(lastName);
+        admin.setEmail(email);
+        admin.setPhoneNumber(phoneNumber);
+        admin.setLogin(login);
+        admin.setPassword(password);
+
+        String result = adminService.updateAdmin(admin);
+
+        if (result.equals("Admin updated successfully")) {
+            return "redirect:/personnel_management?success";
+        } else {
+            model.addAttribute("error", result);
+            return "editAdmin";
+        }
+    }
+
+    @GetMapping("/editAdmin/{id}")
+    public String editAdmin(@PathVariable Long id, Model model) {
+        Admin admin = adminRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("Manager not found"));
+
+        model.addAttribute("admin", admin);
+
+        return "editAdmin";
+    }
+
+    @PostMapping("/updateUser")
+    public String updateUser(
+            @RequestParam("id") Long id,
+            @RequestParam("firstName") String firstName,
+            @RequestParam("lastName") String lastName,
+            @RequestParam("email") String email,
+            @RequestParam("phoneNumber") String phoneNumber,
+            @RequestParam("login") String login,
+            @RequestParam("password") String password,
+            @RequestParam("confirmPassword") String confirmPassword,
+            Model model) {
+
+        if (!password.equals(confirmPassword)) {
+            model.addAttribute("error", "Passwords do not match");
+            return "editUser";
+        }
+
+        User user = userRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("User not found"));
+
+        user.setFirstName(firstName);
+        user.setLastName(lastName);
+        user.setEmail(email);
+        user.setPhoneNumber(phoneNumber);
+        user.setLogin(login);
+        user.setPassword(password);
+
+        String result = userService.updateUser(user);
+
+        if (result.equals("User updated successfully")) {
+            return "redirect:/personnel_management?success";
+        } else {
+            model.addAttribute("error", result);
+            return "editUser";
+        }
+    }
+
+    @GetMapping("/editUser/{id}")
+    public String editUser(@PathVariable Long id, Model model) {
+        User user = userRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("User not found"));
+
+        model.addAttribute("user", user);
+
+        return "editUser";
+    }
 }
