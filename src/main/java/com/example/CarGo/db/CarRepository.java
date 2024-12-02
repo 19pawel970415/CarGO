@@ -60,4 +60,7 @@ public interface CarRepository extends JpaRepository<Car, Long> {
             @Param("fuelType") FuelType fuelType,
             @Param("startDate") LocalDateTime startDate,
             @Param("endDate") LocalDateTime endDate);
+
+    @Query("SELECT c.location.city, COUNT(c) FROM Car c GROUP BY c.location.city")
+    List<Object[]> countCarsByLocation();
 }

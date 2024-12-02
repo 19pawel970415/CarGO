@@ -56,6 +56,8 @@ public class GeneralController {
     private ManagerRepository managerRepository;
     @Autowired
     private AdminRepository adminRepository;
+    @Autowired
+    private CarReportService carReportService;
 
 
     @GetMapping(value = {"/", "/index"})
@@ -933,5 +935,12 @@ public class GeneralController {
         model.addAttribute("user", user);
 
         return "editUser";
+    }
+
+    @GetMapping("/reports")
+    public String getCarReport(Model model) {
+        Map<String, Long> carCountByLocation = carReportService.getCarsCountByLocation();
+        model.addAttribute("carCountByLocation", carCountByLocation);
+        return "reports";
     }
 }
