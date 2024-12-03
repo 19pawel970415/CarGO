@@ -54,7 +54,6 @@ document.getElementById('addCarBtn').addEventListener('click', function () {
             document.getElementById('addCarModal').classList.remove('show');
             document.body.classList.remove('modal-open');
             document.querySelector('.modal-backdrop').remove();
-            console.log(location);  // Check if 'location' is the native location object
             window.location.reload();
         } else {
             return response.text().then(text => { throw new Error(text); });

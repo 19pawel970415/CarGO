@@ -245,4 +245,8 @@ public class CarService {
             throw new SQLDataException("Car with the same Registration Number already exists.");
         }
     }
+
+    public void deleteCar(Long carId) {
+        carRepository.deleteById(carId);
+    }
 }

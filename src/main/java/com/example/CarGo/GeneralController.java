@@ -797,6 +797,21 @@ public class GeneralController {
         carService.addCar(request);
     }
 
+    @DeleteMapping("/car/deleteCar/{id}")
+    @ResponseBody
+    public ResponseEntity<String> deleteCar(@PathVariable Long id) {
+        try {
+            if (id == null) {
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Invalid car ID");
+            }
+            carService.deleteCar(id);
+            return ResponseEntity.ok("Car deleted successfully!");
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body("Failed to delete car: " + e.getMessage());
+        }
+    }
+
     @PostMapping("/updateManager")
     public String updateManager(
             @RequestParam("id") Long id,
