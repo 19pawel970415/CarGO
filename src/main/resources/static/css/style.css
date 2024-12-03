@@ -1152,3 +1152,11 @@ textarea#comment::placeholder {
         gap: 10px;
         margin-top: 10px;
     }
+
+    .centeredAddCar-container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+    }
+

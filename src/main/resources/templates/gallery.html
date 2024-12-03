@@ -1,706 +1,868 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.w3.org/1999/xhtml">
 <head>
-   <!-- basic -->
-   <meta charset="utf-8">
-   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-   <meta name="viewport" content="width=device-width, initial-scale=1">
-   <!-- site metas -->
-   <title>Gallery</title>
-   <!-- bootstrap css -->
-   <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
-   <!-- style css -->
-   <link rel="stylesheet" type="text/css" href="css/style.css">
-   <!-- Responsive-->
-   <link rel="stylesheet" href="css/responsive.css">
-   <!-- fevicon -->
-   <link rel="icon" href="images/fevicon.png" type="image/gif" />
-   <!-- font css -->
-   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&family=Raleway:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-   <!-- Scrollbar Custom CSS -->
-   <link rel="stylesheet" href="css/jquery.mCustomScrollbar.min.css">
-   <!-- Font Awesome -->
-   <link rel="stylesheet" href="https://netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css">
-   <!-- Button -->
-   <link rel="stylesheet" href="css/button.css">
+    <!-- basic -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- site metas -->
+    <title>Gallery</title>
+    <!-- bootstrap css -->
+    <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
+    <!-- style css -->
+    <link rel="stylesheet" type="text/css" href="css/style.css">
+    <!-- Responsive-->
+    <link rel="stylesheet" href="css/responsive.css">
+    <!-- fevicon -->
+    <link rel="icon" href="images/fevicon.png" type="image/gif"/>
+    <!-- font css -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&family=Raleway:wght@400;500;600;700;800&display=swap"
+          rel="stylesheet">
+    <!-- Scrollbar Custom CSS -->
+    <link rel="stylesheet" href="css/jquery.mCustomScrollbar.min.css">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css">
+    <!-- Button -->
+    <link rel="stylesheet" href="css/button.css">
 </head>
 <body>
 <!-- header section start -->
 <div class="header_section">
-   <div class="container">
-      <nav class="navbar navbar-expand-lg navbar-light bg-light">
-         <a class="navbar-brand" href="index"><img src="images/logo.png"></a>
-         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-         </button>
-         <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul class="navbar-nav ml-auto">
-               <li class="nav-item"><a class="nav-link" href="index">Home</a></li>
-               <li class="nav-item"><a class="nav-link" href="about">About</a></li>
-               <li class="nav-item"><a class="nav-link" href="gallery">Vehicles</a></li>
-               <li class="nav-item"><a class="nav-link" href="contact">Contact</a></li>
-               <li class="nav-item" th:if="${session.loggedInUser == null}"><a class="nav-link" href="login">Sign in</a></li>
-               <li class="nav-item" th:if="${session.loggedInUser == null}"><a class="nav-link" href="register">Sign up</a></li>
-               <!-- Rozwijana opcja My Account dla zalogowanych użytkowników -->
-               <li class="nav-item dropdown" th:if="${session.loggedInUser != null}">
-                  <a class="nav-link dropdown-toggle" href="#" id="myAccountDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                     My Account
-                  </a>
-                  <div class="dropdown-menu" aria-labelledby="myAccountDropdown">
-                     <!-- Opcje dla zwykłych użytkowników -->
-                     <a class="dropdown-item" href="account_details" th:if="${session.loggedInUser instanceof T(com.example.CarGo.domain.User)}">Change Account Details</a>
-                     <a class="dropdown-item" href="view_reservations" th:if="${session.loggedInUser instanceof T(com.example.CarGo.domain.User)}">View Reservations</a>
+    <div class="container">
+        <nav class="navbar navbar-expand-lg navbar-light bg-light">
+            <a class="navbar-brand" href="index"><img src="images/logo.png"></a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+                    aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav ml-auto">
+                    <li class="nav-item"><a class="nav-link" href="index">Home</a></li>
+                    <li class="nav-item"><a class="nav-link" href="about">About</a></li>
+                    <li class="nav-item"><a class="nav-link" href="gallery">Vehicles</a></li>
+                    <li class="nav-item"><a class="nav-link" href="contact">Contact</a></li>
+                    <li class="nav-item" th:if="${session.loggedInUser == null}"><a class="nav-link" href="login">Sign
+                        in</a></li>
+                    <li class="nav-item" th:if="${session.loggedInUser == null}"><a class="nav-link" href="register">Sign
+                        up</a></li>
+                    <!-- Rozwijana opcja My Account dla zalogowanych użytkowników -->
+                    <li class="nav-item dropdown" th:if="${session.loggedInUser != null}">
+                        <a class="nav-link dropdown-toggle" href="#" id="myAccountDropdown" role="button"
+                           data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            My Account
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="myAccountDropdown">
+                            <!-- Opcje dla zwykłych użytkowników -->
+                            <a class="dropdown-item" href="account_details"
+                               th:if="${session.loggedInUser instanceof T(com.example.CarGo.domain.User)}">Change
+                                Account Details</a>
+                            <a class="dropdown-item" href="view_reservations"
+                               th:if="${session.loggedInUser instanceof T(com.example.CarGo.domain.User)}">View
+                                Reservations</a>
 
-                     <!-- Opcje dla menedżerów -->
-                     <a class="dropdown-item" href="manageReservations" th:if="${session.loggedInUser instanceof T(com.example.CarGo.domain.Manager)}">Manage Reservations</a>
-                     <a class="dropdown-item" href="services" th:if="${session.loggedInUser instanceof T(com.example.CarGo.domain.Manager)}">Manage Vehicles</a>
+                            <!-- Opcje dla menedżerów -->
+                            <a class="dropdown-item" href="manageReservations"
+                               th:if="${session.loggedInUser instanceof T(com.example.CarGo.domain.Manager)}">Manage
+                                Reservations</a>
+                            <a class="dropdown-item" href="services"
+                               th:if="${session.loggedInUser instanceof T(com.example.CarGo.domain.Manager)}">Manage
+                                Vehicles</a>
 
-                     <!-- Opcje dla administratorów -->
-                     <a class="dropdown-item" href="adminDashboard" th:if="${session.loggedInUser instanceof T(com.example.CarGo.domain.Admin)}">Admin Dashboard</a>
-                     <a class="dropdown-item" href="personnel_management" th:if="${session.loggedInUser instanceof T(com.example.CarGo.domain.Admin)}">Manage Users</a>
-                     <a class="dropdown-item" href="reports" th:if="${session.loggedInUser instanceof T(com.example.CarGo.domain.Admin)}">Reports</a>
-                  </div>
-               </li>
-               <li class="nav-item" th:if="${session.loggedInUser != null}"><a class="nav-link" href="signout">Sign out</a></li>
-            </ul>
-         </div>
-      </nav>
-   </div>
+                            <!-- Opcje dla administratorów -->
+                            <a class="dropdown-item" href="adminDashboard"
+                               th:if="${session.loggedInUser instanceof T(com.example.CarGo.domain.Admin)}">Admin
+                                Dashboard</a>
+                            <a class="dropdown-item" href="personnel_management"
+                               th:if="${session.loggedInUser instanceof T(com.example.CarGo.domain.Admin)}">Manage
+                                Users</a>
+                            <a class="dropdown-item" href="reports"
+                               th:if="${session.loggedInUser instanceof T(com.example.CarGo.domain.Admin)}">Reports</a>
+                        </div>
+                    </li>
+                    <li class="nav-item" th:if="${session.loggedInUser != null}"><a class="nav-link" href="signout">Sign
+                        out</a></li>
+                </ul>
+            </div>
+        </nav>
+    </div>
 </div>
 <!-- header section end -->
 <div class="call_text_main">
-   <div class="container">
-      <div class="call_taital">
-         <div class="location_text_up">
-            <a href="https://www.google.com/maps/place/Wydzia%C5%82+Ekonomiczno-Socjologiczny+Uniwersytetu+%C5%81%C3%B3dzkiego/@51.7752141,19.4611604,17z/data=!3m2!4b1!5s0x471bcb27fb23fb65:0xc900bfbd73fd4323!4m6!3m5!1s0x471bcb27d95ca219:0x7a09bc332d4a8d73!8m2!3d51.7752141!4d19.4637353!16s%2Fg%2F120l7rrv?entry=ttu&g_ep=EgoyMDI0MTAyOS4wIKXMDSoASAFQAw%3D%3D" target="_blank">
-               <i class="fa fa-map-marker" aria-hidden="true"></i>
-               <span class="padding_left_15">Location</span>
-            </a>
-         </div>
-         <div class="location_text_up">
-            <a href="#" onclick="copyToClipboard('(+48) 426355356')">
-               <i class="fa fa-phone" aria-hidden="true"></i>
-               <span class="padding_left_15">(+48) 426355356</span>
-            </a>
-         </div>
-         <div class="location_text_up">
-            <a href="#" onclick="copyToClipboard('cargomailboxpl@gmail.com')">
-               <i class="fa fa-envelope" aria-hidden="true"></i>
-               <span class="padding_left_15">cargomailboxpl@gmail.com</span>
-            </a>
-         </div>
-      </div>
-   </div>
+    <div class="container">
+        <div class="call_taital">
+            <div class="location_text_up">
+                <a href="https://www.google.com/maps/place/Wydzia%C5%82+Ekonomiczno-Socjologiczny+Uniwersytetu+%C5%81%C3%B3dzkiego/@51.7752141,19.4611604,17z/data=!3m2!4b1!5s0x471bcb27fb23fb65:0xc900bfbd73fd4323!4m6!3m5!1s0x471bcb27d95ca219:0x7a09bc332d4a8d73!8m2!3d51.7752141!4d19.4637353!16s%2Fg%2F120l7rrv?entry=ttu&g_ep=EgoyMDI0MTAyOS4wIKXMDSoASAFQAw%3D%3D"
+                   target="_blank">
+                    <i class="fa fa-map-marker" aria-hidden="true"></i>
+                    <span class="padding_left_15">Location</span>
+                </a>
+            </div>
+            <div class="location_text_up">
+                <a href="#" onclick="copyToClipboard('(+48) 426355356')">
+                    <i class="fa fa-phone" aria-hidden="true"></i>
+                    <span class="padding_left_15">(+48) 426355356</span>
+                </a>
+            </div>
+            <div class="location_text_up">
+                <a href="#" onclick="copyToClipboard('cargomailboxpl@gmail.com')">
+                    <i class="fa fa-envelope" aria-hidden="true"></i>
+                    <span class="padding_left_15">cargomailboxpl@gmail.com</span>
+                </a>
+            </div>
+        </div>
+    </div>
 </div>
 
 <!-- select box section start -->
 <div class="search_section">
-   <div class="container">
-      <div class="select_box_section">
-         <div class="select_box_main">
-            <div class="row">
-               <!-- Start of Search Form -->
-               <form action="#" method="get" th:action="@{/gallery}" class="form-inline" id="searchForm">
+    <div class="container">
+        <div class="select_box_section">
+            <div class="select_box_main">
+                <div class="row">
+                    <!-- Start of Search Form -->
+                    <form action="#" method="get" th:action="@{/gallery}" class="form-inline" id="searchForm">
 
-                  <div class="col-md-2 select-outline">
-                     <label for="location">Pick up location:</label>
-                     <select name="location" id="location" class="form-control">
-                        <option value="">All Locations</option>
-                        <th:block th:each="loc : ${locations}">
-                           <option th:value="${loc.city}"
-                                   th:text="${loc.city}"
-                                   th:selected="${loc.city == location}"></option>
-                        </th:block>
-                     </select>
-                  </div>
-
-                  <!-- Daty -->
-                  <div class="col-md-2 select-outline">
-                     <label for="startDate">Start Date:</label>
-                     <input type="date" name="startDate" id="startDate" class="form-control" th:value="${startDate}" placeholder="Start Date">
-                  </div>
-                  <div class="col-md-2 select-outline">
-                     <label for="endDate">End Date:</label>
-                     <input type="date" name="endDate" id="endDate" class="form-control" th:value="${endDate}" placeholder="End Date">
-                  </div>
-
-                  <!-- Skrzynia Biegów (Gearbox) -->
-                  <div class="col-md-2 select-outline">
-                     <label for="gearbox">Gearbox:</label>
-                     <select name="gearbox" id="gearbox" class="form-control">
-                        <option value="">All Gearboxes</option>
-                        <option value="MANUAL" th:selected="${gearbox?.name() == 'MANUAL'}">Manual</option>
-                        <option value="AUTOMATIC" th:selected="${gearbox?.name() == 'AUTOMATIC'}">Automatic</option>
-                        <option value="CVT" th:selected="${gearbox?.name() == 'CVT'}">CVT</option>
-                        <option value="DCT" th:selected="${gearbox?.name() == 'DCT'}">DCT</option>
-                        <option value="SEMI_AUTOMATIC" th:selected="${gearbox?.name() == 'SEMI_AUTOMATIC'}">Semi-Automatic</option>
-                        <option value="TIPTRONIC" th:selected="${gearbox?.name() == 'TIPTRONIC'}">Tiptronic</option>
-                        <option value="ELECTRIC_VEHICLE" th:selected="${gearbox?.name() == 'ELECTRIC_VEHICLE'}">Electric Vehicle</option>
-                     </select>
-                  </div>
-
-
-                  <!-- Liczba Miejsc -->
-                  <div class="col-md-2 select-outline">
-                     <label for="seatCountId">Seat Count:</label>
-                     <select name="seatCountId" id="seatCountId" class="form-control">
-                        <option value="">All Seat Counts</option>
-                        <th:block th:each="seatCount : ${seatCounts}">
-                           <option
-                                   th:value="${seatCount.id}"
-                                   th:selected="${seatCountId == seatCount.id}"
-                                   th:if="${seatCount.available}"
-                                   th:text="${seatCount.count}">
-                           </option>
-                        </th:block>
-                     </select>
-                  </div>
-
-
-                  <!-- Typ Samochodu (Car Type) -->
-                  <div class="col-md-2 select-outline">
-                     <label for="carType">Car Type:</label>
-                     <select name="carType" id="carType" class="form-control">
-                        <option value="">All Car Types</option>
-                        <option value="SEDAN" th:selected="${carType?.name() == 'SEDAN'}">Sedan</option>
-                        <option value="SUV" th:selected="${carType?.name() == 'SUV'}">SUV</option>
-                        <option value="WAGON" th:selected="${carType?.name() == 'WAGON'}">Wagon</option>
-                        <option value="COUPE" th:selected="${carType?.name() == 'COUPE'}">Coupe</option>
-                        <option value="HATCHBACK" th:selected="${carType?.name() == 'HATCHBACK'}">Hatchback</option>
-                        <option value="PICKUP" th:selected="${carType?.name() == 'PICKUP'}">Pickup</option>
-                        <option value="SPORT_COUPE" th:selected="${carType?.name() == 'SPORT_COUPE'}">Sport Coupe</option>
-                        <option value="VAN" th:selected="${carType?.name() == 'VAN'}">Van</option>
-                        <option value="CROSSOVER" th:selected="${carType?.name() == 'CROSSOVER'}">Crossover</option>
-                        <option value="COMPACT" th:selected="${carType?.name() == 'COMPACT'}">Compact</option>
-                     </select>
-                  </div>
-
-                  <!-- Typ Paliwa (Fuel Type) -->
-                  <div class="col-md-2 select-outline">
-                     <label for="fuelType">Fuel Type:</label>
-                     <select name="fuelType" id="fuelType" class="form-control">
-                        <option value="">All Fuel Types</option>
-                        <option value="PETROL" th:selected="${fuelType?.name() == 'PETROL'}">Petrol</option>
-                        <option value="DIESEL" th:selected="${fuelType?.name() == 'DIESEL'}">Diesel</option>
-                        <option value="HYBRID" th:selected="${fuelType?.name() == 'HYBRID'}">Hybrid</option>
-                        <option value="ELECTRIC" th:selected="${fuelType?.name() == 'ELECTRIC'}">Electric</option>
-                     </select>
-                  </div>
-
-                  <div class="col-md-2 select-outline">
-                     <label for="make">Car Make:</label>
-                     <select name="make" id="make" class="form-control">
-                        <option value="">All Makes</option>
-                        <th:block th:each="carMake : ${carMakes}">
-                           <option th:value="${carMake}" th:selected="${make == carMake}" th:text="${carMake}"></option>
-                        </th:block>
-                     </select>
-                  </div>
-
-
-                  <!-- Cena za Dzień (Price Range) -->
-                  <div class="col-md-2 select-outline">
-                     <label for="priceMin">Min Price per day:</label>
-                     <div class="input-group">
-                        <button type="button" class="btn btn-outline-secondary" onclick="adjustValue('priceMin', -10)">-</button>
-                        <input type="number" name="priceMin" id="priceMin" class="form-control" min="50" max="400" step="10" th:value="${priceMin != null ? priceMin : 50}" />
-                        <button type="button" class="btn btn-outline-secondary" onclick="adjustValue('priceMin', 10)">+</button>
-                     </div>
-
-                     <label for="priceMax">Max Price per day:</label>
-                     <div class="input-group">
-                        <button type="button" class="btn btn-outline-secondary" onclick="adjustValue('priceMax', -10)">-</button>
-                        <input type="number" name="priceMax" id="priceMax" class="form-control" min="50" max="400" step="10" th:value="${priceMax != null ? priceMax : 400}" />
-                        <button type="button" class="btn btn-outline-secondary" onclick="adjustValue('priceMax', 10)">+</button>
-                     </div>
-                  </div>
-
-                  <!-- Rok Produkcji (Year Range) -->
-                  <div class="col-md-2 select-outline">
-                     <label for="yearMin">Min Year:</label>
-                     <div class="input-group">
-                        <button type="button" class="btn btn-outline-secondary" onclick="adjustValue('yearMin', -1)">-</button>
-                        <input type="number" name="yearMin" id="yearMin" class="form-control" min="2001" max="2024" step="1" th:value="${yearMin != null ? yearMin : 2001}" />
-                        <button type="button" class="btn btn-outline-secondary" onclick="adjustValue('yearMin', 1)">+</button>
-                     </div>
-
-                     <label for="yearMax">Max Year:</label>
-                     <div class="input-group">
-                        <button type="button" class="btn btn-outline-secondary" onclick="adjustValue('yearMax', -1)">-</button>
-                        <input type="number" name="yearMax" id="yearMax" class="form-control" min="2001" max="2024" step="1" th:value="${yearMax != null ? yearMax : 2024}" />
-                        <button type="button" class="btn btn-outline-secondary" onclick="adjustValue('yearMax', 1)">+</button>
-                     </div>
-                  </div>
-
-                  <div class="row justify-content-start align-items-center">
-                     <div class="col-auto">
-                        <div class="search_btn">
-                           <button type="submit" class="luto_btn" onclick="setSearchCompleted()">Search Now</button>
+                        <div class="col-md-2 select-outline">
+                            <label for="location">Pick up location:</label>
+                            <select name="location" id="location" class="form-control">
+                                <option value="">All Locations</option>
+                                <th:block th:each="loc : ${locations}">
+                                    <option th:value="${loc.city}"
+                                            th:text="${loc.city}"
+                                            th:selected="${loc.city == location}"></option>
+                                </th:block>
+                            </select>
                         </div>
-                     </div>
 
-                     <div class="col-auto" th:if="${session.loggedInUser instanceof T(com.example.CarGo.domain.Admin)}">
-                        <div class="manage_filters_btn">
-                           <button type="button" class="btn btn-danger btn-sm" data-bs-toggle="modal" data-bs-target="#manageFiltersModal">
-                              Manage Filters
-                           </button>
+                        <!-- Daty -->
+                        <div class="col-md-2 select-outline">
+                            <label for="startDate">Start Date:</label>
+                            <input type="date" name="startDate" id="startDate" class="form-control"
+                                   th:value="${startDate}" placeholder="Start Date">
                         </div>
-                     </div>
-                  </div>
+                        <div class="col-md-2 select-outline">
+                            <label for="endDate">End Date:</label>
+                            <input type="date" name="endDate" id="endDate" class="form-control" th:value="${endDate}"
+                                   placeholder="End Date">
+                        </div>
 
-               </form>
-               <!-- End of Search Form -->
+                        <!-- Skrzynia Biegów (Gearbox) -->
+                        <div class="col-md-2 select-outline">
+                            <label for="gearbox">Gearbox:</label>
+                            <select name="gearbox" id="gearbox" class="form-control">
+                                <option value="">All Gearboxes</option>
+                                <option value="MANUAL" th:selected="${gearbox?.name() == 'MANUAL'}">Manual</option>
+                                <option value="AUTOMATIC" th:selected="${gearbox?.name() == 'AUTOMATIC'}">Automatic
+                                </option>
+                                <option value="CVT" th:selected="${gearbox?.name() == 'CVT'}">CVT</option>
+                                <option value="DCT" th:selected="${gearbox?.name() == 'DCT'}">DCT</option>
+                                <option value="SEMI_AUTOMATIC" th:selected="${gearbox?.name() == 'SEMI_AUTOMATIC'}">
+                                    Semi-Automatic
+                                </option>
+                                <option value="TIPTRONIC" th:selected="${gearbox?.name() == 'TIPTRONIC'}">Tiptronic
+                                </option>
+                                <option value="ELECTRIC_VEHICLE" th:selected="${gearbox?.name() == 'ELECTRIC_VEHICLE'}">
+                                    Electric Vehicle
+                                </option>
+                            </select>
+                        </div>
+
+
+                        <!-- Liczba Miejsc -->
+                        <div class="col-md-2 select-outline">
+                            <label for="seatCountId">Seat Count:</label>
+                            <select name="seatCountId" id="seatCountId" class="form-control">
+                                <option value="">All Seat Counts</option>
+                                <th:block th:each="seatCount : ${seatCounts}">
+                                    <option
+                                            th:value="${seatCount.id}"
+                                            th:selected="${seatCountId == seatCount.id}"
+                                            th:if="${seatCount.available}"
+                                            th:text="${seatCount.count}">
+                                    </option>
+                                </th:block>
+                            </select>
+                        </div>
+
+
+                        <!-- Typ Samochodu (Car Type) -->
+                        <div class="col-md-2 select-outline">
+                            <label for="carType">Car Type:</label>
+                            <select name="carType" id="carType" class="form-control">
+                                <option value="">All Car Types</option>
+                                <option value="SEDAN" th:selected="${carType?.name() == 'SEDAN'}">Sedan</option>
+                                <option value="SUV" th:selected="${carType?.name() == 'SUV'}">SUV</option>
+                                <option value="WAGON" th:selected="${carType?.name() == 'WAGON'}">Wagon</option>
+                                <option value="COUPE" th:selected="${carType?.name() == 'COUPE'}">Coupe</option>
+                                <option value="HATCHBACK" th:selected="${carType?.name() == 'HATCHBACK'}">Hatchback
+                                </option>
+                                <option value="PICKUP" th:selected="${carType?.name() == 'PICKUP'}">Pickup</option>
+                                <option value="SPORT_COUPE" th:selected="${carType?.name() == 'SPORT_COUPE'}">Sport
+                                    Coupe
+                                </option>
+                                <option value="VAN" th:selected="${carType?.name() == 'VAN'}">Van</option>
+                                <option value="CROSSOVER" th:selected="${carType?.name() == 'CROSSOVER'}">Crossover
+                                </option>
+                                <option value="COMPACT" th:selected="${carType?.name() == 'COMPACT'}">Compact</option>
+                            </select>
+                        </div>
+
+                        <!-- Typ Paliwa (Fuel Type) -->
+                        <div class="col-md-2 select-outline">
+                            <label for="fuelType">Fuel Type:</label>
+                            <select name="fuelType" id="fuelType" class="form-control">
+                                <option value="">All Fuel Types</option>
+                                <option value="PETROL" th:selected="${fuelType?.name() == 'PETROL'}">Petrol</option>
+                                <option value="DIESEL" th:selected="${fuelType?.name() == 'DIESEL'}">Diesel</option>
+                                <option value="HYBRID" th:selected="${fuelType?.name() == 'HYBRID'}">Hybrid</option>
+                                <option value="ELECTRIC" th:selected="${fuelType?.name() == 'ELECTRIC'}">Electric
+                                </option>
+                            </select>
+                        </div>
+
+                        <div class="col-md-2 select-outline">
+                            <label for="make">Car Make:</label>
+                            <select name="make" id="make" class="form-control">
+                                <option value="">All Makes</option>
+                                <th:block th:each="carMake : ${carMakes}">
+                                    <option th:value="${carMake}" th:selected="${make == carMake}"
+                                            th:text="${carMake}"></option>
+                                </th:block>
+                            </select>
+                        </div>
+
+
+                        <!-- Cena za Dzień (Price Range) -->
+                        <div class="col-md-2 select-outline">
+                            <label for="priceMin">Min Price per day:</label>
+                            <div class="input-group">
+                                <button type="button" class="btn btn-outline-secondary"
+                                        onclick="adjustValue('priceMin', -10)">-
+                                </button>
+                                <input type="number" name="priceMin" id="priceMin" class="form-control" min="50"
+                                       max="400" step="10" th:value="${priceMin != null ? priceMin : 50}"/>
+                                <button type="button" class="btn btn-outline-secondary"
+                                        onclick="adjustValue('priceMin', 10)">+
+                                </button>
+                            </div>
+
+                            <label for="priceMax">Max Price per day:</label>
+                            <div class="input-group">
+                                <button type="button" class="btn btn-outline-secondary"
+                                        onclick="adjustValue('priceMax', -10)">-
+                                </button>
+                                <input type="number" name="priceMax" id="priceMax" class="form-control" min="50"
+                                       max="400" step="10" th:value="${priceMax != null ? priceMax : 400}"/>
+                                <button type="button" class="btn btn-outline-secondary"
+                                        onclick="adjustValue('priceMax', 10)">+
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Rok Produkcji (Year Range) -->
+                        <div class="col-md-2 select-outline">
+                            <label for="yearMin">Min Year:</label>
+                            <div class="input-group">
+                                <button type="button" class="btn btn-outline-secondary"
+                                        onclick="adjustValue('yearMin', -1)">-
+                                </button>
+                                <input type="number" name="yearMin" id="yearMin" class="form-control" min="2001"
+                                       max="2024" step="1" th:value="${yearMin != null ? yearMin : 2001}"/>
+                                <button type="button" class="btn btn-outline-secondary"
+                                        onclick="adjustValue('yearMin', 1)">+
+                                </button>
+                            </div>
+
+                            <label for="yearMax">Max Year:</label>
+                            <div class="input-group">
+                                <button type="button" class="btn btn-outline-secondary"
+                                        onclick="adjustValue('yearMax', -1)">-
+                                </button>
+                                <input type="number" name="yearMax" id="yearMax" class="form-control" min="2001"
+                                       max="2024" step="1" th:value="${yearMax != null ? yearMax : 2024}"/>
+                                <button type="button" class="btn btn-outline-secondary"
+                                        onclick="adjustValue('yearMax', 1)">+
+                                </button>
+                            </div>
+                        </div>
+
+                        <div class="row justify-content-start align-items-center">
+                            <div class="col-auto">
+                                <div class="search_btn">
+                                    <button type="submit" class="luto_btn" onclick="setSearchCompleted()">Search Now
+                                    </button>
+                                </div>
+                            </div>
+
+                            <div class="col-auto"
+                                 th:if="${session.loggedInUser instanceof T(com.example.CarGo.domain.Admin)}">
+                                <div class="manage_filters_btn">
+                                    <button type="button" class="btn btn-danger btn-sm" data-bs-toggle="modal"
+                                            data-bs-target="#manageFiltersModal">
+                                        Manage Filters
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+
+                    </form>
+                    <!-- End of Search Form -->
+                </div>
             </div>
-         </div>
-      </div>
-   </div>
+        </div>
+    </div>
 </div>
 <!-- select box section end -->
 
 <div class="gallery_section layout_padding">
-   <div class="container">
-      <div class="row">
-         <div class="col-md-12">
-            <h1 class="gallery_taital">Our offer</h1>
-         </div>
-      </div>
-      <div class="gallery_section_2">
-         <div class="row">
-            <!-- Loop through list of cars -->
-            <div th:each="car : ${cars}" class="col-md-4">
-               <div class="gallery_box">
-                  <div class="gallery_img">
-                     <img th:src="@{'/images/' + ${car.id} + '.jpg'}" alt="Image of car" />
-                  </div>
-                  <h3 class="types_text" th:text="${car.make.name} + ' ' + ${car.model}">Car Make and Model</h3>
-                  <p class="looking_text" th:text="'Registration Number: ' + ${car.registrationNumber}">Registration Number: N/A</p>
-                  <p class="looking_text" th:text="'VIN: ' + ${car.vin}">VIN: N/A</p>
-                  <p class="looking_text" th:text="'Year of Production: ' + ${car.yearOfProduction}">Year of Production: N/A</p>
-                  <p class="looking_text" th:text="'Seat Count: ' + ${car.seatCount.count}">Seat Count: N/A</p>
-                  <p class="looking_text" th:text="'Location: ' + ${car.location.city}">Location: N/A</p>
-                  <p class="looking_text" th:text="'Price: ' + ${car.pricePerDay}">Price Per Day: N/A</p>
-                  <!-- Rent Now button with conditional logic and check for search completion -->
-                  <div class="read_bt">
-                     <a th:if="${session.loggedInUser != null}"
-                        th:href="@{/book/{carId}(carId=${car.id}, location=${location}, startDate=${startDate}, endDate=${endDate})}"
-                        onclick="checkSearchCompleted(event)">Rent Now</a>
-                     <a th:if="${session.loggedInUser == null}" href="#" data-toggle="modal" data-target="#loginModal"
-                        onclick="checkSearchCompleted(event)">Rent Now</a>
-                  </div>
-                  <div class="admin-buttons" th:if="${session.loggedInUser instanceof T(com.example.CarGo.domain.Admin)}">
-                     <button class="btn btn-primary" data-toggle="modal" data-target="#editCarModal"
-                              th:attr="data-id=${car.id}" onclick="openEditCarModal(event)">Edit</button>
-                     <button class="btn btn-danger" onclick="deleteCar(${car.id})">Delete</button>
-                  </div>
-               </div>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <h1 class="gallery_taital">Our offer</h1>
             </div>
-            <!-- End of loop -->
-         </div>
-      </div>
-   </div>
+        </div>
+        <div class="gallery_section_2">
+            <div class="row">
+                <!-- Loop through list of cars -->
+                <div th:each="car : ${cars}" class="col-md-4">
+                    <div class="gallery_box">
+                        <div class="gallery_img">
+                            <img th:src="@{'/images/' + ${car.id} + '.jpg'}" alt="Image of car"/>
+                        </div>
+                        <h3 class="types_text" th:text="${car.make.name} + ' ' + ${car.model}">Car Make and Model</h3>
+                        <p class="looking_text" th:text="'Registration Number: ' + ${car.registrationNumber}">
+                            Registration Number: N/A</p>
+                        <p class="looking_text" th:text="'VIN: ' + ${car.vin}">VIN: N/A</p>
+                        <p class="looking_text" th:text="'Year of Production: ' + ${car.yearOfProduction}">Year of
+                            Production: N/A</p>
+                        <p class="looking_text" th:text="'Seat Count: ' + ${car.seatCount.count}">Seat Count: N/A</p>
+                        <p class="looking_text" th:text="'Location: ' + ${car.location.city}">Location: N/A</p>
+                        <p class="looking_text" th:text="'Price: ' + ${car.pricePerDay}">Price Per Day: N/A</p>
+                        <!-- Rent Now button with conditional logic and check for search completion -->
+                        <div class="read_bt">
+                            <a th:if="${session.loggedInUser != null}"
+                               th:href="@{/book/{carId}(carId=${car.id}, location=${location}, startDate=${startDate}, endDate=${endDate})}"
+                               onclick="checkSearchCompleted(event)">Rent Now</a>
+                            <a th:if="${session.loggedInUser == null}" href="#" data-toggle="modal"
+                               data-target="#loginModal"
+                               onclick="checkSearchCompleted(event)">Rent Now</a>
+                        </div>
+                        <div class="admin-buttons"
+                             th:if="${session.loggedInUser instanceof T(com.example.CarGo.domain.Admin)}">
+                            <button class="btn btn-primary" data-toggle="modal" data-target="#editCarModal"
+                                    th:attr="data-id=${car.id}" onclick="openEditCarModal(event)">Edit
+                            </button>
+                            <button class="btn btn-danger" onclick="deleteCar(${car.id})">Delete</button>
+                        </div>
+                    </div>
+                </div>
+                <!-- End of loop -->
+                <div class="centeredAddCar-container" th:if="${session.loggedInUser instanceof T(com.example.CarGo.domain.Admin)}">
+                    <button class="btn btn-success" data-toggle="modal" data-target="#addCarModal">Add Car</button>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
 
 <!-- Bootstrap Modal for login prompt -->
 <div class="modal fade" id="loginModal" tabindex="-1" aria-labelledby="loginModalLabel" aria-hidden="true">
-   <div class="modal-dialog">
-      <div class="modal-content">
-         <div class="modal-header">
-            <h5 class="modal-title" id="loginModalLabel">Log In Required</h5>
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-               <span aria-hidden="true">&times;</span>
-            </button>
-         </div>
-         <div class="modal-body">
-            You need to log in first to book a car.
-         </div>
-         <div class="modal-footer">
-            <a href="login" class="btn btn-primary">Log In</a>
-            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-         </div>
-      </div>
-   </div>
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="loginModalLabel">Log In Required</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                You need to log in first to book a car.
+            </div>
+            <div class="modal-footer">
+                <a href="login" class="btn btn-primary">Log In</a>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
 </div>
 <!-- gallery section end -->
 
 <!-- footer section start -->
 <div class="footer_section layout_padding">
-   <div class="container">
-      <div class="row">
-         <div class="col-md-12">
-            <div class="footeer_logo"><img src="images/logo.png"></div>
-         </div>
-      </div>
-      <div class="footer_section_2">
-         <div class="row">
-            <div class="col">
-               <h4 class="footer_taital">Subscribe Now</h4>
-               <p class="footer_text">Enter your email and we'll reach you to stay in touch!</p>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="footeer_logo"><img src="images/logo.png"></div>
+            </div>
+        </div>
+        <div class="footer_section_2">
+            <div class="row">
+                <div class="col">
+                    <h4 class="footer_taital">Subscribe Now</h4>
+                    <p class="footer_text">Enter your email and we'll reach you to stay in touch!</p>
 
-               <form action="/subscribe" method="POST" class="form-group">
-                  <textarea class="update_mail" placeholder="Enter Your Email" rows="1" id="email" name="email"></textarea>
-                  <button type="submit" class="subscribe_bt btn btn-primary">Subscribe</button>
-               </form>
+                    <form action="/subscribe" method="POST" class="form-group">
+                        <textarea class="update_mail" placeholder="Enter Your Email" rows="1" id="email"
+                                  name="email"></textarea>
+                        <button type="submit" class="subscribe_bt btn btn-primary">Subscribe</button>
+                    </form>
+                </div>
+                <div class="col">
+                    <h4 class="footer_taital">Information</h4>
+                    <p class="lorem_text">CarGo is the fastest-growing car rental with the HQ in Łódź, Poland.</p>
+                </div>
+                <div class="col">
+                    <h4 class="footer_taital">Our offer</h4>
+                    <p class="lorem_text">We offer an increasing number of cars in multiple locations.</p>
+                </div>
+                <div class="col">
+                    <h4 class="footer_taital">Invesments</h4>
+                    <p class="lorem_text">We constantly invest in CarGo increasing our customer base in Poland.</p>
+                </div>
+                <div class="col">
+                    <h4 class="footer_taital">Contact Us</h4>
+                    <div class="location_text">
+                        <a href="https://www.google.com/maps/place/Wydzia%C5%82+Ekonomiczno-Socjologiczny+Uniwersytetu+%C5%81%C3%B3dzkiego/@51.7752141,19.4611604,17z/data=!3m2!4b1!5s0x471bcb27fb23fb65:0xc900bfbd73fd4323!4m6!3m5!1s0x471bcb27d95ca219:0x7a09bc332d4a8d73!8m2!3d51.7752141!4d19.4637353!16s%2Fg%2F120l7rrv?entry=ttu&g_ep=EgoyMDI0MTAyOS4wIKXMDSoASAFQAw%3D%3D"
+                           target="_blank">
+                            <i class="fa fa-map-marker" aria-hidden="true"></i>
+                            <span class="padding_left_15">Location</span>
+                        </a>
+                    </div>
+                    <div class="location_text">
+                        <a href="#" onclick="copyToClipboard('(+48) 426355356')">
+                            <i class="fa fa-phone" aria-hidden="true"></i>
+                            <span class="padding_left_15">(+48) 426355356</span>
+                        </a>
+                    </div>
+                    <div class="location_text">
+                        <a href="#" onclick="copyToClipboard('cargomailboxpl@gmail.com')">
+                            <i class="fa fa-envelope" aria-hidden="true"></i>
+                            <span class="padding_left_15">cargomailboxpl@gmail.com</span>
+                        </a>
+                    </div>
+                    <div class="social_icon">
+                        <ul>
+                            <li><a href="https://www.facebook.com/" target="_blank"><i class="fa fa-facebook"
+                                                                                       aria-hidden="true"></i></a></li>
+                            <li><a href="https://x.com/" target="_blank"><i class="fa fa-twitter"
+                                                                            aria-hidden="true"></i></a></li>
+                            <li><a href="https://www.linkedin.com/" target="_blank"><i class="fa fa-linkedin"
+                                                                                       aria-hidden="true"></i></a></li>
+                            <li><a href="https://www.instagram.com/" target="_blank"><i class="fa fa-instagram"
+                                                                                        aria-hidden="true"></i></a></li>
+                        </ul>
+                    </div>
+                </div>
             </div>
-            <div class="col">
-               <h4 class="footer_taital">Information</h4>
-               <p class="lorem_text">CarGo is the fastest-growing car rental with the HQ in Łódź, Poland.</p>
-            </div>
-            <div class="col">
-               <h4 class="footer_taital">Our offer</h4>
-               <p class="lorem_text">We offer an increasing number of cars in multiple locations.</p>
-            </div>
-            <div class="col">
-               <h4 class="footer_taital">Invesments</h4>
-               <p class="lorem_text">We constantly invest in CarGo increasing our customer base in Poland.</p>
-            </div>
-            <div class="col">
-               <h4 class="footer_taital">Contact Us</h4>
-               <div class="location_text">
-                  <a href="https://www.google.com/maps/place/Wydzia%C5%82+Ekonomiczno-Socjologiczny+Uniwersytetu+%C5%81%C3%B3dzkiego/@51.7752141,19.4611604,17z/data=!3m2!4b1!5s0x471bcb27fb23fb65:0xc900bfbd73fd4323!4m6!3m5!1s0x471bcb27d95ca219:0x7a09bc332d4a8d73!8m2!3d51.7752141!4d19.4637353!16s%2Fg%2F120l7rrv?entry=ttu&g_ep=EgoyMDI0MTAyOS4wIKXMDSoASAFQAw%3D%3D" target="_blank">
-                     <i class="fa fa-map-marker" aria-hidden="true"></i>
-                     <span class="padding_left_15">Location</span>
-                  </a>
-               </div>
-               <div class="location_text">
-                  <a href="#" onclick="copyToClipboard('(+48) 426355356')">
-                     <i class="fa fa-phone" aria-hidden="true"></i>
-                     <span class="padding_left_15">(+48) 426355356</span>
-                  </a>
-               </div>
-               <div class="location_text">
-                  <a href="#" onclick="copyToClipboard('cargomailboxpl@gmail.com')">
-                     <i class="fa fa-envelope" aria-hidden="true"></i>
-                     <span class="padding_left_15">cargomailboxpl@gmail.com</span>
-                  </a>
-               </div>
-               <div class="social_icon">
-                  <ul>
-                     <li><a href="https://www.facebook.com/" target="_blank"><i class="fa fa-facebook" aria-hidden="true"></i></a></li>
-                     <li><a href="https://x.com/" target="_blank"><i class="fa fa-twitter" aria-hidden="true"></i></a></li>
-                     <li><a href="https://www.linkedin.com/" target="_blank"><i class="fa fa-linkedin" aria-hidden="true"></i></a></li>
-                     <li><a href="https://www.instagram.com/" target="_blank"><i class="fa fa-instagram" aria-hidden="true"></i></a></li>
-                  </ul>
-               </div>
-            </div>
-         </div>
-      </div>
-   </div>
+        </div>
+    </div>
 </div>
 <!-- footer section end -->
 <!-- copyright section start -->
 <div class="copyright_section">
-   <div class="container">
-      <div class="row">
-         <div class="col-sm-12">
-            <p class="copyright_text">2023 All Rights Reserved. Design by <a href="https://html.design">Free Html Templates</a> Distributed By <a href="https://themewagon.com">ThemeWagon</a></p>
-         </div>
-      </div>
-   </div>
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-12">
+                <p class="copyright_text">2023 All Rights Reserved. Design by <a href="https://html.design">Free Html
+                    Templates</a> Distributed By <a href="https://themewagon.com">ThemeWagon</a></p>
+            </div>
+        </div>
+    </div>
 </div>
 
 <!-- Modal 1: Manage Filters -->
-<div class="modal fade" id="manageFiltersModal" tabindex="-1" aria-labelledby="manageFiltersModalLabel" aria-hidden="true">
-   <div class="modal-dialog">
-      <div class="modal-content">
-         <div class="modal-header">
-            <h5 class="modal-title" id="manageFiltersModalLabel">Manage Filters</h5>
-            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-         </div>
-         <div class="modal-body">
-            <!-- Przyciski filtrów -->
-            <div class="mb-3">
-               <button type="button" class="btn btn-outline-primary w-100" id="pickupLocationBtn">Pick up location</button>
+<div class="modal fade" id="manageFiltersModal" tabindex="-1" aria-labelledby="manageFiltersModalLabel"
+     aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="manageFiltersModalLabel">Manage Filters</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-            <div class="mb-3">
-               <button type="button" class="btn btn-outline-primary w-100" id="seatCountBtn">Seat Count</button>
+            <div class="modal-body">
+                <!-- Przyciski filtrów -->
+                <div class="mb-3">
+                    <button type="button" class="btn btn-outline-primary w-100" id="pickupLocationBtn">Pick up
+                        location
+                    </button>
+                </div>
+                <div class="mb-3">
+                    <button type="button" class="btn btn-outline-primary w-100" id="seatCountBtn">Seat Count</button>
+                </div>
+                <div class="mb-3">
+                    <button type="button" class="btn btn-outline-primary w-100" id="carMakeBtn">Car Make</button>
+                </div>
             </div>
-            <div class="mb-3">
-               <button type="button" class="btn btn-outline-primary w-100" id="carMakeBtn">Car Make</button>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
             </div>
-         </div>
-         <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-         </div>
-      </div>
-   </div>
+        </div>
+    </div>
 </div>
 
 <!-- Modal 2: Add/Delete -->
 <div class="modal fade" id="addDeleteModal" tabindex="-1" aria-labelledby="addDeleteModalLabel" aria-hidden="true">
-   <div class="modal-dialog">
-      <div class="modal-content">
-         <div class="modal-header">
-            <h5 class="modal-title" id="addDeleteModalLabel">Manage Selected Filter</h5>
-            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-         </div>
-         <div class="modal-body">
-            <p>Do you want to add or delete this filter?</p>
-         </div>
-         <div class="modal-footer">
-            <button type="button" class="btn btn-success" id="addBtn">Add</button>
-            <button type="button" class="btn btn-danger" id="deleteBtn">Delete</button>
-            <button type="button" class="btn btn-secondary" id="backBtn">Back</button>
-         </div>
-      </div>
-   </div>
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="addDeleteModalLabel">Manage Selected Filter</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p>Do you want to add or delete this filter?</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-success" id="addBtn">Add</button>
+                <button type="button" class="btn btn-danger" id="deleteBtn">Delete</button>
+                <button type="button" class="btn btn-secondary" id="backBtn">Back</button>
+            </div>
+        </div>
+    </div>
 </div>
 
 <!-- Modal: Location Add -->
 <div class="modal fade" id="addLocationModal" tabindex="-1" aria-labelledby="addLocationModalLabel" aria-hidden="true">
-   <div class="modal-dialog">
-      <div class="modal-content">
-         <div class="modal-header">
-            <h5 class="modal-title" id="addLocationModalLabel">Add New Location</h5>
-            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-         </div>
-         <div class="modal-body">
-            <form id="addLocationForm">
-               <div class="mb-3">
-                  <label for="newLocationInput" class="form-label">Enter New Location</label>
-                  <input type="text" class="form-control" id="newLocationInput" placeholder="e.g., New York">
-               </div>
-            </form>
-         </div>
-         <div class="modal-footer">
-            <button type="button" class="btn btn-success" id="saveLocationBtn">Save</button>
-            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-         </div>
-      </div>
-   </div>
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="addLocationModalLabel">Add New Location</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form id="addLocationForm">
+                    <div class="mb-3">
+                        <label for="newLocationInput" class="form-label">Enter New Location</label>
+                        <input type="text" class="form-control" id="newLocationInput" placeholder="e.g., New York">
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-success" id="saveLocationBtn">Save</button>
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+            </div>
+        </div>
+    </div>
 </div>
-
 
 
 <!-- Modal: Location delete -->
 <div class="modal fade" id="locationModal" tabindex="-1" aria-labelledby="locationModalLabel" aria-hidden="true">
-   <div class="modal-dialog">
-      <div class="modal-content">
-         <div class="modal-header">
-            <h5 class="modal-title" id="locationModalLabel">Pick Up Location</h5>
-            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-         </div>
-         <div class="modal-body">
-            <div class="col-md-12">
-               <label for="location">Select a location you want to delete:</label>
-               <select name="location" id="locationToDelete" class="form-control">
-                  <option value="">All Locations</option>
-                  <th:block th:each="location : ${locations}">
-                     <option th:value="${location.city}" th:text="${location.city}"></option>
-                  </th:block>
-               </select>
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="locationModalLabel">Pick Up Location</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-         </div>
-         <div class="modal-footer">
-            <!-- Nowy przycisk Delete -->
-            <button type="button" class="btn btn-danger" id="deleteLocationBtn">Delete</button>
-            <!-- Zmieniony przycisk Close na Back -->
-            <button type="button" class="btn btn-secondary" id="backLocationBtn">Back</button>
-         </div>
-      </div>
-   </div>
+            <div class="modal-body">
+                <div class="col-md-12">
+                    <label for="location">Select a location you want to delete:</label>
+                    <select name="location" id="locationToDelete" class="form-control">
+                        <option value="">All Locations</option>
+                        <th:block th:each="location : ${locations}">
+                            <option th:value="${location.city}" th:text="${location.city}"></option>
+                        </th:block>
+                    </select>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <!-- Nowy przycisk Delete -->
+                <button type="button" class="btn btn-danger" id="deleteLocationBtn">Delete</button>
+                <!-- Zmieniony przycisk Close na Back -->
+                <button type="button" class="btn btn-secondary" id="backLocationBtn">Back</button>
+            </div>
+        </div>
+    </div>
 </div>
 
 <!-- Modal potwierdzenia usunięcia -->
-<div class="modal fade" id="confirmDeleteModal" tabindex="-1" aria-labelledby="confirmDeleteModalLabel" aria-hidden="true">
-   <div class="modal-dialog">
-      <div class="modal-content">
-         <div class="modal-header">
-            <h5 class="modal-title" id="confirmDeleteModalLabel">Confirm Deletion</h5>
-            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-         </div>
-         <div class="modal-body">
-            Are you sure you want to delete the chosen location?
-         </div>
-         <div class="modal-footer">
-            <button type="button" class="btn btn-danger" id="confirmDeleteBtn">Confirm</button>
-            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-         </div>
-      </div>
-   </div>
+<div class="modal fade" id="confirmDeleteModal" tabindex="-1" aria-labelledby="confirmDeleteModalLabel"
+     aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="confirmDeleteModalLabel">Confirm Deletion</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                Are you sure you want to delete the chosen location?
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" id="confirmDeleteBtn">Confirm</button>
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+            </div>
+        </div>
+    </div>
 </div>
 
 <!-- Modal: Seat Count Add-->
-<div class="modal fade" id="todoSeatCountModal" tabindex="-1" aria-labelledby="todoSeatCountModalLabel" aria-hidden="true">
-   <div class="modal-dialog">
-      <div class="modal-content">
-         <div class="modal-header">
-            <h5 class="modal-title" id="todoSeatCountModalLabel">Add Seat Count</h5>
-            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-         </div>
-         <div class="modal-body">
-            <select name="seatCountId" id="seatCountModalAddlId" class="form-control">
-               <option value="">All Seat Counts</option>
-               <th:block th:each="seatCount : ${seatCounts}">
-                  <option
-                          th:value="${seatCount.id}"
-                          th:selected="${seatCountId == seatCount.id}"
-                          th:if="${seatCount.available == false}"
-                          th:text="${seatCount.count}">
-                  </option>
-               </th:block>
-            </select>
-         </div>
-         <div class="modal-footer">
-            <button type="button" class="btn btn-success" id="saveSeatCountButton">Save</button>
-            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-         </div>
-      </div>
-   </div>
+<div class="modal fade" id="todoSeatCountModal" tabindex="-1" aria-labelledby="todoSeatCountModalLabel"
+     aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="todoSeatCountModalLabel">Add Seat Count</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <select name="seatCountId" id="seatCountModalAddlId" class="form-control">
+                    <option value="">All Seat Counts</option>
+                    <th:block th:each="seatCount : ${seatCounts}">
+                        <option
+                                th:value="${seatCount.id}"
+                                th:selected="${seatCountId == seatCount.id}"
+                                th:if="${seatCount.available == false}"
+                                th:text="${seatCount.count}">
+                        </option>
+                    </th:block>
+                </select>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-success" id="saveSeatCountButton">Save</button>
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+            </div>
+        </div>
+    </div>
 </div>
 
 <!-- Modal: Seat Count Delete -->
 <div class="modal fade" id="seatCountModal" tabindex="-1" aria-labelledby="seatCountModalLabel" aria-hidden="true">
-   <div class="modal-dialog">
-      <div class="modal-content">
-         <div class="modal-header">
-            <h5 class="modal-title" id="seatCountModalLabel">Delete Seat Count</h5>
-            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-         </div>
-         <div class="modal-body">
-            <select name="seatCountId" id="seatCountModalDeleteId" class="form-control">
-               <option value="">All Seat Counts</option>
-               <th:block th:each="seatCount : ${seatCounts}">
-                  <option
-                          th:value="${seatCount.id}"
-                          th:selected="${seatCountId == seatCount.id}"
-                          th:if="${seatCount.available}"
-                          th:text="${seatCount.count}">
-                  </option>
-               </th:block>
-            </select>
-         </div>
-         <div class="modal-footer">
-            <button type="button" class="btn btn-danger" id="deleteSeatCountButton">Delete</button>
-            <button type="button" class="btn btn-secondary" id="backSeatCountBtn">Back</button>
-         </div>
-      </div>
-   </div>
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="seatCountModalLabel">Delete Seat Count</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <select name="seatCountId" id="seatCountModalDeleteId" class="form-control">
+                    <option value="">All Seat Counts</option>
+                    <th:block th:each="seatCount : ${seatCounts}">
+                        <option
+                                th:value="${seatCount.id}"
+                                th:selected="${seatCountId == seatCount.id}"
+                                th:if="${seatCount.available}"
+                                th:text="${seatCount.count}">
+                        </option>
+                    </th:block>
+                </select>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" id="deleteSeatCountButton">Delete</button>
+                <button type="button" class="btn btn-secondary" id="backSeatCountBtn">Back</button>
+            </div>
+        </div>
+    </div>
 </div>
 
 <!-- Modal potwierdzenia usunięcia Seat Count -->
-<div class="modal fade" id="confirmDeleteSeatCountModal" tabindex="-1" aria-labelledby="confirmDeleteSeatCountModalLabel" aria-hidden="true">
-   <div class="modal-dialog">
-      <div class="modal-content">
-         <div class="modal-header">
-            <h5 class="modal-title" id="confirmDeleteSeatCountModalLabel">Confirm Seat Count Deletion</h5>
-            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-         </div>
-         <div class="modal-body">
-            Are you sure you want to delete the selected seat count?
-         </div>
-         <div class="modal-footer">
-            <button type="button" class="btn btn-danger" id="confirmDeleteSeatCountBtn">Confirm</button>
-            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-         </div>
-      </div>
-   </div>
+<div class="modal fade" id="confirmDeleteSeatCountModal" tabindex="-1"
+     aria-labelledby="confirmDeleteSeatCountModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="confirmDeleteSeatCountModalLabel">Confirm Seat Count Deletion</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                Are you sure you want to delete the selected seat count?
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" id="confirmDeleteSeatCountBtn">Confirm</button>
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+            </div>
+        </div>
+    </div>
 </div>
 
 <!-- Modal: Add Car Make -->
 <div class="modal fade" id="addCarMakeModal" tabindex="-1" aria-labelledby="addCarMakeModalLabel" aria-hidden="true">
-   <div class="modal-dialog">
-      <div class="modal-content">
-         <div class="modal-header">
-            <h5 class="modal-title" id="addCarMakeModalLabel">Add Car Make</h5>
-            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-         </div>
-         <div class="modal-body">
-            <form id="addCarMakeForm">
-               <div class="mb-3">
-                  <label for="carMakeInput" class="form-label">Enter Car Make</label>
-                  <input type="text" class="form-control" id="carMakeInput" placeholder="e.g., Toyota" required>
-               </div>
-            </form>
-         </div>
-         <div class="modal-footer">
-            <button type="button" class="btn btn-success" id="saveCarMakeBtn">Save</button>
-            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-         </div>
-      </div>
-   </div>
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="addCarMakeModalLabel">Add Car Make</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form id="addCarMakeForm">
+                    <div class="mb-3">
+                        <label for="carMakeInput" class="form-label">Enter Car Make</label>
+                        <input type="text" class="form-control" id="carMakeInput" placeholder="e.g., Toyota" required>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-success" id="saveCarMakeBtn">Save</button>
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+            </div>
+        </div>
+    </div>
 </div>
 
 <!-- Modal: Car Make Delete -->
 <div class="modal fade" id="carMakeModal" tabindex="-1" aria-labelledby="carMakeModalLabel" aria-hidden="true">
-   <div class="modal-dialog">
-      <div class="modal-content">
-         <div class="modal-header">
-            <h5 class="modal-title" id="carMakeModalLabel">Car Make</h5>
-            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-         </div>
-         <div class="modal-body">
-            <div class="col-md-12">
-               <label for="carMakeToDelete">Select a car make you want to delete:</label>
-               <select name="carMake" id="carMakeToDelete" class="form-control">
-                  <option value="">All Car Makes</option>
-                  <th:block th:each="carMake : ${carMakes}">
-                     <option th:value="${carMake}" th:text="${carMake}"></option>
-                  </th:block>
-               </select>
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="carMakeModalLabel">Car Make</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-         </div>
-         <div class="modal-footer">
-            <!-- Delete button -->
-            <button type="button" class="btn btn-danger" id="deleteCarMakeBtn">Delete</button>
-            <!-- Back button -->
-            <button type="button" class="btn btn-secondary" id="backCarMakeBtn">Back</button>
-         </div>
-      </div>
-   </div>
+            <div class="modal-body">
+                <div class="col-md-12">
+                    <label for="carMakeToDelete">Select a car make you want to delete:</label>
+                    <select name="carMake" id="carMakeToDelete" class="form-control">
+                        <option value="">All Car Makes</option>
+                        <th:block th:each="carMake : ${carMakes}">
+                            <option th:value="${carMake}" th:text="${carMake}"></option>
+                        </th:block>
+                    </select>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <!-- Delete button -->
+                <button type="button" class="btn btn-danger" id="deleteCarMakeBtn">Delete</button>
+                <!-- Back button -->
+                <button type="button" class="btn btn-secondary" id="backCarMakeBtn">Back</button>
+            </div>
+        </div>
+    </div>
 </div>
 
 <!-- Modal potwierdzenia usunięcia Car Make -->
-<div class="modal fade" id="confirmDeleteCarMakeModal" tabindex="-1" aria-labelledby="confirmDeleteCarMakeModalLabel" aria-hidden="true">
-   <div class="modal-dialog">
-      <div class="modal-content">
-         <div class="modal-header">
-            <h5 class="modal-title" id="confirmDeleteCarMakeModalLabel">Confirm Car Make Deletion</h5>
-            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-         </div>
-         <div class="modal-body">
-            Are you sure you want to delete the selected car make?
-         </div>
-         <div class="modal-footer">
-            <button type="button" class="btn btn-danger" id="confirmDeleteCarMakeBtn">Confirm</button>
-            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-         </div>
-      </div>
-   </div>
+<div class="modal fade" id="confirmDeleteCarMakeModal" tabindex="-1" aria-labelledby="confirmDeleteCarMakeModalLabel"
+     aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="confirmDeleteCarMakeModalLabel">Confirm Car Make Deletion</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                Are you sure you want to delete the selected car make?
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" id="confirmDeleteCarMakeBtn">Confirm</button>
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+            </div>
+        </div>
+    </div>
 </div>
 
 <!-- Modal Structure -->
-<div class="modal fade" id="editCarModal" tabindex="-1" role="dialog" aria-labelledby="editCarModalLabel" aria-hidden="true">
-   <div class="modal-dialog" role="document">
-      <div class="modal-content">
-         <div class="modal-header">
-            <h5 class="modal-title" id="editCarModalLabel">Edit Car</h5>
-         </div>
-         <div class="modal-body">
-            <input type="hidden" id="modalCarId">
-            <p id="carMake">Make: </p>
-            <p id="carModel">Model: </p>
-            <p id="carVin">VIN: </p>
-            <p id="carYear">Year of Production: </p>
-            <p id="carChassisType">Chassis Type: </p>
-            <p id="carGearboxType">Gearbox Type: </p>
-            <p id="carFuelType">Fuel Type: </p>
-            <p id="carSeatCount">Seat Count: </p>
-            <!-- Edytowalne pola -->
-            <label for="carLocationInput">Location:</label>
-            <input type="text" id="carLocationInput" class="form-control">
+<div class="modal fade" id="editCarModal" tabindex="-1" role="dialog" aria-labelledby="editCarModalLabel"
+     aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="editCarModalLabel">Edit Car</h5>
+            </div>
+            <div class="modal-body">
+                <input type="hidden" id="modalCarId">
+                <p id="carMake">Make: </p>
+                <p id="carModel">Model: </p>
+                <p id="carVin">VIN: </p>
+                <p id="carYear">Year of Production: </p>
+                <p id="carChassisType">Chassis Type: </p>
+                <p id="carGearboxType">Gearbox Type: </p>
+                <p id="carFuelType">Fuel Type: </p>
+                <p id="carSeatCount">Seat Count: </p>
+                <!-- Edytowalne pola -->
+                <label for="carLocationInput">Location:</label>
+                <input type="text" id="carLocationInput" class="form-control">
 
-            <label for="carRegistrationNumberInput">Registration Number:</label>
-            <input type="text" id="carRegistrationNumberInput" class="form-control">
+                <label for="carRegistrationNumberInput">Registration Number:</label>
+                <input type="text" id="carRegistrationNumberInput" class="form-control">
 
-            <label for="carPricePerDayInput">Price Per Day:</label>
-            <input type="number" id="carPricePerDayInput" class="form-control" step="0.01">
-         </div>
-         <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" id="closeEditCarModalBtn">Close</button>
-            <button type="button" class="btn btn-primary" id="saveChangesBtn">Save changes</button>
-         </div>
-      </div>
-   </div>
+                <label for="carPricePerDayInput">Price Per Day:</label>
+                <input type="number" id="carPricePerDayInput" class="form-control" step="0.01">
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" id="closeEditCarModalBtn">
+                    Close
+                </button>
+                <button type="button" class="btn btn-primary" id="saveChangesBtn">Save changes</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal Structure for Adding a Car -->
+<div class="modal fade" id="addCarModal" tabindex="-1" role="dialog" aria-labelledby="addCarModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="addCarModalLabel">Add New Car</h5>
+            </div>
+            <div class="modal-body">
+                <label for="carMakeInputAdd">Make:</label>
+                <input type="text" id="carMakeInputAdd" class="form-control">
+
+                <label for="carModelInputAdd">Model:</label>
+                <input type="text" id="carModelInputAdd" class="form-control">
+
+                <label for="carVinInput">VIN:</label>
+                <input type="text" id="carVinInput" class="form-control">
+
+                <label for="carRegInput">Registration Number:</label>
+                <input type="text" id="carRegInput" class="form-control">
+
+                <label for="carYearInput">Year of Production:</label>
+                <input type="number" id="carYearInput" class="form-control">
+
+                <label for="carChassisTypeInput">Chassis Type:</label>
+                <select id="carChassisTypeInput" class="form-control">
+                    <option value="SEDAN">Sedan</option>
+                    <option value="SUV">SUV</option>
+                    <option value="WAGON">Wagon</option>
+                    <option value="COUPE">Coupe</option>
+                    <option value="HATCHBACK">Hatchback</option>
+                    <option value="PICKUP">Pickup</option>
+                    <option value="SPORT_COUPE">Sport Coupe</option>
+                    <option value="VAN">Van</option>
+                    <option value="CROSSOVER">Crossover</option>
+                    <option value="COMPACT">Compact</option>
+                </select>
+
+                <label for="carGearboxTypeInput">Gearbox Type:</label>
+                <select id="carGearboxTypeInput" class="form-control">
+                    <option value="MANUAL">Manual</option>
+                    <option value="AUTOMATIC">Automatic</option>
+                    <option value="CVT">CVT</option>
+                    <option value="DCT">DCT</option>
+                    <option value="SEMI_AUTOMATIC">Semi-Automatic</option>
+                    <option value="TIPTRONIC">Tiptronic</option>
+                    <option value="ELECTRIC_VEHICLE">Electric Vehicle</option>
+                </select>
+
+                <label for="carFuelTypeInput">Fuel Type:</label>
+                <select id="carFuelTypeInput" class="form-control">
+                    <option value="PETROL">Petrol</option>
+                    <option value="DIESEL">Diesel</option>
+                    <option value="HYBRID">Hybrid</option>
+                    <option value="ELECTRIC">Electric</option>
+                </select>
+
+                <label for="carSeatCountInput">Seat Count:</label>
+                <select id="carSeatCountInput" class="form-control">
+                    <option value="2">2</option>
+                    <option value="4">4</option>
+                    <option value="5">5</option>
+                    <option value="6">6</option>
+                    <option value="7">7</option>
+                    <option value="8">8</option>
+                    <option value="9">9</option>
+                </select>
+
+                <label for="carPriceInput">Price Per Day:</label>
+                <input type="number" id="carPriceInput" class="form-control" step="0.01">
+
+                <label for="carLocationInputAdd">Location:</label>
+                <input type="text" id="carLocationInputAdd" class="form-control">
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" id="addCarBtn">Add Car</button>
+            </div>
+        </div>
+    </div>
 </div>
 
 <!-- copyright section end -->
@@ -717,5 +879,6 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
 <script src="js/modalWindow.js"></script>
 <script src="js/modalWindowEditCar.js"></script>
+<script src="js/modalWindowAddCar.js"></script>
 </body>
 </html>

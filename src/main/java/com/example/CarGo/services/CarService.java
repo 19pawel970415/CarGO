@@ -1,15 +1,14 @@
 package com.example.CarGo.services;
 
 
-import com.example.CarGo.db.LocationRepository;
-import com.example.CarGo.db.ReservationRepository;
+import com.example.CarGo.db.*;
 import com.example.CarGo.domain.*;
-import com.example.CarGo.db.CarRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.sql.SQLDataException;
 import java.time.LocalDate;
 
 
@@ -31,9 +30,17 @@ public class CarService {
     @Autowired
     private final LocationRepository locationRepository;
 
-    public CarService(ReservationRepository reservationRepository, LocationRepository locationRepository) {
+    @Autowired
+    private final CarMakeRepository carMakeRepository;
+
+    @Autowired
+    private final SeatCountRepository seatCountRepository;
+
+    public CarService(ReservationRepository reservationRepository, LocationRepository locationRepository, CarMakeRepository carMakeRepository, SeatCountRepository seatCountRepository) {
         this.reservationRepository = reservationRepository;
         this.locationRepository = locationRepository;
+        this.carMakeRepository = carMakeRepository;
+        this.seatCountRepository = seatCountRepository;
     }
 
     public List<Car> findAllCars() {
@@ -170,5 +177,72 @@ public class CarService {
         carRepository.save(car);
     }
 
+    @Transactional
+    public void addCar(CarAddRequest request) {
+        // Walidacja unikalności VIN i numeru rejestracyjnego
+        try {
+            validateCarUniqueness(request);
+        } catch (SQLDataException e) {
+            throw new RuntimeException(e);
+        }
 
+        // Znalezienie lub utworzenie lokalizacji
+        Location location = findOrCreateLocation(request);
+
+        // Sprawdzamy istnienie marki samochodu w bazie
+        CarMake carMake = carMakeRepository.findByName(request.getMake().getName())
+                .orElseGet(() -> createNewCarMake(request.getMake().getName()));
+
+        if (request.getYearOfProduction() < 1900 || request.getYearOfProduction() > LocalDate.now().getYear()) {
+            throw new IllegalArgumentException("Year of production must be between 1900 and the current year.");
+        }
+
+        // Znalezienie SeatCount na podstawie liczby foteli
+        SeatCount seatCount = seatCountRepository.findByCount(request.getSeatCount().getId())
+                .orElseThrow(() -> new IllegalArgumentException("Seat count not found"));
+
+        // Zmiana dostępności na true
+        seatCount.setAvailable(true);
+        seatCountRepository.save(seatCount);  // Zapisanie zmiany dostępności foteli
+
+        // Tworzenie samochodu
+        Car car = new Car();
+        car.setMake(carMake);  // Używamy znalezionej lub nowo utworzonej marki
+        car.setModel(request.getModel());
+        car.setRegistrationNumber(request.getRegistrationNumber());
+        car.setVin(request.getVin());
+        car.setYearOfProduction(request.getYearOfProduction());
+        car.setChassisType(request.getChassisType());
+        car.setGearboxType(request.getGearboxType());
+        car.setFuelType(request.getFuelType());
+        car.setSeatCount(seatCount);  // Przypisanie zaktualizowanego SeatCount
+        car.setPricePerDay(request.getPricePerDay());
+        car.setLocation(location);
+        car.setStatus(CarStatus.READY_FOR_RENT);
+
+        carRepository.save(car);
+    }
+
+    // Metoda pomocnicza do tworzenia nowej marki samochodu, jeśli nie istnieje
+    private CarMake createNewCarMake(String makeName) {
+        CarMake newCarMake = new CarMake();
+        newCarMake.setName(makeName);
+        return carMakeRepository.save(newCarMake);
+    }
+
+    // Metoda do znalezienia lub utworzenia lokalizacji
+    private Location findOrCreateLocation(CarAddRequest request) {
+        return locationRepository.findByCity(request.getLocation().getCity())
+                .orElseGet(() -> locationRepository.save(new Location(request.getLocation().getCity())));
+    }
+
+
+    private void validateCarUniqueness(CarAddRequest request) throws SQLDataException {
+        if (carRepository.existsByVin(request.getVin())) {
+            throw new SQLDataException("Car with the same VIN already exists.");
+        }
+        if (carRepository.existsByRegistrationNumber(request.getRegistrationNumber())) {
+            throw new SQLDataException("Car with the same Registration Number already exists.");
+        }
+    }
 }

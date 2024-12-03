@@ -18,6 +18,10 @@ public interface CarRepository extends JpaRepository<Car, Long> {
 
     Optional<Car> findById(Long id);
 
+    boolean existsByVin(String vin);
+
+    boolean existsByRegistrationNumber(String registrationNumber);
+
     @Query("SELECT c FROM Car c WHERE c.location.city = :location AND " +
             "NOT EXISTS (SELECT r FROM Reservation r WHERE r.car = c " +
             "AND (r.reservationStart <= :endDate AND r.reservationEnd >= :startDate) " +

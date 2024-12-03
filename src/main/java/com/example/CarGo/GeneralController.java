@@ -791,6 +791,12 @@ public class GeneralController {
         carService.updateCar(request);
     }
 
+    @PostMapping("/car/add")
+    @ResponseStatus(HttpStatus.CREATED)
+    public void addCar(@RequestBody CarAddRequest request) {
+        carService.addCar(request);
+    }
+
     @PostMapping("/updateManager")
     public String updateManager(
             @RequestParam("id") Long id,
