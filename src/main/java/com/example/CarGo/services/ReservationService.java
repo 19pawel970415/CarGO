@@ -48,4 +48,24 @@ public class ReservationService {
         reservation.setStatus(ReservationStatus.CANCELLED);
         reservationRepository.save(reservation);
     }
+
+    public List<Reservation> findAllReservations() {
+        return reservationRepository.findAll();
+    }
+
+    // Aktualizacja statusu rezerwacji
+    public void updateReservationStatus(Long reservationId, ReservationStatus newStatus) {
+        Reservation reservation = reservationRepository.findById(reservationId)
+                .orElseThrow(() -> new IllegalArgumentException("Reservation not found"));
+        reservation.setStatus(newStatus);
+        reservationRepository.save(reservation);
+    }
+
+    // Usunięcie rezerwacji
+    public void deleteReservation(Long reservationId) {
+        if (!reservationRepository.existsById(reservationId)) {
+            throw new IllegalArgumentException("Reservation not found");
+        }
+        reservationRepository.deleteById(reservationId);
+    }
 }

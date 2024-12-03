@@ -943,4 +943,26 @@ public class GeneralController {
         model.addAttribute("carCountByLocation", carCountByLocation);
         return "reports";
     }
+
+    @GetMapping("/manageReservations")
+    public String showManageReservations(Model model, HttpSession session) {
+        Manager loggedInManager = (Manager) session.getAttribute("loggedInUser");
+        if (loggedInManager != null) {
+            List<Reservation> allReservations = reservationService.findAllReservations();
+            model.addAttribute("reservations", allReservations);
+        }
+        return "manageReservations";
+    }
+
+    @PostMapping("/delete_reservation")
+    public String deleteReservation(@RequestParam Long reservationId) {
+        reservationService.deleteReservation(reservationId);
+        return "redirect:/manageReservations";
+    }
+
+    @PostMapping("/update_reservation_status")
+    public String updateReservationStatus(@RequestParam Long reservationId, @RequestParam String status) {
+        reservationService.updateReservationStatus(reservationId, ReservationStatus.valueOf(status));
+        return "redirect:/manageReservations";
+    }
 }
