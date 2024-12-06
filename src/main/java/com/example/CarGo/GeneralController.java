@@ -808,6 +808,8 @@ public class GeneralController {
             }
             carService.deleteCar(id);
             return ResponseEntity.ok("Car deleted successfully!");
+        } catch (IllegalStateException e) {
+            return ResponseEntity.status(HttpStatus.CONFLICT).body(e.getMessage());
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                     .body("Failed to delete car: " + e.getMessage());

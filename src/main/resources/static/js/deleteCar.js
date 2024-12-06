@@ -41,16 +41,17 @@ function deleteCar(carId) {
     .then(response => {
         if (response.ok) {
             alert('Car deleted successfully!');
-            document.getElementById('deleteCarModal').classList.remove('show');
-            document.body.classList.remove('modal-open');
-            document.querySelector('.modal-backdrop').remove();
             window.location.reload();
+        } else if (response.status === 409) { // Conflict - aktywne rezerwacje
+            return response.text().then(text => { throw new Error(text); });
         } else {
             return response.text().then(text => { throw new Error(text); });
         }
     })
     .catch(error => {
         console.error('Error deleting car:', error);
-        alert('Failed to delete the car.');
+        alert(error.message); // Wyświetl komunikat zwrócony przez backend
+        $('.modal-backdrop').remove();
+        $('body').removeClass('modal-open');
     });
 }

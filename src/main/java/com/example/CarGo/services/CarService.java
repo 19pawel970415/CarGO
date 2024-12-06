@@ -254,6 +254,10 @@ public class CarService {
     }
 
     public void deleteCar(Long carId) {
+        if (hasActiveOrPendingReservations(carId)) {
+            throw new IllegalStateException("You cannot delete this car as it is either rented now or booked for the future!");
+        }
+
         List<Car> allCars = carRepository.findAll();
 
         // Pobranie marki samochodu
@@ -339,6 +343,20 @@ public class CarService {
             Files.deleteIfExists(filePath);
         } catch (IOException e) {
             throw new RuntimeException("Failed to delete image: " + e.getMessage(), e);
+        }
+    }
+
+    public boolean hasActiveOrPendingReservations(Long carId) {
+        // Pobierz wszystkie rezerwacje dla danego samochodu
+        long numberOfReservationOnTheCar = reservationRepository.findAll().stream()
+                .filter(r -> r.getCar().getId() == carId)
+                .filter(r -> r.getStatus() == ReservationStatus.ACTIVE || r.getStatus() == ReservationStatus.PENDING)
+                .count();
+
+        if (numberOfReservationOnTheCar > 0) {
+            return true;
+        } else {
+            return false;
         }
     }
 }
