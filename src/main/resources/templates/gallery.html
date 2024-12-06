@@ -321,6 +321,11 @@
                 <h1 class="gallery_taital">Our offer</h1>
             </div>
         </div>
+        <div class="row justify-content-center" th:if="${session.loggedInUser instanceof T(com.example.CarGo.domain.Admin)}">
+            <div class="col-md-3 text-center">
+                <button class="btn btn-success btn-block" data-toggle="modal" data-target="#addCarModal">Add Car</button>
+            </div>
+        </div>
         <div class="gallery_section_2">
             <div class="row">
                 <!-- Loop through list of cars -->
@@ -362,9 +367,6 @@
                     </div>
                 </div>
                 <!-- End of loop -->
-                <div class="centeredAddCar-container" th:if="${session.loggedInUser instanceof T(com.example.CarGo.domain.Admin)}">
-                    <button class="btn btn-success" data-toggle="modal" data-target="#addCarModal">Add Car</button>
-                </div>
             </div>
         </div>
     </div>
