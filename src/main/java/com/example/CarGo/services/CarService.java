@@ -254,8 +254,38 @@ public class CarService {
     }
 
     public void deleteCar(Long carId) {
+        List<Car> allCars = carRepository.findAll();
+
+        // Pobranie marki samochodu
+        String markName = carRepository.findById(carId).get().getMake().getName();
+
+        // Liczba samochodów danej marki
+        long carsWithTheSameMake = allCars.stream()
+                .filter(c -> c.getMake().getName().equals(markName))
+                .count();
+
+        // Pobranie lokalizacji powiązanej z danym samochodem
+        String cityName = carRepository.findById(carId).get().getLocation().getCity();
+
+        // Liczba samochodów w tej samej lokalizacji
+        long carsInTheSameLocation = allCars.stream()
+                .filter(c -> c.getLocation().getCity().equals(cityName))
+                .count();
+
+        // Usunięcie samochodu
         carRepository.deleteById(carId);
 
+        // Usunięcie marki, jeśli nie ma innych samochodów tej marki
+        if (carsWithTheSameMake <= 1) {
+            carMakeRepository.deleteById(carMakeRepository.findByName(markName).get().getId());
+        }
+
+        // Usunięcie lokalizacji, jeśli nie ma innych samochodów w tej lokalizacji
+        if (carsInTheSameLocation <= 1) {
+            locationRepository.deleteById(locationRepository.findByCity(cityName).get().getId());
+        }
+
+        // Usunięcie obrazu samochodu
         deleteCarImage(carId);
     }
 
