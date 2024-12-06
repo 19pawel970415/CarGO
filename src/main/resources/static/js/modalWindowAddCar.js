@@ -1,3 +1,7 @@
+document.getElementById('carImageInput').addEventListener('click', function () {
+    alert('Choose only .jpg files. The default size of the photos is 224 x 150. Any other size may cause an unexpected result on the website!');
+});
+
 document.getElementById('addCarBtn').addEventListener('click', function () {
     // Pobranie wartości z formularza
     const make = document.getElementById('carMakeInputAdd').value;
@@ -25,6 +29,12 @@ document.getElementById('addCarBtn').addEventListener('click', function () {
         alert('Year of production must be between 1900 and ' + currentYear + '.');
         return;
     }
+
+    // Walidacja formatu pliku
+        if (imageFile && !imageFile.name.toLowerCase().endsWith('.jpg')) {
+            alert('The format of the photo is incorrect! Choose a .jpg file!');
+            return;
+        }
 
     // Tworzenie obiektu z danymi samochodu
     const formData = new FormData();
