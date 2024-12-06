@@ -799,6 +799,36 @@ public class GeneralController {
         carService.addCar(request, image);
     }
 
+    @RestController
+    @RequestMapping("/api")
+    public class SuggestionController {
+
+        private final CarMakeRepository carMakeRepository;
+        private final LocationRepository locationRepository;
+
+        public SuggestionController(CarMakeRepository carMakeRepository, LocationRepository locationRepository) {
+            this.carMakeRepository = carMakeRepository;
+            this.locationRepository = locationRepository;
+        }
+
+        @GetMapping("/car-makes")
+        public List<String> getCarMakes(@RequestParam("query") String query) {
+            return carMakeRepository.findByNameContainingIgnoreCase(query)
+                    .stream()
+                    .map(CarMake::getName)
+                    .toList();
+        }
+
+        @GetMapping("/locations")
+        public List<String> getLocations(@RequestParam("query") String query) {
+            return locationRepository.findByCityContainingIgnoreCase(query)
+                    .stream()
+                    .map(Location::getCity)
+                    .toList();
+        }
+    }
+
+
     @DeleteMapping("/car/deleteCar/{id}")
     @ResponseBody
     public ResponseEntity<String> deleteCar(@PathVariable Long id) {

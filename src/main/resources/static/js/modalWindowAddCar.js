@@ -83,3 +83,32 @@ document.getElementById('addCarBtn').addEventListener('click', function () {
          }
     });
 });
+
+// Funkcja do aktualizacji podpowiedzi
+function updateSuggestions(inputId, dataListId, url) {
+    const input = document.getElementById(inputId);
+    const dataList = document.getElementById(dataListId);
+
+    input.addEventListener('input', function () {
+        const query = input.value;
+
+        if (query.length > 0) { // Minimalna liczba znaków
+            fetch(`${url}?query=${encodeURIComponent(query)}`)
+                .then(response => response.json())
+                .then(data => {
+                    dataList.innerHTML = ''; // Wyczyść istniejące opcje
+                    data.forEach(item => {
+                        const option = document.createElement('option');
+                        option.value = item;
+                        dataList.appendChild(option);
+                    });
+                })
+                .catch(error => console.error('Error fetching suggestions:', error));
+        }
+    });
+}
+
+// Inicjalizacja podpowiedzi
+updateSuggestions('carMakeInputAdd', 'carMakeSuggestions', '/api/car-makes');
+updateSuggestions('carLocationInputAdd', 'locationSuggestions', '/api/locations');
+

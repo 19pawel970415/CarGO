@@ -800,7 +800,8 @@
             </div>
             <div class="modal-body">
                 <label for="carMakeInputAdd">Make:</label>
-                <input type="text" id="carMakeInputAdd" class="form-control">
+                <input type="text" id="carMakeInputAdd" class="form-control" list="carMakeSuggestions">
+                <datalist id="carMakeSuggestions"></datalist>
 
                 <label for="carModelInputAdd">Model:</label>
                 <input type="text" id="carModelInputAdd" class="form-control">
@@ -862,7 +863,8 @@
                 <input type="number" id="carPriceInput" class="form-control" step="0.01">
 
                 <label for="carLocationInputAdd">Location:</label>
-                <input type="text" id="carLocationInputAdd" class="form-control">
+                <input type="text" id="carLocationInputAdd" class="form-control" list="locationSuggestions">
+                <datalist id="locationSuggestions"></datalist>
 
                 <label for="carImageInput">Upload Image:</label>
                 <input type="file" id="carImageInput" class="form-control" accept="image/*">
