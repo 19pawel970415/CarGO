@@ -277,7 +277,6 @@ public class CarService {
 
         try {
             Runtime.getRuntime().exec(new String[]{"git", "add", filePath.toString()});
-            Runtime.getRuntime().exec(new String[]{"git", "commit", "-m", "Add car image for ID " + carNumber});
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -292,8 +291,6 @@ public class CarService {
         // Usuwanie pliku, jeśli istnieje
         try {
             Files.deleteIfExists(filePath);
-            Runtime.getRuntime().exec(new String[]{"git", "add", filePath.toString()});
-            Runtime.getRuntime().exec(new String[]{"git", "commit", "-m", "Delete car image for ID " + carId});
         } catch (IOException e) {
             throw new RuntimeException("Failed to delete image: " + e.getMessage(), e);
         }
