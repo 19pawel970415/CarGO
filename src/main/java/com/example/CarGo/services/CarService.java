@@ -272,6 +272,14 @@ public class CarService {
                 .filter(c -> c.getLocation().getCity().equals(cityName))
                 .count();
 
+        // Pobranie SeatCount powiązanego z samochodem
+        Long seatCountId = carRepository.findById(carId).get().getSeatCount().getId();
+
+        // Liczba samochodów z tym samym SeatCount
+        long carsWithTheSameSeatCount = allCars.stream()
+                .filter(c -> c.getSeatCount().getId() == seatCountId)
+                .count();
+
         // Usunięcie samochodu
         carRepository.deleteById(carId);
 
@@ -283,6 +291,14 @@ public class CarService {
         // Usunięcie lokalizacji, jeśli nie ma innych samochodów w tej lokalizacji
         if (carsInTheSameLocation <= 1) {
             locationRepository.deleteById(locationRepository.findByCity(cityName).get().getId());
+        }
+
+
+        // Usunięcie SeatCount, jeśli nie ma innych samochodów z tym samym SeatCount
+        if (carsWithTheSameSeatCount <= 1) {
+            Optional<SeatCount> seatCountbyId = seatCountRepository.findById(seatCountId);
+            seatCountbyId.get().setAvailable(false);
+            seatCountRepository.save(seatCountbyId.get());
         }
 
         // Usunięcie obrazu samochodu
