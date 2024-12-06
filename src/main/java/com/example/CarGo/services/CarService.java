@@ -255,6 +255,8 @@ public class CarService {
 
     public void deleteCar(Long carId) {
         carRepository.deleteById(carId);
+
+        deleteCarImage(carId);
     }
 
     private void saveCarImage(MultipartFile image, long carNumber) {
@@ -276,9 +278,24 @@ public class CarService {
         try {
             Runtime.getRuntime().exec(new String[]{"git", "add", filePath.toString()});
             Runtime.getRuntime().exec(new String[]{"git", "commit", "-m", "Add car image for ID " + carNumber});
-            Runtime.getRuntime().exec(new String[]{"git", "push"});
         } catch (IOException e) {
             throw new RuntimeException(e);
+        }
+    }
+
+    private void deleteCarImage(Long carId) {
+        // Ścieżka do obrazu samochodu
+        String uploadDir = "C:/Users/48721/IdeaProjects/CarGo/src/main/resources/static/images/";
+        String fileName = carId + ".jpg"; // Przy założeniu, że obrazy mają rozszerzenie .jpg
+        Path filePath = Paths.get(uploadDir + fileName);
+
+        // Usuwanie pliku, jeśli istnieje
+        try {
+            Files.deleteIfExists(filePath);
+            Runtime.getRuntime().exec(new String[]{"git", "add", filePath.toString()});
+            Runtime.getRuntime().exec(new String[]{"git", "commit", "-m", "Delete car image for ID " + carId});
+        } catch (IOException e) {
+            throw new RuntimeException("Failed to delete image: " + e.getMessage(), e);
         }
     }
 }
