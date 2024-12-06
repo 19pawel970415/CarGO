@@ -7,7 +7,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.sql.SQLDataException;
 import java.time.LocalDate;
 
@@ -178,7 +183,7 @@ public class CarService {
     }
 
     @Transactional
-    public void addCar(CarAddRequest request) {
+    public void addCar(CarAddRequest request, MultipartFile image) {
         // Walidacja unikalności VIN i numeru rejestracyjnego
         try {
             validateCarUniqueness(request);
@@ -221,6 +226,8 @@ public class CarService {
         car.setStatus(CarStatus.READY_FOR_RENT);
 
         carRepository.save(car);
+
+        saveCarImage(image, car.getId());
     }
 
     // Metoda pomocnicza do tworzenia nowej marki samochodu, jeśli nie istnieje
@@ -248,5 +255,30 @@ public class CarService {
 
     public void deleteCar(Long carId) {
         carRepository.deleteById(carId);
+    }
+
+    private void saveCarImage(MultipartFile image, long carNumber) {
+        if (image.isEmpty()) {
+            throw new IllegalArgumentException("Uploaded image cannot be empty");
+        }
+
+        String uploadDir = "C:/Users/48721/IdeaProjects/CarGo/src/main/resources/static/images/";
+        String fileName = carNumber + ".jpg"; // Możesz dostosować rozszerzenie
+
+        Path filePath = Paths.get(uploadDir + fileName);
+        try {
+            Files.createDirectories(filePath.getParent()); // Upewnij się, że katalog istnieje
+            image.transferTo(filePath.toFile());
+        } catch (IOException e) {
+            throw new RuntimeException("Failed to save image: " + e.getMessage(), e);
+        }
+
+        try {
+            Runtime.getRuntime().exec(new String[]{"git", "add", filePath.toString()});
+            Runtime.getRuntime().exec(new String[]{"git", "commit", "-m", "Add car image for ID " + carNumber});
+            Runtime.getRuntime().exec(new String[]{"git", "push"});
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 }

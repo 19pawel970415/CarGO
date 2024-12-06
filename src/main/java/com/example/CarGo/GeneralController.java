@@ -14,6 +14,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.nio.file.Paths;
@@ -793,8 +794,9 @@ public class GeneralController {
 
     @PostMapping("/car/add")
     @ResponseStatus(HttpStatus.CREATED)
-    public void addCar(@RequestBody CarAddRequest request) {
-        carService.addCar(request);
+    public void addCar(@RequestPart("carData") CarAddRequest request,
+                       @RequestPart("image") MultipartFile image) {
+        carService.addCar(request, image);
     }
 
     @DeleteMapping("/car/deleteCar/{id}")

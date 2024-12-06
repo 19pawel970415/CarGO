@@ -332,7 +332,7 @@
                 <div th:each="car : ${cars}" class="col-md-4">
                     <div class="gallery_box">
                         <div class="gallery_img">
-                            <img th:src="@{'/images/' + ${car.id} + '.jpg'}" alt="Image of car"/>
+                            <img th:src="@{'/images/' + ${car.id} + '.jpg' + '?v=' + ${car.id}}" alt="Image of car"/>
                         </div>
                         <h3 class="types_text" th:text="${car.make.name} + ' ' + ${car.model}">Car Make and Model</h3>
                         <p class="looking_text" th:text="'Registration Number: ' + ${car.registrationNumber}">
@@ -863,6 +863,9 @@
 
                 <label for="carLocationInputAdd">Location:</label>
                 <input type="text" id="carLocationInputAdd" class="form-control">
+
+                <label for="carImageInput">Upload Image:</label>
+                <input type="file" id="carImageInput" class="form-control" accept="image/*">
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>

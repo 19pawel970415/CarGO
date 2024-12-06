@@ -11,10 +11,11 @@ document.getElementById('addCarBtn').addEventListener('click', function () {
     const seatCount = document.getElementById('carSeatCountInput').value;
     const pricePerDay = parseFloat(document.getElementById('carPriceInput').value);
     const location = document.getElementById('carLocationInputAdd').value;
+    const imageFile = document.getElementById('carImageInput').files[0];
 
     // Walidacja
-    if (!make || !model || !vin || !registrationNumber || !yearOfProduction || !chassisType || !gearboxType || !fuelType || !seatCount || !pricePerDay || !location) {
-        alert('All fields must be filled!');
+    if (!make || !model || !vin || !registrationNumber || !yearOfProduction || !chassisType || !gearboxType || !fuelType || !seatCount || !pricePerDay || !location || !imageFile) {
+        alert('All fields must be filled, including the image!');
         return; // Zatrzymanie dalszego działania, jeśli któreś pole jest puste
     }
 
@@ -26,7 +27,8 @@ document.getElementById('addCarBtn').addEventListener('click', function () {
     }
 
     // Tworzenie obiektu z danymi samochodu
-    const newCarData = {
+    const formData = new FormData();
+    const carData = {
         make: { name: make },
         model: model,
         vin: vin,
@@ -40,13 +42,13 @@ document.getElementById('addCarBtn').addEventListener('click', function () {
         location: { city: location }
     };
 
+    formData.append('carData', new Blob([JSON.stringify(carData)], { type: 'application/json' }));
+    formData.append('image', imageFile);
+
     // Wysłanie danych na serwer
     fetch('/car/add', {
         method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(newCarData)
+        body: formData
     })
     .then(response => {
         if (response.ok) {
@@ -66,6 +68,8 @@ document.getElementById('addCarBtn').addEventListener('click', function () {
               alert('A car with the same VIN already exists!');
          } else if (error.message.includes('Car with the same Registration Number already exists')) {
               alert('A car with the same Registration Number already exists!');
+         } else {
+              alert('An error occurred while adding the car.');
          }
     });
 });
