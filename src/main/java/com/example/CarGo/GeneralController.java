@@ -21,6 +21,7 @@ import java.nio.file.Paths;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -1019,5 +1020,27 @@ public class GeneralController {
     public String updateReservationStatus(@RequestParam Long reservationId, @RequestParam String status) {
         reservationService.updateReservationStatus(reservationId, ReservationStatus.valueOf(status));
         return "redirect:/manageReservations";
+    }
+
+    @GetMapping("/stats")
+    public String getStats(@RequestParam(value = "startDate", required = false) String startDate,
+                           @RequestParam(value = "endDate", required = false) String endDate,
+                           Model model) {
+
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        LocalDateTime start = (startDate != null) ? LocalDate.parse(startDate, formatter).atStartOfDay() : null;
+        LocalDateTime end = (endDate != null) ? LocalDate.parse(endDate, formatter).atStartOfDay() : null;
+
+        // Pobierz dane z serwisu
+        List<Map.Entry<Car, Long>> mostRentedCars = reservationService.getMostRentedCars(start, end);
+        List<Map.Entry<FuelType, Long>> fuelTypeRanking = reservationService.getFuelTypeRanking(start, end);
+        List<Map.Entry<Reservation, Double>> reservationsWithEarnings = reservationService.getReservationsWithEarnings(start, end);
+
+        // Dodaj dane do modelu
+        model.addAttribute("mostRentedCars", mostRentedCars);
+        model.addAttribute("fuelTypeRanking", fuelTypeRanking);
+        model.addAttribute("reservationsWithEarnings", reservationsWithEarnings);
+
+        return "stats"; // Nazwa widoku HTML (statystyki.html)
     }
 }

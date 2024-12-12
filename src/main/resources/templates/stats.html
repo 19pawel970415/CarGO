@@ -1,37 +1,52 @@
-<!-- confirmation.html -->
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Reservation Confirmation</title>
+    <title>Registration</title>
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
     <!-- Style CSS -->
     <link rel="stylesheet" type="text/css" href="css/style.css">
+    <!-- Style register CSS -->
+    <link rel="stylesheet" type="text/css" href="css/register-style.css">
     <!-- Responsive CSS -->
     <link rel="stylesheet" href="css/responsive.css">
     <!-- Font CSS -->
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&family=Raleway:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- Scrollbar Custom CSS -->
+    <link rel="stylesheet" href="css/jquery.mCustomScrollbar.min.css">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css">
     <!-- Button -->
-    <link rel="stylesheet" href="css/button.css">
+    <link rel="stylesheet" href="/css/button.css">
+    <!-- reservation list style -->
+    <link rel="stylesheet" href="/css/reservation-list-style.css">
 </head>
 <body>
-<!-- Header section with navbar -->
+<!-- header section start -->
 <div class="header_section">
     <div class="container">
         <nav class="navbar navbar-expand-lg navbar-light bg-light">
-            <a class="navbar-brand" href="index"><img src="images/logo.png" alt="Logo"></a>
+            <a class="navbar-brand" href="index"><img src="images/logo.png"></a>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav ml-auto">
-                    <li class="nav-item"><a class="nav-link" href="index">Home</a></li>
-                    <li class="nav-item"><a class="nav-link" href="about">About</a></li>
-                    <li class="nav-item"><a class="nav-link" href="gallery">Vehicles</a></li>
-                    <li class="nav-item"><a class="nav-link" href="contact">Contact</a></li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="index">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="about">About</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="gallery">Vehicles</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="contact">Contact</a>
+                    </li>
                     <!-- Przycisk Sign in wyświetlany tylko, gdy użytkownik nie jest zalogowany -->
                     <li class="nav-item" th:if="${session.loggedInUser == null}">
                         <a class="nav-link" href="login">Sign in</a>
@@ -62,7 +77,7 @@
                             <a class="dropdown-item" href="stats" th:if="${session.loggedInUser instanceof T(com.example.CarGo.domain.Admin)}">Statistics</a>
                         </div>
                     </li>
-                    <!-- Przycisk Sign out wyświetlany tylko, gdy użytkownik jest zalogowany -->
+                    <!-- Przycisk Sign out -->
                     <li class="nav-item" th:if="${session.loggedInUser != null}">
                         <a class="nav-link" href="signout">Sign out</a>
                     </li>
@@ -96,19 +111,95 @@
         </div>
     </div>
 </div>
+<div class="container">
 
-<!-- Confirmation Section Start -->
-<div class="confirmation_section layout_padding">
-    <div class="container">
-        <div class="confirmation-message-container">
-            <h1>You Rented The Car Successfully!</h1>
-            <p><br></p>
-            <a href="index" class="luto_btn">Return Home</a>
-            <p><br></p>
-        </div>
+    <br><br>
+
+    <h1 class="my-4">Statystyki Wypożyczeń</h1>
+
+    <br><br>
+
+    <form method="get" action="/stats">
+        <label for="startDate">Start Date:</label>
+        <input type="date" id="startDate" name="startDate" th:value="${startDate}">
+
+        <label for="endDate">End Date:</label>
+        <input type="date" id="endDate" name="endDate" th:value="${endDate}">
+
+        <button type="submit" class="luto_btn">Filter</button>
+    </form>
+
+    <br><br>
+
+
+    <!-- Najbardziej wypożyczane samochody -->
+    <h3>Najbardziej Wypożyczane Samochody</h3>
+
+    <br><br>
+
+    <table class="table table-bordered">
+        <thead>
+        <tr>
+            <th>Nr</th>
+            <th>Samochód</th>
+            <th>Liczba Wynajmów</th>
+        </tr>
+        </thead>
+        <tbody>
+        <th:block th:each="entry, iterStat : ${mostRentedCars}">
+            <tr>
+                <td th:text="${iterStat.index + 1}"></td>
+                <td th:text="${entry.key.model}"></td>
+                <td th:text="${entry.value}"></td>
+            </tr>
+        </th:block>
+        </tbody>
+    </table>
+
+    <br><br>
+
+    <!-- Najczęściej wynajmowane typy paliwa -->
+    <h3>Ranking Typów Paliwa</h3>
+
+    <br><br>
+
+    <div>
+        <ul>
+            <th:block th:each="entry, iterStat : ${fuelTypeRanking}">
+                <li th:text="'Typ paliwa: ' + ${entry.key} + ' - ' + ${entry.value} + ' wynajmów'"></li>
+            </th:block>
+        </ul>
     </div>
+
+    <br><br>
+
+    <!-- Samochody z największymi zarobkami -->
+    <h3>Ranking Samochodów z Największymi Zarobkami</h3>
+
+    <br><br>
+
+    <table class="table table-bordered">
+        <thead>
+        <tr>
+            <th>Nr</th>
+            <th>Samochód</th>
+            <th>Zarobki</th>
+        </tr>
+        </thead>
+        <tbody>
+        <th:block th:each="entry, iterStat : ${reservationsWithEarnings}">
+            <tr>
+                <td th:text="${iterStat.index + 1}"></td>
+                <td th:text="${entry.key.car.model}"></td>
+                <td th:text="${entry.value}"></td>
+            </tr>
+        </th:block>
+        </tbody>
+    </table>
+
 </div>
-<!-- Confirmation Section End -->
+
+<br><br><br>
 
 <!-- Footer Section Start -->
 <div class="footer_section layout_padding">
@@ -187,10 +278,15 @@
 </div>
 <!-- copyright section end -->
 
-<!-- jQuery and Bootstrap JS -->
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<!-- Javascript files-->
+<script src="js/jquery.min.js"></script>
+<script src="js/popper.min.js"></script>
 <script src="js/bootstrap.bundle.min.js"></script>
+<script src="js/jquery-3.0.0.min.js"></script>
+<script src="js/plugin.js"></script>
+<script src="js/script.js"></script>
 <script src="js/clipboard.js"></script>
 <script src="js/subscribe.js"></script>
+<script src="js/confirm.js"></script>
 </body>
 </html>

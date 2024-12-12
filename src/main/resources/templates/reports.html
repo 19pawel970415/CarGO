@@ -68,11 +68,13 @@
                             <!-- Opcje dla menedżerów -->
                             <a class="dropdown-item" href="manageReservations" th:if="${session.loggedInUser instanceof T(com.example.CarGo.domain.Manager)}">Manage Reservations</a>
                             <a class="dropdown-item" href="services" th:if="${session.loggedInUser instanceof T(com.example.CarGo.domain.Manager)}">Manage Vehicles</a>
+                            <a class="dropdown-item" href="stats" th:if="${session.loggedInUser instanceof T(com.example.CarGo.domain.Manager)}">Statistics</a>
 
                             <!-- Opcje dla administratorów -->
                             <a class="dropdown-item" href="adminDashboard" th:if="${session.loggedInUser instanceof T(com.example.CarGo.domain.Admin)}">Admin Dashboard</a>
                             <a class="dropdown-item" href="personnel_management" th:if="${session.loggedInUser instanceof T(com.example.CarGo.domain.Admin)}">Manage Users</a>
                             <a class="dropdown-item" href="reports" th:if="${session.loggedInUser instanceof T(com.example.CarGo.domain.Admin)}">Reports</a>
+                            <a class="dropdown-item" href="stats" th:if="${session.loggedInUser instanceof T(com.example.CarGo.domain.Admin)}">Statistics</a>
                         </div>
                     </li>
                     <!-- Przycisk Sign out -->

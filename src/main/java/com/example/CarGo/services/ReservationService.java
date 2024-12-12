@@ -1,6 +1,8 @@
 package com.example.CarGo.services;
 
 
+import com.example.CarGo.domain.Car;
+import com.example.CarGo.domain.FuelType;
 import com.example.CarGo.domain.Reservation;
 import com.example.CarGo.db.ReservationRepository;
 import com.example.CarGo.domain.ReservationStatus;
@@ -9,6 +11,8 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 
 @Service
@@ -67,5 +71,61 @@ public class ReservationService {
             throw new IllegalArgumentException("Reservation not found");
         }
         reservationRepository.deleteById(reservationId);
+    }
+
+    // Najczęściej wynajmowane auto
+    public List<Map.Entry<Car, Long>> getMostRentedCars(LocalDateTime startDate, LocalDateTime endDate) {
+        List<Reservation> reservations = reservationRepository.findByReservationEndBetween(startDate, endDate);
+
+        return reservations.stream()
+                .filter(reservation -> reservation.getStatus() == ReservationStatus.ACTIVE
+                        || reservation.getStatus() == ReservationStatus.COMPLETED)
+                .collect(Collectors.groupingBy(Reservation::getCar, Collectors.counting()))
+                .entrySet()
+                .stream()
+                .sorted((e1, e2) -> Long.compare(e2.getValue(), e1.getValue())) // Sortuj malejąco po liczbie wynajmów
+                .collect(Collectors.toList());
+    }
+
+    // Najczęściej używane paliwo
+    public List<Map.Entry<FuelType, Long>> getFuelTypeRanking(LocalDateTime startDate, LocalDateTime endDate) {
+        List<Reservation> reservations = reservationRepository.findByReservationEndBetween(startDate, endDate);
+
+        return reservations.stream()
+                .filter(reservation -> reservation.getStatus() == ReservationStatus.ACTIVE
+                        || reservation.getStatus() == ReservationStatus.COMPLETED)
+                .map(reservation -> reservation.getCar().getFuelType())
+                .collect(Collectors.groupingBy(fuelType -> fuelType, Collectors.counting()))
+                .entrySet()
+                .stream()
+                .sorted((e1, e2) -> Long.compare(e2.getValue(), e1.getValue())) // Sortuj malejąco po popularności
+                .collect(Collectors.toList());
+    }
+
+    // Lokalizacja, która zarobiła najwięcej
+    public List<Map.Entry<Reservation, Double>> getReservationsWithEarnings(LocalDateTime startDate, LocalDateTime endDate) {
+        List<Reservation> reservations = reservationRepository.findByReservationEndBetween(startDate, endDate);
+
+        return reservations.stream()
+                .filter(reservation -> reservation.getStatus() == ReservationStatus.ACTIVE
+                        || reservation.getStatus() == ReservationStatus.COMPLETED)
+                .collect(Collectors.toMap(
+                        reservation -> reservation,
+                        reservation -> calculateReservationIncome(reservation)
+                ))
+                .entrySet()
+                .stream()
+                .sorted((e1, e2) -> Double.compare(e2.getValue(), e1.getValue())) // Sortuj malejąco po zarobkach
+                .collect(Collectors.toList());
+    }
+
+    // Metoda pomocnicza do obliczania zarobków
+    private double calculateReservationIncome(Reservation reservation) {
+        double pricePerDay = reservation.getCar().getPricePerDay();
+        long days = Math.max(
+                reservation.getReservationStart().until(reservation.getReservationEnd(), java.time.temporal.ChronoUnit.DAYS),
+                1 // Minimalna długość rezerwacji to 1 dzień
+        );
+        return pricePerDay * days;
     }
 }
