@@ -119,15 +119,20 @@
 
     <br><br>
 
-    <form method="get" action="/stats">
+    <form method="get" action="/stats" id="dateForm" onsubmit="return validateDates()">
         <label for="startDate">Start Date:</label>
-        <input type="date" id="startDate" name="startDate" th:value="${startDate}">
+        <input type="date" id="startDate" name="startDate">
 
         <label for="endDate">End Date:</label>
-        <input type="date" id="endDate" name="endDate" th:value="${endDate}">
+        <input type="date" id="endDate" name="endDate">
 
         <button type="submit" class="luto_btn">Filter</button>
     </form>
+
+    <!-- Display error message if it exists -->
+    <div th:if="${errorMessage}" class="alert alert-danger">
+        <span th:text="${errorMessage}"></span>
+    </div>
 
     <br><br>
 
@@ -288,5 +293,6 @@
 <script src="js/clipboard.js"></script>
 <script src="js/subscribe.js"></script>
 <script src="js/confirm.js"></script>
+<script src="js/dates.js"></script>
 </body>
 </html>

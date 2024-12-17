@@ -1025,11 +1025,20 @@ public class GeneralController {
     @GetMapping("/stats")
     public String getStats(@RequestParam(value = "startDate", required = false) String startDate,
                            @RequestParam(value = "endDate", required = false) String endDate,
-                           Model model) {
+                           Model model,
+                           RedirectAttributes redirectAttributes) {
+
 
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-        LocalDateTime start = (startDate != null) ? LocalDate.parse(startDate, formatter).atStartOfDay() : null;
-        LocalDateTime end = (endDate != null) ? LocalDate.parse(endDate, formatter).atStartOfDay() : null;
+
+        // Validation: Missing or empty dates
+        if (startDate == null || endDate == null || startDate.isEmpty() || endDate.isEmpty()) {
+            model.addAttribute("errorMessage", "Proszę uzupełnić oba pola daty.");
+            return "stats"; // Return the stats page without redirecting
+        }
+
+        LocalDateTime start = LocalDate.parse(startDate, formatter).atStartOfDay();
+        LocalDateTime end = LocalDate.parse(endDate, formatter).atStartOfDay();
 
         // Pobierz dane z serwisu
         List<Map.Entry<Car, Long>> mostRentedCars = reservationService.getMostRentedCars(start, end);
