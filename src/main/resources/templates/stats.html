@@ -115,7 +115,7 @@
 
     <br><br>
 
-    <h1 class="my-4">Statystyki Wypożyczeń</h1>
+    <h1 class="my-4">Rent Statistics</h1>
 
     <br><br>
 
@@ -137,8 +137,8 @@
     <br><br>
 
 
-    <!-- Najbardziej wypożyczane samochody -->
-    <h3>Najbardziej Wypożyczane Samochody</h3>
+    <!-- Most rented cars -->
+    <h3>Most rented cars</h3>
 
     <br><br>
 
@@ -146,8 +146,8 @@
         <thead>
         <tr>
             <th>Nr</th>
-            <th>Samochód</th>
-            <th>Liczba Wynajmów</th>
+            <th>Car</th>
+            <th>Rents</th>
         </tr>
         </thead>
         <tbody>
@@ -164,14 +164,14 @@
     <br><br>
 
     <!-- Najczęściej wynajmowane typy paliwa -->
-    <h3>Ranking Typów Paliwa</h3>
+    <h3>Most rented fuel types</h3>
 
     <br><br>
 
     <div>
         <ul>
             <th:block th:each="entry, iterStat : ${fuelTypeRanking}">
-                <li th:text="'Typ paliwa: ' + ${entry.key} + ' - ' + ${entry.value} + ' wynajmów'"></li>
+                <li th:text="'Fuel type: ' + ${entry.key} + ' - ' + ${entry.value} + ' rents'"></li>
             </th:block>
         </ul>
     </div>
@@ -179,7 +179,7 @@
     <br><br>
 
     <!-- Samochody z największymi zarobkami -->
-    <h3>Ranking Samochodów z Największymi Zarobkami</h3>
+    <h3>Highest earning cars</h3>
 
     <br><br>
 
@@ -187,8 +187,8 @@
         <thead>
         <tr>
             <th>Nr</th>
-            <th>Samochód</th>
-            <th>Zarobki</th>
+            <th>Car</th>
+            <th>Earnings</th>
         </tr>
         </thead>
         <tbody>
@@ -203,6 +203,12 @@
     </table>
 
 </div>
+
+<!-- Najczęściej wynajmowana lokalizacjia -->
+
+<!-- Najczęściej wynajmowane typy samochodu-->
+
+<!-- export danych statystycznych-->
 
 <br><br><br>
 

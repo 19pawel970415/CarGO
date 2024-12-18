@@ -27,6 +27,8 @@ public class StartupTask {
     }
 
     //TODO na birząco aktaulizacja raportów
+
+    //TODO po edycji rezerwacji mail do klienta
 }
 
 
