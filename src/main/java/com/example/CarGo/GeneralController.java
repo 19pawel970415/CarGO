@@ -22,6 +22,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -1045,10 +1046,20 @@ public class GeneralController {
         List<Map.Entry<FuelType, Long>> fuelTypeRanking = reservationService.getFuelTypeRanking(start, end);
         List<Map.Entry<Reservation, Double>> reservationsWithEarnings = reservationService.getReservationsWithEarnings(start, end);
 
+        // Przygotowanie danych do wykresu
+        List<String> fuelTypes = new ArrayList<>();
+        List<Long> fuelCounts = new ArrayList<>();
+        for (Map.Entry<FuelType, Long> entry : fuelTypeRanking) {
+            fuelTypes.add(entry.getKey().toString()); // np. Diesel, Benzyna
+            fuelCounts.add(entry.getValue()); // Liczba wynajęć
+        }
+
         // Dodaj dane do modelu
         model.addAttribute("mostRentedCars", mostRentedCars);
         model.addAttribute("fuelTypeRanking", fuelTypeRanking);
         model.addAttribute("reservationsWithEarnings", reservationsWithEarnings);
+        model.addAttribute("fuelTypes", fuelTypes);
+        model.addAttribute("fuelCounts", fuelCounts);
 
         return "stats"; // Nazwa widoku HTML (statystyki.html)
     }
