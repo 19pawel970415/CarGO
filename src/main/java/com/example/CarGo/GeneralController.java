@@ -1045,6 +1045,8 @@ public class GeneralController {
         List<Map.Entry<Car, Long>> mostRentedCars = reservationService.getMostRentedCars(start, end);
         List<Map.Entry<FuelType, Long>> fuelTypeRanking = reservationService.getFuelTypeRanking(start, end);
         List<Map.Entry<Reservation, Double>> reservationsWithEarnings = reservationService.getReservationsWithEarnings(start, end);
+        List<Map.Entry<Location, Long>> mostRentedLocations = reservationService.getMostRentedLocations(start, end);
+        List<Map.Entry<ChassisType, Long>> mostRentedCarTypes = reservationService.getMostRentedCarTypes(start, end);
 
         // Przygotowanie danych do wykresu
         List<String> fuelTypes = new ArrayList<>();
@@ -1060,6 +1062,8 @@ public class GeneralController {
         model.addAttribute("reservationsWithEarnings", reservationsWithEarnings);
         model.addAttribute("fuelTypes", fuelTypes);
         model.addAttribute("fuelCounts", fuelCounts);
+        model.addAttribute("mostRentedLocations", mostRentedLocations);
+        model.addAttribute("mostRentedCarTypes", mostRentedCarTypes);
 
         return "stats"; // Nazwa widoku HTML (statystyki.html)
     }

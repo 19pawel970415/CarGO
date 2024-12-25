@@ -1,11 +1,8 @@
 package com.example.CarGo.services;
 
 
-import com.example.CarGo.domain.Car;
-import com.example.CarGo.domain.FuelType;
-import com.example.CarGo.domain.Reservation;
+import com.example.CarGo.domain.*;
 import com.example.CarGo.db.ReservationRepository;
-import com.example.CarGo.domain.ReservationStatus;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -116,6 +113,34 @@ public class ReservationService {
                 .entrySet()
                 .stream()
                 .sorted((e1, e2) -> Double.compare(e2.getValue(), e1.getValue())) // Sortuj malejąco po zarobkach
+                .collect(Collectors.toList());
+    }
+
+    public List<Map.Entry<Location, Long>> getMostRentedLocations(LocalDateTime startDate, LocalDateTime endDate) {
+        List<Reservation> reservations = reservationRepository.findByReservationEndBetween(startDate, endDate);
+
+        return reservations.stream()
+                .filter(reservation -> reservation.getStatus() == ReservationStatus.ACTIVE
+                        || reservation.getStatus() == ReservationStatus.COMPLETED)
+                .map(reservation -> reservation.getCar().getLocation()) // Assuming Car has a `location` field
+                .collect(Collectors.groupingBy(location -> location, Collectors.counting()))
+                .entrySet()
+                .stream()
+                .sorted((e1, e2) -> Long.compare(e2.getValue(), e1.getValue())) // Sort descending by count
+                .collect(Collectors.toList());
+    }
+
+    public List<Map.Entry<ChassisType, Long>> getMostRentedCarTypes(LocalDateTime startDate, LocalDateTime endDate) {
+        List<Reservation> reservations = reservationRepository.findByReservationEndBetween(startDate, endDate);
+
+        return reservations.stream()
+                .filter(reservation -> reservation.getStatus() == ReservationStatus.ACTIVE
+                        || reservation.getStatus() == ReservationStatus.COMPLETED)
+                .map(reservation -> reservation.getCar().getChassisType()) // Assuming Car has a `carType` field
+                .collect(Collectors.groupingBy(carType -> carType, Collectors.counting()))
+                .entrySet()
+                .stream()
+                .sorted((e1, e2) -> Long.compare(e2.getValue(), e1.getValue())) // Sort descending by count
                 .collect(Collectors.toList());
     }
 

@@ -206,11 +206,57 @@
         </tbody>
     </table>
 
+    <!-- Najczęściej wynajmowana lokalizacjia -->
+
+    <br><br>
+
+    <h3>Most rented locations</h3>
+
+    <br><br>
+
+    <table class="table table-bordered">
+        <thead>
+        <tr>
+            <th>Location</th>
+            <th>Rents</th>
+        </tr>
+        </thead>
+        <tbody>
+        <th:block th:each="entry : ${mostRentedLocations}">
+            <tr>
+                <td th:text="${entry.key}">Location</td>
+                <td th:text="${entry.value}">Rents</td>
+            </tr>
+        </th:block>
+        </tbody>
+    </table>
+
+    <!-- Najczęściej wynajmowane typy samochodu-->
+
+    <br><br>
+
+    <h3>Most rented chassis type</h3>
+
+    <br><br>
+
+    <table class="table table-bordered">
+        <thead>
+        <tr>
+            <th>Chassis type</th>
+            <th>Rents</th>
+        </tr>
+        </thead>
+        <tbody>
+        <th:block th:each="entry : ${mostRentedCarTypes}">
+            <tr>
+                <td th:text="${entry.key}">Chassis type</td>
+                <td th:text="${entry.value}">Rents</td>
+            </tr>
+        </th:block>
+        </tbody>
+    </table>
+
 </div>
-
-<!-- Najczęściej wynajmowana lokalizacjia -->
-
-<!-- Najczęściej wynajmowane typy samochodu-->
 
 <!-- export danych statystycznych-->
 

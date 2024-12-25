@@ -37,4 +37,9 @@ public class Location {
     public void setCity(String city) {
         this.city = city;
     }
+
+    @Override
+    public String toString() {
+        return city; // Return the city name as the string representation
+    }
 }
