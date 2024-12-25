@@ -258,7 +258,10 @@
 
 </div>
 
+<br><br><br>
+
 <!-- export danych statystycznych-->
+<button id="exportBtn" class="luto_btn">Export to PDF</button>
 
 <br><br><br>
 
@@ -351,6 +354,8 @@
 <script src="js/confirm.js"></script>
 <script src="js/dates.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.23/jspdf.plugin.autotable.min.js"></script>
 
 
 <script th:inline="javascript">
@@ -395,6 +400,57 @@
                 }
             }
         }
+    });
+</script>
+
+<script>
+    // Funkcja eksportująca tabelę do PDF
+    document.getElementById('exportBtn').addEventListener('click', function() {
+        const { jsPDF } = window.jspdf;  // Załadowanie jsPDF
+        const doc = new jsPDF();         // Tworzenie nowego dokumentu PDF
+
+        // Tytuł dokumentu
+        doc.text("Car Rental Statistics", 20, 10);
+
+        // Tabele - możesz dodać więcej tabel w podobny sposób
+        let yOffset = 20;
+
+        // Most rented cars
+        doc.text("Most rented cars:", 20, yOffset);
+        yOffset += 10;
+        const rentedCarsTable = document.querySelector('table:nth-of-type(1)');
+        if (rentedCarsTable) {
+            doc.autoTable({
+                html: rentedCarsTable,
+                startY: yOffset
+            });
+            yOffset = doc.lastAutoTable.finalY + 10;  // Adjust Y position for next section
+        }
+
+        // Most rented fuel types (Pie chart section)
+        doc.text("Most rented fuel types:", 20, yOffset);
+        yOffset += 10;
+
+        // Dodanie wykresu do PDF - zrzut obrazu wykresu
+        const canvas = document.getElementById('myPieChart');
+        const imgData = canvas.toDataURL('image/png');  // Zrzut obrazu wykresu
+        doc.addImage(imgData, 'PNG', 20, yOffset, 180, 100);  // Dodanie obrazu wykresu do PDF
+        yOffset += 110;  // Adjust Y position after adding image
+
+        // Most rented locations
+        doc.text("Most rented locations:", 20, yOffset);
+        yOffset += 10;
+        const rentedLocationsTable = document.querySelector('table:nth-of-type(2)');
+        if (rentedLocationsTable) {
+            doc.autoTable({
+                html: rentedLocationsTable,
+                startY: yOffset
+            });
+            yOffset = doc.lastAutoTable.finalY + 10;
+        }
+
+        // Generowanie PDF
+        doc.save('Car_Rental_Statistics.pdf');
     });
 </script>
 
