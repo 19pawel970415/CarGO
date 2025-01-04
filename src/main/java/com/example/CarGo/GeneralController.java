@@ -286,7 +286,6 @@ public class GeneralController {
     }
 
 
-
     @GetMapping("/services")
     public String getCarsBeforeService(Model model) {
         List<Car> allCars = carService.findAllCars();
@@ -745,6 +744,7 @@ public class GeneralController {
             return "addUser";
         }
     }
+
     @PostMapping("/deleteUser")
     public String deleteUser(@RequestParam("userId") Long userId, RedirectAttributes redirectAttributes) {
         boolean result = userService.deleteUserById(userId);
@@ -756,6 +756,7 @@ public class GeneralController {
         }
         return "redirect:/personnel_management";
     }
+
     @PostMapping("/deleteManager")
     public String deleteManager(@RequestParam("managerId") Long managerId, RedirectAttributes redirectAttributes) {
         boolean result = managerService.deleteManagerById(managerId);
@@ -767,6 +768,7 @@ public class GeneralController {
         }
         return "redirect:/personnel_management";
     }
+
     @PostMapping("/deleteAdmin")
     public String deleteAdmin(@RequestParam("adminId") Long adminId, RedirectAttributes redirectAttributes) {
         boolean result = adminService.deleteAdminById(adminId);
@@ -778,6 +780,7 @@ public class GeneralController {
         }
         return "redirect:/personnel_management";
     }
+
     @GetMapping("/car/{id}")
     @ResponseBody  // This annotation will return the response as JSON
     public CarRequest getCar(@PathVariable Long id) {
@@ -1013,6 +1016,27 @@ public class GeneralController {
 
     @PostMapping("/delete_reservation")
     public String deleteReservation(@RequestParam Long reservationId) {
+        Optional<Reservation> theReservation = reservationService.findById(reservationId);
+        if (theReservation.isPresent()) {
+            Car car = theReservation.get().getCar();
+            car.setStatus(CarStatus.BEFORE_SERVICE);
+
+            try {
+                reservationService.sendCancellationInformation(
+                        theReservation.get().getUser().getEmail(),
+                        theReservation.get().getPickUpPoint(),
+                        theReservation.get().getReservationStart(),
+                        theReservation.get().getReservationEnd(),
+                        theReservation.get().getCar().getGearboxType(),
+                        theReservation.get().getCar().getSeatCount(),
+                        theReservation.get().getCar().getChassisType(),
+                        theReservation.get().getCar().getFuelType(),
+                        theReservation.get().getCar().getMake(),
+                        theReservation.get().getCar().getModel());
+            } catch (MessagingException e) {
+                throw new RuntimeException(e);
+            }
+        }
         reservationService.deleteReservation(reservationId);
         return "redirect:/manageReservations";
     }

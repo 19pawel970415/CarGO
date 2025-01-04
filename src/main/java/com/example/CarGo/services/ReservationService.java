@@ -3,12 +3,17 @@ package com.example.CarGo.services;
 
 import com.example.CarGo.domain.*;
 import com.example.CarGo.db.ReservationRepository;
+import jakarta.mail.MessagingException;
+import jakarta.mail.internet.MimeMessage;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 
@@ -16,6 +21,8 @@ import java.util.stream.Collectors;
 public class ReservationService {
     @Autowired
     private ReservationRepository reservationRepository;
+    @Autowired
+    private JavaMailSender javaMailSender;
 
 
     public void updateReservationStatuses() {
@@ -153,4 +160,48 @@ public class ReservationService {
         );
         return pricePerDay * days;
     }
+
+    public Optional<Reservation> findById(Long reservationId) {
+        return reservationRepository.findById(reservationId);
+    }
+
+
+    public void sendCancellationInformation(String email, Location pickUpLocation, LocalDateTime reservationFrom, LocalDateTime reservationTo, GearboxType gearboxType, SeatCount seatCount, ChassisType chassisType, FuelType fuelType, CarMake carMake, String carModel) throws MessagingException {
+        MimeMessage message = javaMailSender.createMimeMessage();
+        MimeMessageHelper helper = new MimeMessageHelper(message, true);
+
+        String reservationLink = "http://localhost:8080/gallery";
+
+        helper.setFrom("cargomailboxpl@gmail.com");
+        helper.setTo(email);
+        helper.setSubject("Reservation Cancellation: " + reservationFrom.toString() + " - " + reservationTo.toString() + " on " + carMake.getName() + " " + carModel);
+
+        String content = "<html><body>"
+                + "<h3><strong>We had to cancel your reservation!</strong></h3>"
+                + "<p>We’re sorry to inform you that we had to cancel your reservation on <strong>" + " " + carMake.getName() + " " + carModel + "</strong>. :(</p>"
+                + "<p>Follow these steps to reserve a similar car again: </p>"
+                + "<p>1. Log in to your account on out website.</p>"
+                + "<p>2. Click the button below to reserve a different car:</p>"
+                + "<p><br></p>"
+                + "<a href=\"" + reservationLink + "\" style=\""
+                + "background-color: #4CAF50; "
+                + "color: white; "
+                + "padding: 15px 32px; "
+                + "text-align: center; "
+                + "text-decoration: none; "
+                + "display: inline-block; "
+                + "font-size: 16px; "
+                + "border-radius: 5px; "
+                + "border: none; "
+                + "cursor: pointer;\">Reserve again</a>"
+                + "<p><br></p>"
+                + "<p>Thank you for your understanding,</p>"
+                + "<p>The CarGo Team</p>"
+                + "</body></html>";
+
+        helper.setText(content, true);
+
+        javaMailSender.send(message);
+    }
+
 }
