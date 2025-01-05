@@ -501,7 +501,7 @@ public class GeneralController {
         reservation.setCar(car);
         reservation.setUser(loggedInUser);
         reservation.setPickUpPoint(car.getLocation());
-        reservation.setDropOfPoint(new Location(returnLocation));
+        reservation.setDropOfPoint(locationRepository.findByCityContainingIgnoreCase(returnLocation).get(0));
 
         // Save reservation
         reservationService.saveReservation(reservation);
