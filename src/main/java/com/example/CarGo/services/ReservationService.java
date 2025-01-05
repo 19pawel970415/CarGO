@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
+import org.springframework.web.util.UriComponentsBuilder;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -170,7 +171,18 @@ public class ReservationService {
         MimeMessage message = javaMailSender.createMimeMessage();
         MimeMessageHelper helper = new MimeMessageHelper(message, true);
 
-        String reservationLink = "http://localhost:8080/gallery";
+        String reservationLink = UriComponentsBuilder.fromHttpUrl("http://localhost:8080/gallery")
+                .queryParam("location", pickUpLocation.getCity())
+                .queryParam("startDate", reservationFrom.toLocalDate())
+                .queryParam("endDate", reservationTo.toLocalDate())
+                .queryParam("gearbox", gearboxType.name())
+                .queryParam("seatCountId", seatCount.getId())
+                .queryParam("carType", chassisType.name())
+                .queryParam("fuelType", "") //changed from fuelType.name() to "" cause nothing would be found with exactly same filters
+                .queryParam("make", "")
+                .queryParam("carModel", "")
+                .build()
+                .toUriString();
 
         helper.setFrom("cargomailboxpl@gmail.com");
         helper.setTo(email);

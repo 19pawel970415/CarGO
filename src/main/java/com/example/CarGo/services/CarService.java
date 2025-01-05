@@ -52,6 +52,12 @@ public class CarService {
         return carRepository.findAll();
     }
 
+    public List<Car> findAllReadyForRentCars() {
+        return carRepository.findAll().stream()
+                .filter(car -> car.getStatus() == CarStatus.READY_FOR_RENT)
+                .collect(Collectors.toList());
+    }
+
     public List<Car> findCarsByLocation(Location location) {
         return carRepository.findByLocation(location);
     }
@@ -81,18 +87,22 @@ public class CarService {
                                          FuelType fuelType,
                                          LocalDate startDate,
                                          LocalDate endDate) {
-        return carRepository.findCarsWithFilters(location.getCity(),
-                gearboxType,
-                chassisType,
-                seatCount,
-                yearMin,
-                yearMax,
-                priceMin,
-                priceMax,
-                make,
-                fuelType,
-                startDate.atStartOfDay(),
-                endDate.atTime(23, 59, 59));
+        return carRepository.findCarsWithFilters(
+                        location.getCity(),
+                        gearboxType,
+                        chassisType,
+                        seatCount,
+                        yearMin,
+                        yearMax,
+                        priceMin,
+                        priceMax,
+                        make,
+                        fuelType,
+                        startDate.atStartOfDay(),
+                        endDate.atTime(23, 59, 59))
+                .stream()
+                .filter(car -> car.getStatus() == CarStatus.READY_FOR_RENT)
+                .collect(Collectors.toList());
     }
 
     public void setCarReadyForRent(Long carId) {

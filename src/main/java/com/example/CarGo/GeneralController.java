@@ -149,7 +149,7 @@ public class GeneralController {
         if (startDate != null && endDate != null) {
             cars = carService.findCarsWithFilters(new Location(location), gearbox, carType, seatCountId, yearMin, yearMax, priceMin, priceMax, make, fuelType, startDate, endDate);
         } else {
-            cars = carService.findAllCars();
+            cars = carService.findAllReadyForRentCars();
         }
 
         List<String> carMakes = carMakeService.findAllCarMakes().stream()
