@@ -16,6 +16,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
+import java.text.Normalizer;
+import java.util.regex.Pattern;
 
 
 @Service
@@ -115,29 +117,41 @@ public class ReservationService {
                 .filter(reservation -> reservation.getStatus() == ReservationStatus.ACTIVE
                         || reservation.getStatus() == ReservationStatus.COMPLETED)
                 .collect(Collectors.groupingBy(
-                        Reservation::getCar, // Grupowanie według samochodu
-                        Collectors.summingDouble(this::calculateReservationIncome) // Sumowanie zarobków
+                        Reservation::getCar,
+                        Collectors.summingDouble(this::calculateReservationIncome)
                 ));
 
         // Konwersja mapy na posortowaną listę wpisów
         return carEarnings.entrySet()
                 .stream()
-                .sorted((e1, e2) -> Double.compare(e2.getValue(), e1.getValue())) // Sortuj malejąco po zarobkach
+                .sorted((e1, e2) -> Double.compare(e2.getValue(), e1.getValue()))
                 .collect(Collectors.toList());
     }
 
-    public List<Map.Entry<Location, Long>> getMostRentedLocations(LocalDateTime startDate, LocalDateTime endDate) {
+
+    public List<Map.Entry<String, Long>> getMostRentedLocations(LocalDateTime startDate, LocalDateTime endDate) {
         List<Reservation> reservations = reservationRepository.findByReservationEndBetween(startDate, endDate);
 
         return reservations.stream()
                 .filter(reservation -> reservation.getStatus() == ReservationStatus.ACTIVE
                         || reservation.getStatus() == ReservationStatus.COMPLETED)
-                .map(reservation -> reservation.getCar().getLocation()) // Assuming Car has a `location` field
-                .collect(Collectors.groupingBy(location -> location, Collectors.counting()))
+                .map(reservation -> normalize(reservation.getCar().getLocation().getCity())) // Usuń polskie znaki
+                .collect(Collectors.groupingBy(city -> city, Collectors.counting()))
                 .entrySet()
                 .stream()
-                .sorted((e1, e2) -> Long.compare(e2.getValue(), e1.getValue())) // Sort descending by count
+                .sorted((e1, e2) -> Long.compare(e2.getValue(), e1.getValue())) // Sortuj malejąco po liczbie wynajmów
                 .collect(Collectors.toList());
+    }
+
+    // Metoda do normalizacji tekstu (usuwanie polskich znaków)
+    private String normalize(String input) {
+        if (input == null) {
+            return null;
+        }
+        String normalized = Normalizer.normalize(input, Normalizer.Form.NFD);
+        Pattern pattern = Pattern.compile("\\p{InCombiningDiacriticalMarks}+");
+        normalized = pattern.matcher(normalized).replaceAll("");
+        return normalized.replace("ł", "l").replace("Ł", "L");
     }
 
     public List<Map.Entry<ChassisType, Long>> getMostRentedCarTypes(LocalDateTime startDate, LocalDateTime endDate) {
@@ -146,11 +160,11 @@ public class ReservationService {
         return reservations.stream()
                 .filter(reservation -> reservation.getStatus() == ReservationStatus.ACTIVE
                         || reservation.getStatus() == ReservationStatus.COMPLETED)
-                .map(reservation -> reservation.getCar().getChassisType()) // Assuming Car has a `carType` field
+                .map(reservation -> reservation.getCar().getChassisType())
                 .collect(Collectors.groupingBy(carType -> carType, Collectors.counting()))
                 .entrySet()
                 .stream()
-                .sorted((e1, e2) -> Long.compare(e2.getValue(), e1.getValue())) // Sort descending by count
+                .sorted((e1, e2) -> Long.compare(e2.getValue(), e1.getValue()))
                 .collect(Collectors.toList());
     }
 
@@ -180,7 +194,7 @@ public class ReservationService {
                 .queryParam("gearbox", gearboxType.name())
                 .queryParam("seatCountId", seatCount.getId())
                 .queryParam("carType", chassisType.name())
-                .queryParam("fuelType", "") //changed from fuelType.name() to "" cause nothing would be found with exactly same filters
+                .queryParam("fuelType", "")
                 .queryParam("make", "")
                 .queryParam("carModel", "")
                 .build()

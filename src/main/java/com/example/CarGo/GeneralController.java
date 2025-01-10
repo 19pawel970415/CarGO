@@ -1069,7 +1069,7 @@ public class GeneralController {
         List<Map.Entry<Car, Long>> mostRentedCars = reservationService.getMostRentedCars(start, end);
         List<Map.Entry<FuelType, Long>> fuelTypeRanking = reservationService.getFuelTypeRanking(start, end);
         List<Map.Entry<Car, Double>> carsWithEarnings = reservationService.getCarsEarnings(start, end);
-        List<Map.Entry<Location, Long>> mostRentedLocations = reservationService.getMostRentedLocations(start, end);
+        List<Map.Entry<String, Long>> mostRentedLocations = reservationService.getMostRentedLocations(start, end);
         List<Map.Entry<ChassisType, Long>> mostRentedCarTypes = reservationService.getMostRentedCarTypes(start, end);
 
         // Przygotowanie danych do wykresu
