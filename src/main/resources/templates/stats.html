@@ -198,10 +198,10 @@
         </tr>
         </thead>
         <tbody>
-        <th:block th:each="entry, iterStat : ${reservationsWithEarnings}">
+        <th:block th:each="entry, iterStat : ${carsWithEarnings}">
             <tr>
                 <td th:text="${iterStat.index + 1}"></td>
-                <td th:text="${entry.key.car.model}"></td>
+                <td th:text="${entry.key.model}"></td>
                 <td th:text="${entry.value}"></td>
             </tr>
         </th:block>
