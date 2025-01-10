@@ -1088,6 +1088,9 @@ public class GeneralController {
         model.addAttribute("fuelCounts", fuelCounts);
         model.addAttribute("mostRentedLocations", mostRentedLocations);
         model.addAttribute("mostRentedCarTypes", mostRentedCarTypes);
+        model.addAttribute("startDate", startDate);
+        model.addAttribute("endDate", endDate);
+
 
         return "stats"; // Nazwa widoku HTML (statystyki.html)
     }

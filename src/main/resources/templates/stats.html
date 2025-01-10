@@ -121,10 +121,12 @@
 
     <form method="get" action="/stats" id="dateForm" onsubmit="return validateDates()">
         <label for="startDate">Start Date:</label>
-        <input type="date" id="startDate" name="startDate">
+        <input type="date" id="startDate" name="startDate"
+               th:value="${startDate}" required>
 
         <label for="endDate">End Date:</label>
-        <input type="date" id="endDate" name="endDate">
+        <input type="date" id="endDate" name="endDate"
+               th:value="${endDate}" required>
 
         <button type="submit" class="luto_btn">Filter</button>
     </form>
@@ -169,7 +171,7 @@
     <br><br>
 
     <div>
-        <canvas id="myPieChart"></canvas>
+        <canvas id="myPieChart" style="width: 250px; height: 250px;"></canvas>
     </div>
 
     <div>
@@ -409,8 +411,22 @@
         const { jsPDF } = window.jspdf;  // Załadowanie jsPDF
         const doc = new jsPDF();         // Tworzenie nowego dokumentu PDF
 
-        // Tytuł dokumentu
-        doc.text("Car Rental Statistics", 20, 10);
+        // Pobieranie dat z formularza
+        const startDate = document.getElementById('startDate').value;
+        const endDate = document.getElementById('endDate').value;
+
+                // Sprawdzanie, co dokładnie zawierają daty
+        console.log("Start Date:", startDate);
+        console.log("End Date:", endDate);
+
+        // Sprawdzanie, czy daty zostały wybrane
+        let dateRange = '';
+        if (startDate && endDate) {
+            dateRange = `(${startDate} - ${endDate})`;
+        }
+
+        // Tytuł dokumentu z dodaniem zakresu dat
+        doc.text(`Car Rental Statistics ${dateRange}`, 20, 10);
 
         // Tabele - możesz dodać więcej tabel w podobny sposób
         let yOffset = 20;
@@ -434,11 +450,11 @@
         // Dodanie wykresu do PDF - zrzut obrazu wykresu
         const canvas = document.getElementById('myPieChart');
         const imgData = canvas.toDataURL('image/png');  // Zrzut obrazu wykresu
-        doc.addImage(imgData, 'PNG', 20, yOffset, 180, 100);  // Dodanie obrazu wykresu do PDF
+        doc.addImage(imgData, 'PNG', 20, yOffset, 90, 90);  // Dodanie obrazu wykresu do PDF
         yOffset += 110;  // Adjust Y position after adding image
 
-        // Most rented locations
-        doc.text("Most rented locations:", 20, yOffset);
+        // Highest earning cars
+        doc.text("Highest earning cars:", 20, yOffset);
         yOffset += 10;
         const rentedLocationsTable = document.querySelector('table:nth-of-type(2)');
         if (rentedLocationsTable) {
@@ -449,8 +465,36 @@
             yOffset = doc.lastAutoTable.finalY + 10;
         }
 
-        // Generowanie PDF
-        doc.save('Car_Rental_Statistics.pdf');
+        // Most rented locations
+        doc.text("Most rented locations:", 20, yOffset);
+        yOffset += 10;
+        const locationsTable = document.querySelector('table:nth-of-type(3)');
+        if (locationsTable) {
+            doc.autoTable({
+                html: locationsTable,
+                startY: yOffset
+            });
+            yOffset = doc.lastAutoTable.finalY + 10;
+        }
+
+        // Most rented chassis type
+        doc.text("Most rented chassis types:", 20, yOffset);
+        yOffset += 10;
+        const chassisTable = document.querySelector('table:nth-of-type(4)');
+        if (chassisTable) {
+            doc.autoTable({
+                html: chassisTable,
+                startY: yOffset
+            });
+            yOffset = doc.lastAutoTable.finalY + 10;
+        }
+
+        // Na końcu zapisz PDF z dynamiczną nazwą pliku
+        // Upewnij się, że daty są poprawnie sformatowane
+        const cleanStartDate = startDate.replace(/[^\w\s]/gi, '-');
+        const cleanEndDate = endDate.replace(/[^\w\s]/gi, '-');
+        const fileName = `CarRental_Report_${cleanStartDate}_to_${cleanEndDate}.pdf`;
+        doc.save(fileName);  // Zapisz plik z dynamiczną nazwą
     });
 </script>
 
