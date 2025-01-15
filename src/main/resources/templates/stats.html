@@ -149,6 +149,8 @@
         <tr>
             <th>Nr</th>
             <th>Car</th>
+            <th>Vin number</th>
+            <th>Registration number</th>
             <th>Rents</th>
         </tr>
         </thead>
@@ -157,6 +159,8 @@
             <tr>
                 <td th:text="${iterStat.index + 1}"></td>
                 <td th:text="${entry.key.model}"></td>
+                <td th:text="${entry.key.vin}"></td>
+                <td th:text="${entry.key.registrationNumber}"></td>
                 <td th:text="${entry.value}"></td>
             </tr>
         </th:block>
@@ -194,6 +198,8 @@
         <tr>
             <th>Nr</th>
             <th>Car</th>
+            <th>Vin number</th>
+            <th>Registration number</th>
             <th>Earnings</th>
         </tr>
         </thead>
@@ -202,6 +208,8 @@
             <tr>
                 <td th:text="${iterStat.index + 1}"></td>
                 <td th:text="${entry.key.model}"></td>
+                <td th:text="${entry.key.vin}"></td>
+                <td th:text="${entry.key.registrationNumber}"></td>
                 <td th:text="${entry.value}"></td>
             </tr>
         </th:block>
