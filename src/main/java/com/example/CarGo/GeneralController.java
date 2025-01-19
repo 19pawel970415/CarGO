@@ -61,7 +61,8 @@ public class GeneralController {
     private AdminRepository adminRepository;
     @Autowired
     private CarReportService carReportService;
-
+    @Autowired
+    private ReservationRepository reservationRepository;
 
     @GetMapping(value = {"/", "/index"})
     public String showIndex() {
@@ -1093,5 +1094,24 @@ public class GeneralController {
 
 
         return "stats"; // Nazwa widoku HTML (statystyki.html)
+    }
+
+    @PostMapping("/pay_reservation")
+    public String handlePayment(@RequestParam("reservationId") String reservationId, RedirectAttributes redirectAttributes) {
+        reservationRepository.findById(Long.parseLong(reservationId))
+                .ifPresent(reservation -> {
+                    reservation.setIsPaid(true);
+                    reservationRepository.save(reservation);
+                });
+
+        try {
+            reservationService.sendPaymentEmail(reservationRepository.findById(Long.parseLong(reservationId)).get());
+        } catch (MessagingException e) {
+            throw new RuntimeException(e);
+        }
+
+        redirectAttributes.addFlashAttribute("paymentSuccess", true);
+
+        return "redirect:/view_reservations";
     }
 }

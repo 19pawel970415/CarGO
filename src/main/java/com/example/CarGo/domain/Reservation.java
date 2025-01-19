@@ -42,6 +42,9 @@ public class Reservation {
     @Column(name = "status", length = 20)
     private ReservationStatus status;
 
+    @Column(nullable = false)
+    private Boolean isPaid = false;
+
     public Long getId() {
         return id;
     }
@@ -104,5 +107,13 @@ public class Reservation {
 
     public void setStatus(ReservationStatus status) {
         this.status = status;
+    }
+
+    public Boolean getIsPaid() {
+        return isPaid;
+    }
+
+    public void setIsPaid(Boolean isPaid) {
+        this.isPaid = isPaid;
     }
 }

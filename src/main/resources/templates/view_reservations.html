@@ -150,7 +150,13 @@
             <button type="submit" class="btn btn-danger btn-sm">Cancel</button>
           </form>
 
-          <!-- If the reservation is active or completed, show "Cannot Cancel" message -->
+            <!-- Pay Button -->
+            <form action="/pay_reservation" method="post" style="display: inline;" th:if="${reservation.isPaid == false}">
+                <input type="hidden" name="reservationId" th:value="${reservation.id}">
+                <button type="submit" class="btn btn-success btn-sm pay-button" id="pay-btn-${reservation.id}">Pay</button>
+            </form>
+
+            <!-- If the reservation is active or completed, show "Cannot Cancel" message -->
           <span th:if="${reservation.status.name().toLowerCase() == 'active' or reservation.status.name().toLowerCase() == 'completed'}">
         Cannot Cancel
     </span>
@@ -240,6 +246,13 @@
   </div>
 </div>
 <!-- copyright section end -->
+
+<!-- Skrypt wyświetlający alert po pełnym załadowaniu strony -->
+<script th:if="${paymentSuccess}">
+    window.onload = function() {
+        alert('We\'ve just sent you an email with the payment details. Check your email inbox.');
+    };
+</script>
 
 <!-- Javascript files-->
 <script src="js/jquery.min.js"></script>

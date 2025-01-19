@@ -20,15 +20,14 @@ public class StartupTask {
     @EventListener(ApplicationReadyEvent.class)
     public void onApplicationReady() {
         reservationService.updateReservationStatuses();
+        reservationService.updateReservationIsPaid();
+        reservationService.sendEmailsRemindingAboutPayment();
+        reservationService.sendEmailsInformingThatReservationWasCancelledDueToLackOfPayment();
         carService.updateCarStatuses();
 
         System.out.println("Reservation statuses have been updated.");
         System.out.println("Car statuses have been updated.");
     }
-
-    //TODO na birząco aktaulizacja raportów
-
-    //TODO po edycji rezerwacji mail do klienta
 }
 
 
