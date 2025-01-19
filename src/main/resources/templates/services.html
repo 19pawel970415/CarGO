@@ -139,7 +139,11 @@
                     </form>
                 </div>
                 <div th:if="${car.status == T(com.example.CarGo.domain.CarStatus).BEFORE_SERVICE}">
-                    <form th:action="@{/service/start/{id}(id=${car.id})}" method="post">
+                    <form th:action="@{/service/start/{id}(id=${car.id})}" method="post" style="display: flex; align-items: center; gap: 10px;">
+                        <!-- Pole do wprowadzenia Extra Charge -->
+                        <input type="number" name="extraCharge" class="form-control" placeholder="Extra Charge" step="0.01" min="0" style="width: 150px;" required>
+
+                        <!-- Przycisk Service -->
                         <button type="submit" class="btn btn-primary">Service</button>
                     </form>
                 </div>

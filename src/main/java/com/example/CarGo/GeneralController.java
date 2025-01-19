@@ -304,13 +304,30 @@ public class GeneralController {
     }
 
     @PostMapping("/service/start/{id}")
-    public String startService(@PathVariable Long id) {
+    public String startService(@PathVariable Long id,
+                               @RequestParam("extraCharge") Double extraCharge,
+                               RedirectAttributes redirectAttributes) {
+
+        // Logika biznesowa: Zmień status samochodu i obsłuż dodatkowe opłaty
+        try {
+            if(extraCharge > 0) {
+                carService.sendEmailRequestingExtraCharge(id, extraCharge);
+            }
+        } catch (MessagingException e) {
+            throw new RuntimeException(e);
+        }
+
         carService.changeStatusToInServiceAndWait(id);
+
+        // Opcjonalna pauza (może być pomocna do symulacji)
         try {
             Thread.sleep(3000);
         } catch (InterruptedException e) {
+            Thread.currentThread().interrupt(); // Przywróć flagę przerwania wątku
             e.printStackTrace();
         }
+
+        // Przekierowanie na stronę usług
         return "redirect:/services";
     }
 

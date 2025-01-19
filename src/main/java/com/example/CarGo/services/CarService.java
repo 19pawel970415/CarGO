@@ -3,11 +3,16 @@ package com.example.CarGo.services;
 
 import com.example.CarGo.db.*;
 import com.example.CarGo.domain.*;
+import jakarta.mail.MessagingException;
+import jakarta.mail.internet.MimeMessage;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.util.UriComponentsBuilder;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -21,6 +26,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.Random;
 import java.util.stream.Collectors;
 
 @Service
@@ -40,12 +46,15 @@ public class CarService {
 
     @Autowired
     private final SeatCountRepository seatCountRepository;
+    @Autowired
+    private JavaMailSender javaMailSender;
 
-    public CarService(ReservationRepository reservationRepository, LocationRepository locationRepository, CarMakeRepository carMakeRepository, SeatCountRepository seatCountRepository) {
+    public CarService(ReservationRepository reservationRepository, LocationRepository locationRepository, CarMakeRepository carMakeRepository, SeatCountRepository seatCountRepository, JavaMailSender javaMailSender) {
         this.reservationRepository = reservationRepository;
         this.locationRepository = locationRepository;
         this.carMakeRepository = carMakeRepository;
         this.seatCountRepository = seatCountRepository;
+        this.javaMailSender = javaMailSender;
     }
 
     public List<Car> findAllCars() {
@@ -368,5 +377,69 @@ public class CarService {
         } else {
             return false;
         }
+    }
+
+    public void sendEmailRequestingExtraCharge(Long carId, Double extraCharge) throws MessagingException {
+        LocalDateTime today = LocalDateTime.now().withHour(0).withMinute(0).withSecond(0).withNano(0);
+        MimeMessage message = javaMailSender.createMimeMessage();
+        MimeMessageHelper helper = new MimeMessageHelper(message, true);
+
+        // Pobranie rezerwacji i użytkownika
+        Optional<Reservation> reservation = reservationRepository.findAll().stream()
+                .filter(r -> r.getCar().getId().equals(carId))
+                .filter(r -> r.getReservationEnd().isEqual(today))
+                .findFirst();
+
+        if (reservation.isEmpty()) {
+            throw new IllegalArgumentException("Cannot find reservation for car ID: " + carId);
+        }
+
+        Person user = reservation.get().getUser();
+        Optional<Car> car = carRepository.findById(carId);
+        Car theCar = car.get();
+
+        if (car.isEmpty()) {
+            throw new IllegalArgumentException("Cannot find car details for car ID: " + carId);
+        }
+
+        // Generowanie kodu płatności
+        String paymentCode = generateRandomPaymentCode();
+
+        // Treść wiadomości e-mail
+        String content = "<h3><strong>Hi " + user.getFirstName() + ",</strong></h3>"
+                + "<p><br></p>"
+                + "<p>We would like to inform you about an additional charge for your car rental that finishes today.</p>"
+                + "<p><br></p>"
+                + "<p>The returned <strong>" + theCar.getMake().getName() + " " + theCar.getModel() + "</strong> is in a worse condition than it was on the first day of your rental. Therefore, we are forced to extra charge you under paragraph 4 and 6 of our agreement.</p>"
+                + "<p><br></p>"
+                + "<p>Below you can find your payment code:</p>"
+                + "<p><br></p>"
+                + "<p><strong>" + paymentCode + "</strong></p>"
+                + "<p><br></p>"
+                + "<p>Paste this code into your transfer title and enter " + extraCharge + " as the amount.</p>"
+                + "<p><br></p>"
+                + "<p>If you prefer to pay in cash, you can visit <a href=\"https://www.google.com/maps/place/Wydzia%C5%82+Ekonomiczno-Socjologiczny+Uniwersytetu+%C5%81%C3%B3dzkiego/@51.7752141,19.4611604,17z/data=!3m2!4b1!5s0x471bcb27fb23fb65:0xc900bfbd73fd4323!4m6!3m5!1s0x471bcb27d95ca219:0x7a09bc332d4a8d73!8m2!3d51.7752141!4d19.4637353!16s%2Fg%2F120l7rrv?entry=ttu&g_ep=EgoyMDI0MTAyOS4wIKXMDSoASAFQAw%3D%3D\" style=\"color: #007bff; text-decoration: underline;\">our office</a>.</p>"
+                + "<p><br></p>"
+                + "<p>Thank you for your cooperation!</p>"
+                + "<p><br></p>"
+                + "<p>Best regards,</p>"
+                + "<p><br></p>"
+                + "<p>The CarGo Team</p>";
+
+        helper.setFrom("cargomailboxpl@gmail.com");
+        helper.setTo(user.getEmail());
+        helper.setSubject("Request for extra charge for car rental: " + car.get().getMake() + " " + car.get().getModel());
+        helper.setText(content, true);
+
+        javaMailSender.send(message);
+    }
+
+    private String generateRandomPaymentCode() {
+        Random random = new Random();
+        StringBuilder code = new StringBuilder();
+        for (int i = 0; i < 10; i++) {
+            code.append(random.nextInt(10)); // Dodajemy losową cyfrę
+        }
+        return code.toString();
     }
 }
