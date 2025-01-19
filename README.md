@@ -54,7 +54,7 @@ In summary, the purpose of this project is to create a fully functioning car ren
 
 Ensure that your environment is set up correctly.
 
-Check your Java version (21 or higher):
+Check your Java version (21 or higher), if you have no java downloaded get it from here: https://www.oracle.com/java/technologies/downloads/#java11-mac
 
 ```bash
 $ java -version
@@ -62,7 +62,7 @@ openjdk version "21.0.4" 2024-07-16 LTS
 OpenJDK Runtime Environment Temurin-21.0.4+7 (build 21.0.4+7-LTS)
 OpenJDK 64-Bit Server VM Temurin-21.0.4+7 (build 21.0.4+7-LTS, mixed mode, sharing)```
 
-Verify Maven installation (3.9.9 or higher):
+Verify Maven installation (3.9.9 or higher), if you have no maven downloaded get it from here: https://maven.apache.org/download.cgi
 
 ```bash
 $ mvn -v
@@ -86,6 +86,8 @@ To ensure Maven and Java are properly configured on your system, follow these st
    - `C:\Program Files\Eclipse Adoptium\jdk-11.0.18+7-hotspot`
 
 Ensure these paths are set correctly for the project to run without issues.
+
+Verify MySQL Workbench version (8.0 or higher), if you don't have it installed, get it from here: https://dev.mysql.com/downloads/workbench/
 
 ## How to Run the Application
 
