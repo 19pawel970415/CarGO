@@ -66,6 +66,15 @@ OpenJDK 64-Bit Server VM Temurin-21.0.4+7 (build 21.0.4+7-LTS, mixed mode, shari
 Verify Maven installation (3.9.9 or higher), if you have no maven downloaded get it from here: https://maven.apache.org/download.cgi
 
 ```bash
+cd sciezkaDoFolderuapache-maven-3.9.9
+nano ~/.zshrc
+source ~/.zshrc
+```
+
+Rerun your Command Line or Terminal
+
+```bash
+mvn -v
 $ mvn -v
 Apache Maven 3.9.9 (8e8579a9e76f7d015ee5ec7bfcdc97d260186937)
 Maven home: C:\maven\apache-maven-3.9.9
