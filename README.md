@@ -54,7 +54,7 @@ In summary, the purpose of this project is to create a fully functioning car ren
 
 Ensure that your environment is set up correctly.
 
-Check your Java version (21 or higher), if you have no java downloaded get it from here: https://www.oracle.com/java/technologies/downloads/#java11-mac
+Check your Java version (21 or higher), if you have no java downloaded get it from here: https://www.oracle.com/java/technologies/downloads/
 
 ```bash
 $ java -version
