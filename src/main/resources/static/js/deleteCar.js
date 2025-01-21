@@ -1,40 +1,40 @@
-let carIdToDelete = null;  // Zmienna do przechowywania id samochodu do usunięcia
+let carIdToDelete = null;
 
-// Funkcja, która wywoływana jest po kliknięciu "Delete"
+
 function openDeleteCarModal(event) {
-    const carId = event.target.getAttribute('data-id');  // Pobieramy ID samochodu z atrybutu data-id
+    const carId = event.target.getAttribute('data-id');
     if (!carId || isNaN(carId)) {
         console.error('Invalid car ID');
         alert('Invalid car ID');
         return;
     }
-    carIdToDelete = carId;  // Zapamiętujemy ID samochodu
-    $('#deleteCarModal').modal('show');  // Pokazujemy modal
+    carIdToDelete = carId;
+    $('#deleteCarModal').modal('show');
 }
 
-// Funkcja obsługująca kliknięcie na przycisk "Close"
+
 $(document).on('click', '#noDeleteCarBtn', function() {
-    // Ukrywamy modal
+
     $('#deleteCarModal').modal('hide');
 
-    // Usuwamy backdrop, jeśli nie został automatycznie usunięty
+
     $('.modal-backdrop').remove();
 });
 
-// Funkcja, która zostanie wywołana po kliknięciu "Confirm"
+
 $(document).on('click', '#confirmDeleteCarBtn', function() {
     if (carIdToDelete) {
-        deleteCar(carIdToDelete);  // Wywołujemy funkcję usuwania
-        $('#deleteCarModal').modal('hide');  // Zamykamy modal po kliknięciu "Yes"
+        deleteCar(carIdToDelete);
+        $('#deleteCarModal').modal('hide');
     } else {
         console.error('No valid car ID to delete');
         alert('No valid car ID to delete');
     }
 });
 
-// Funkcja do usuwania samochodu
+
 function deleteCar(carId) {
-    console.log('Sending DELETE request for car ID:', carId);  // Debug log
+    console.log('Sending DELETE request for car ID:', carId);
     fetch(`/car/deleteCar/${carId}`, {
         method: 'DELETE'
     })
@@ -42,7 +42,7 @@ function deleteCar(carId) {
         if (response.ok) {
             alert('Car deleted successfully!');
             window.location.reload();
-        } else if (response.status === 409) { // Conflict - aktywne rezerwacje
+        } else if (response.status === 409) {
             return response.text().then(text => { throw new Error(text); });
         } else {
             return response.text().then(text => { throw new Error(text); });
@@ -50,7 +50,7 @@ function deleteCar(carId) {
     })
     .catch(error => {
         console.error('Error deleting car:', error);
-        alert(error.message); // Wyświetl komunikat zwrócony przez backend
+        alert(error.message);
         $('.modal-backdrop').remove();
         $('body').removeClass('modal-open');
     });

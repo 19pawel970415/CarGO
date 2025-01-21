@@ -1,10 +1,10 @@
 document.addEventListener("DOMContentLoaded", function() {
-    // Znajdź formularz subskrypcji
+
     const subscribeForm = document.querySelector('form[action="/subscribe"]');
 
     if (subscribeForm) {
         subscribeForm.addEventListener("submit", function(event) {
-            event.preventDefault();  // Zatrzymaj domyślne przesyłanie formularza
+            event.preventDefault();
 
             const emailInput = subscribeForm.querySelector('textarea[name="email"]');
             const email = emailInput.value.trim();
@@ -14,11 +14,11 @@ document.addEventListener("DOMContentLoaded", function() {
                 return;
             }
 
-            // Przygotowanie danych do wysłania
+
             const formData = new FormData();
             formData.append("email", email);
 
-            // Wyślij żądanie POST do serwera
+
             fetch("/subscribe", {
                 method: "POST",
                 body: formData
@@ -31,16 +31,16 @@ document.addEventListener("DOMContentLoaded", function() {
                 }
             })
             .then(data => {
-                // Pokaż wiadomość o sukcesie
+
                 alert("Thank you for subscribing!");
 
-                // Przewiń stronę na górę
+
                 window.scrollTo({
                     top: 0,
                     behavior: "smooth"
                 });
 
-                // Wyczyść pole e-mail
+
                 emailInput.value = "";
             })
             .catch(error => {
