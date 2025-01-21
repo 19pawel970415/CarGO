@@ -82,7 +82,7 @@ public class ReservationService {
         return reservationRepository.findAll();
     }
 
-    // Aktualizacja statusu rezerwacji
+
     public void updateReservationStatus(Long reservationId, ReservationStatus newStatus) {
         Reservation reservation = reservationRepository.findById(reservationId)
                 .orElseThrow(() -> new IllegalArgumentException("Reservation not found"));
@@ -90,7 +90,7 @@ public class ReservationService {
         reservationRepository.save(reservation);
     }
 
-    // Usunięcie rezerwacji
+
     public void deleteReservation(Long reservationId) {
         if (!reservationRepository.existsById(reservationId)) {
             throw new IllegalArgumentException("Reservation not found");
@@ -98,7 +98,7 @@ public class ReservationService {
         reservationRepository.deleteById(reservationId);
     }
 
-    // Najczęściej wynajmowane auto
+
     public List<Map.Entry<Car, Long>> getMostRentedCars(LocalDateTime startDate, LocalDateTime endDate) {
         List<Reservation> reservations = reservationRepository.findByReservationEndBetween(startDate, endDate);
 
@@ -108,11 +108,11 @@ public class ReservationService {
                 .collect(Collectors.groupingBy(Reservation::getCar, Collectors.counting()))
                 .entrySet()
                 .stream()
-                .sorted((e1, e2) -> Long.compare(e2.getValue(), e1.getValue())) // Sortuj malejąco po liczbie wynajmów
+                .sorted((e1, e2) -> Long.compare(e2.getValue(), e1.getValue()))
                 .collect(Collectors.toList());
     }
 
-    // Najczęściej używane paliwo
+
     public List<Map.Entry<FuelType, Long>> getFuelTypeRanking(LocalDateTime startDate, LocalDateTime endDate) {
         List<Reservation> reservations = reservationRepository.findByReservationEndBetween(startDate, endDate);
 
@@ -123,14 +123,14 @@ public class ReservationService {
                 .collect(Collectors.groupingBy(fuelType -> fuelType, Collectors.counting()))
                 .entrySet()
                 .stream()
-                .sorted((e1, e2) -> Long.compare(e2.getValue(), e1.getValue())) // Sortuj malejąco po popularności
+                .sorted((e1, e2) -> Long.compare(e2.getValue(), e1.getValue()))
                 .collect(Collectors.toList());
     }
 
     public List<Map.Entry<Car, Double>> getCarsEarnings(LocalDateTime startDate, LocalDateTime endDate) {
         List<Reservation> reservations = reservationRepository.findByReservationEndBetween(startDate, endDate);
 
-        // Grupowanie i sumowanie zarobków dla każdego samochodu
+
         Map<Car, Double> carEarnings = reservations.stream()
                 .filter(reservation -> reservation.getStatus() == ReservationStatus.ACTIVE
                         || reservation.getStatus() == ReservationStatus.COMPLETED)
@@ -139,7 +139,7 @@ public class ReservationService {
                         Collectors.summingDouble(this::calculateReservationIncome)
                 ));
 
-        // Konwersja mapy na posortowaną listę wpisów
+
         return carEarnings.entrySet()
                 .stream()
                 .sorted((e1, e2) -> Double.compare(e2.getValue(), e1.getValue()))
@@ -153,15 +153,15 @@ public class ReservationService {
         return reservations.stream()
                 .filter(reservation -> reservation.getStatus() == ReservationStatus.ACTIVE
                         || reservation.getStatus() == ReservationStatus.COMPLETED)
-                .map(reservation -> normalize(reservation.getCar().getLocation().getCity())) // Usuń polskie znaki
+                .map(reservation -> normalize(reservation.getCar().getLocation().getCity()))
                 .collect(Collectors.groupingBy(city -> city, Collectors.counting()))
                 .entrySet()
                 .stream()
-                .sorted((e1, e2) -> Long.compare(e2.getValue(), e1.getValue())) // Sortuj malejąco po liczbie wynajmów
+                .sorted((e1, e2) -> Long.compare(e2.getValue(), e1.getValue()))
                 .collect(Collectors.toList());
     }
 
-    // Metoda do normalizacji tekstu (usuwanie polskich znaków)
+
     private String normalize(String input) {
         if (input == null) {
             return null;
@@ -186,12 +186,12 @@ public class ReservationService {
                 .collect(Collectors.toList());
     }
 
-    // Metoda pomocnicza do obliczania zarobków
+
     private double calculateReservationIncome(Reservation reservation) {
         double pricePerDay = reservation.getCar().getPricePerDay();
         long days = Math.max(
                 reservation.getReservationStart().until(reservation.getReservationEnd(), java.time.temporal.ChronoUnit.DAYS),
-                1 // Minimalna długość rezerwacji to 1 dzień
+                1
         );
         return pricePerDay * days;
     }
@@ -251,9 +251,9 @@ public class ReservationService {
     }
 
 
-    // Metoda wysyłająca maila do użytkownika po dokonaniu płatności
+
     public void sendPaymentEmail(Reservation reservation) throws MessagingException {
-        // Pobieramy dane z rezerwacji
+
         User user = reservation.getUser();
         String userEmail = user.getEmail();
         Long reservationId = reservation.getId();
@@ -264,19 +264,19 @@ public class ReservationService {
         );
         Double totalPrice = pricePerDay * days;
 
-        // Generowanie losowego kodu płatności
+
         String paymentCode = generateRandomPaymentCode();
 
-        // Tworzenie wiadomości e-mail
+
         MimeMessage message = javaMailSender.createMimeMessage();
         MimeMessageHelper helper = new MimeMessageHelper(message, true);
 
-        // Ustawienie nadawcy, odbiorcy i tematu
+
         helper.setFrom("cargomailboxpl@gmail.com");
         helper.setTo(userEmail);
         helper.setSubject("Payment Details for Your Reservation " + reservationId);
 
-        // Treść wiadomości e-mail
+
         String content = "<h3><strong>Hi " + user.getFirstName() + ",</strong></h3>"
                 + "<p><br></p>"
                 + "<p>We're happy that you want to pay for your reservation " + reservationId + ".</p>"
@@ -298,16 +298,16 @@ public class ReservationService {
 
         helper.setText(content, true);
 
-        // Wysyłanie wiadomości e-mail
+
         javaMailSender.send(message);
     }
 
-    // Pomocnicza metoda do generowania losowego kodu płatności
+
     private String generateRandomPaymentCode() {
         Random random = new Random();
         StringBuilder code = new StringBuilder();
         for (int i = 0; i < 10; i++) {
-            code.append(random.nextInt(10)); // Dodajemy losową cyfrę
+            code.append(random.nextInt(10));
         }
         return code.toString();
     }
@@ -333,7 +333,7 @@ public class ReservationService {
     }
 
     public void sendPaymentReminderEmail(Reservation reservation) throws MessagingException {
-        // Pobieramy dane z rezerwacji
+
         User user = reservation.getUser();
         String userEmail = user.getEmail();
         Long reservationId = reservation.getId();
@@ -344,16 +344,16 @@ public class ReservationService {
         );
         Double totalPrice = pricePerDay * days;
 
-        // Tworzenie wiadomości e-mail
+
         MimeMessage message = javaMailSender.createMimeMessage();
         MimeMessageHelper helper = new MimeMessageHelper(message, true);
 
-        // Ustawienie nadawcy, odbiorcy i tematu
+
         helper.setFrom("cargomailboxpl@gmail.com");
         helper.setTo(userEmail);
         helper.setSubject("Reminder: Payment Pending for Your Reservation " + reservationId);
 
-        // Treść wiadomości e-mail
+
         String content = "<h3><strong>Hi " + user.getFirstName() + ",</strong></h3>"
                 + "<p><br></p>"
                 + "<p>This is a reminder that your reservation with ID " + reservationId + " is still pending payment.</p>"
@@ -374,7 +374,7 @@ public class ReservationService {
 
         helper.setText(content, true);
 
-        // Wysyłanie wiadomości e-mail
+
         javaMailSender.send(message);
     }
 
@@ -382,15 +382,15 @@ public class ReservationService {
         LocalDateTime today = LocalDateTime.now().withHour(0).withMinute(0).withSecond(0).withNano(0);
         List<Reservation> reservations = reservationRepository.findAll();
 
-        // Filtrujemy rezerwacje, które zaczynają się dzisiaj i które nie zostały opłacone
+
         List<Reservation> cancelledReservations = reservations.stream()
                 .filter(reservation ->
-                        reservation.getReservationStart().toLocalDate().equals(today.toLocalDate()) &&  // Rezerwacja zaczyna się dzisiaj
-                                !reservation.getIsPaid()  // Rezerwacja nie została opłacona
+                        reservation.getReservationStart().toLocalDate().equals(today.toLocalDate()) &&
+                                !reservation.getIsPaid()
                 )
                 .toList();
 
-        // Wysyłamy e-mail o anulowaniu każdej rezerwacji
+
         for (Reservation reservation : cancelledReservations) {
             try {
                 sendCancellationEmailDueToLackOfPayment(reservation);
@@ -401,21 +401,21 @@ public class ReservationService {
     }
 
     public void sendCancellationEmailDueToLackOfPayment(Reservation reservation) throws MessagingException {
-        // Pobieramy dane z rezerwacji
+
         User user = reservation.getUser();
         String userEmail = user.getEmail();
         Long reservationId = reservation.getId();
 
-        // Tworzenie wiadomości e-mail
+
         MimeMessage message = javaMailSender.createMimeMessage();
         MimeMessageHelper helper = new MimeMessageHelper(message, true);
 
-        // Ustawienie nadawcy, odbiorcy i tematu
+
         helper.setFrom("cargomailboxpl@gmail.com");
         helper.setTo(userEmail);
         helper.setSubject("Your Reservation " + reservationId + " Was Cancelled Due to Lack of Payment");
 
-        // Treść wiadomości e-mail
+
         String content = "<h3><strong>Hi " + user.getFirstName() + ",</strong></h3>"
                 + "<p><br></p>"
                 + "<p>We regret to inform you that your reservation with ID " + reservationId + " has been cancelled due to lack of payment. Since the reservation was supposed to start today and no payment was made, we were forced to cancel it.</p>"
@@ -428,7 +428,7 @@ public class ReservationService {
 
         helper.setText(content, true);
 
-        // Wysyłanie wiadomości e-mail
+
         javaMailSender.send(message);
     }
 

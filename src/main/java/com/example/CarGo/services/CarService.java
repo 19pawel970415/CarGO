@@ -132,7 +132,7 @@ public class CarService {
             carRepository.save(car);
 
             try {
-                // set to a minute just as an example
+
                 Thread.sleep(60000);
             } catch (InterruptedException e) {
                 e.printStackTrace();
@@ -203,17 +203,17 @@ public class CarService {
 
     @Transactional
     public void addCar(CarAddRequest request, MultipartFile image) {
-        // Walidacja unikalności VIN i numeru rejestracyjnego
+
         try {
             validateCarUniqueness(request);
         } catch (SQLDataException e) {
             throw new RuntimeException(e);
         }
 
-        // Znalezienie lub utworzenie lokalizacji
+
         Location location = findOrCreateLocation(request);
 
-        // Sprawdzamy istnienie marki samochodu w bazie
+
         CarMake carMake = carMakeRepository.findByName(request.getMake().getName())
                 .orElseGet(() -> createNewCarMake(request.getMake().getName()));
 
@@ -221,17 +221,17 @@ public class CarService {
             throw new IllegalArgumentException("Year of production must be between 1900 and the current year.");
         }
 
-        // Znalezienie SeatCount na podstawie liczby foteli
+
         SeatCount seatCount = seatCountRepository.findByCount(request.getSeatCount().getId())
                 .orElseThrow(() -> new IllegalArgumentException("Seat count not found"));
 
-        // Zmiana dostępności na true
-        seatCount.setAvailable(true);
-        seatCountRepository.save(seatCount);  // Zapisanie zmiany dostępności foteli
 
-        // Tworzenie samochodu
+        seatCount.setAvailable(true);
+        seatCountRepository.save(seatCount);
+
+
         Car car = new Car();
-        car.setMake(carMake);  // Używamy znalezionej lub nowo utworzonej marki
+        car.setMake(carMake);
         car.setModel(request.getModel());
         car.setRegistrationNumber(request.getRegistrationNumber());
         car.setVin(request.getVin());
@@ -239,7 +239,7 @@ public class CarService {
         car.setChassisType(request.getChassisType());
         car.setGearboxType(request.getGearboxType());
         car.setFuelType(request.getFuelType());
-        car.setSeatCount(seatCount);  // Przypisanie zaktualizowanego SeatCount
+        car.setSeatCount(seatCount);
         car.setPricePerDay(request.getPricePerDay());
         car.setLocation(location);
         car.setStatus(CarStatus.READY_FOR_RENT);
@@ -249,14 +249,14 @@ public class CarService {
         saveCarImage(image, car.getId());
     }
 
-    // Metoda pomocnicza do tworzenia nowej marki samochodu, jeśli nie istnieje
+
     private CarMake createNewCarMake(String makeName) {
         CarMake newCarMake = new CarMake();
         newCarMake.setName(makeName);
         return carMakeRepository.save(newCarMake);
     }
 
-    // Metoda do znalezienia lub utworzenia lokalizacji
+
     private Location findOrCreateLocation(CarAddRequest request) {
         return locationRepository.findByCity(request.getLocation().getCity())
                 .orElseGet(() -> locationRepository.save(new Location(request.getLocation().getCity())));
@@ -279,52 +279,52 @@ public class CarService {
 
         List<Car> allCars = carRepository.findAll();
 
-        // Pobranie marki samochodu
+
         String markName = carRepository.findById(carId).get().getMake().getName();
 
-        // Liczba samochodów danej marki
+
         long carsWithTheSameMake = allCars.stream()
                 .filter(c -> c.getMake().getName().equals(markName))
                 .count();
 
-        // Pobranie lokalizacji powiązanej z danym samochodem
+
         String cityName = carRepository.findById(carId).get().getLocation().getCity();
 
-        // Liczba samochodów w tej samej lokalizacji
+
         long carsInTheSameLocation = allCars.stream()
                 .filter(c -> c.getLocation().getCity().equals(cityName))
                 .count();
 
-        // Pobranie SeatCount powiązanego z samochodem
+
         Long seatCountId = carRepository.findById(carId).get().getSeatCount().getId();
 
-        // Liczba samochodów z tym samym SeatCount
+
         long carsWithTheSameSeatCount = allCars.stream()
                 .filter(c -> c.getSeatCount().getId() == seatCountId)
                 .count();
 
-        // Usunięcie samochodu
+
         carRepository.deleteById(carId);
 
-        // Usunięcie marki, jeśli nie ma innych samochodów tej marki
+
         if (carsWithTheSameMake <= 1) {
             carMakeRepository.deleteById(carMakeRepository.findByName(markName).get().getId());
         }
 
-        // Usunięcie lokalizacji, jeśli nie ma innych samochodów w tej lokalizacji
+
         if (carsInTheSameLocation <= 1) {
             locationRepository.deleteById(locationRepository.findByCity(cityName).get().getId());
         }
 
 
-        // Usunięcie SeatCount, jeśli nie ma innych samochodów z tym samym SeatCount
+
         if (carsWithTheSameSeatCount <= 1) {
             Optional<SeatCount> seatCountbyId = seatCountRepository.findById(seatCountId);
             seatCountbyId.get().setAvailable(false);
             seatCountRepository.save(seatCountbyId.get());
         }
 
-        // Usunięcie obrazu samochodu
+
         deleteCarImage(carId);
     }
 
@@ -334,11 +334,11 @@ public class CarService {
         }
 
         String uploadDir = "C:/Users/48721/IdeaProjects/CarGo/src/main/resources/static/images/";
-        String fileName = carNumber + ".jpg"; // Możesz dostosować rozszerzenie
+        String fileName = carNumber + ".jpg";
 
         Path filePath = Paths.get(uploadDir + fileName);
         try {
-            Files.createDirectories(filePath.getParent()); // Upewnij się, że katalog istnieje
+            Files.createDirectories(filePath.getParent());
             image.transferTo(filePath.toFile());
         } catch (IOException e) {
             throw new RuntimeException("Failed to save image: " + e.getMessage(), e);
@@ -352,12 +352,12 @@ public class CarService {
     }
 
     private void deleteCarImage(Long carId) {
-        // Ścieżka do obrazu samochodu
+
         String uploadDir = "C:/Users/48721/IdeaProjects/CarGo/src/main/resources/static/images/";
-        String fileName = carId + ".jpg"; // Przy założeniu, że obrazy mają rozszerzenie .jpg
+        String fileName = carId + ".jpg";
         Path filePath = Paths.get(uploadDir + fileName);
 
-        // Usuwanie pliku, jeśli istnieje
+
         try {
             Files.deleteIfExists(filePath);
         } catch (IOException e) {
@@ -366,7 +366,7 @@ public class CarService {
     }
 
     public boolean hasActiveOrPendingReservations(Long carId) {
-        // Pobierz wszystkie rezerwacje dla danego samochodu
+
         long numberOfReservationOnTheCar = reservationRepository.findAll().stream()
                 .filter(r -> r.getCar().getId() == carId)
                 .filter(r -> r.getStatus() == ReservationStatus.ACTIVE || r.getStatus() == ReservationStatus.PENDING)
@@ -384,7 +384,7 @@ public class CarService {
         MimeMessage message = javaMailSender.createMimeMessage();
         MimeMessageHelper helper = new MimeMessageHelper(message, true);
 
-        // Pobranie rezerwacji i użytkownika
+
         Optional<Reservation> reservation = reservationRepository.findAll().stream()
                 .filter(r -> r.getCar().getId().equals(carId))
                 .filter(r -> r.getReservationEnd().isEqual(today))
@@ -402,10 +402,10 @@ public class CarService {
             throw new IllegalArgumentException("Cannot find car details for car ID: " + carId);
         }
 
-        // Generowanie kodu płatności
+
         String paymentCode = generateRandomPaymentCode();
 
-        // Treść wiadomości e-mail
+
         String content = "<h3><strong>Hi " + user.getFirstName() + ",</strong></h3>"
                 + "<p><br></p>"
                 + "<p>We would like to inform you about an additional charge for your car rental that finishes today.</p>"
@@ -438,7 +438,7 @@ public class CarService {
         Random random = new Random();
         StringBuilder code = new StringBuilder();
         for (int i = 0; i < 10; i++) {
-            code.append(random.nextInt(10)); // Dodajemy losową cyfrę
+            code.append(random.nextInt(10));
         }
         return code.toString();
     }

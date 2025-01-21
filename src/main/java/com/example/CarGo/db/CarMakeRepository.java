@@ -15,7 +15,7 @@ public interface CarMakeRepository extends JpaRepository<CarMake, Long> {
 
     boolean existsByName(String name);
 
-    // Custom query to check if a Car Make is used by any Car
+    
     @Query("SELECT COUNT(c) > 0 FROM Car c WHERE c.make.name = :carMakeName")
     boolean isCarMakeUsedInCars(@Param("carMakeName") String carMakeName);
 

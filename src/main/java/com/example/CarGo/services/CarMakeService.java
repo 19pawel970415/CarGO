@@ -30,22 +30,22 @@ public class CarMakeService {
     @Transactional
     public boolean deleteCarMake(String carMakeName) {
         try {
-            // Sprawdź, czy marka samochodu jest przypisana do jakiegoś auta
+
             boolean isUsedInCars = carMakeRepository.isCarMakeUsedInCars(carMakeName);
 
-            // Jeśli marka jest przypisana do auta, nie można jej usunąć
+
             if (isUsedInCars) {
                 return false;
             }
 
-            // Jeśli marka nie jest przypisana do żadnego auta, usuń ją
+
             Optional<CarMake> carMake = carMakeRepository.findByName(carMakeName);
             if (carMake.isPresent()) {
                 carMakeRepository.delete(carMake.get());
                 return true;
             }
 
-            return false; // Jeśli marka samochodu nie istnieje
+            return false;
         } catch (Exception e) {
             return false;
         }

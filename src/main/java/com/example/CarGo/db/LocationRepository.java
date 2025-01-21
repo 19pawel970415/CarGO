@@ -16,7 +16,7 @@ public interface LocationRepository extends JpaRepository<Location, Long> {
     boolean existsByCity(String city);
     Optional<Location> findByCity(String city);
 
-    // Sprawdź, czy lokalizacja jest używana
+    
     @Query("SELECT COUNT(r) > 0 FROM Reservation r WHERE r.pickUpPoint.city = :locationName OR r.dropOfPoint.city = :locationName")
     boolean isLocationUsedInReservations(@Param("locationName") String locationName);
 

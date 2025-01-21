@@ -113,19 +113,19 @@ public class UserService {
 
     @Transactional
     public String updateUser(User user) {
-        // Check if another user already has the same email (other than the current user)
+
         if (userRepository.existsByEmail(user.getEmail()) &&
                 !userRepository.findByEmail(user.getEmail()).get().getId().equals(user.getId())) {
             return "Email already exists";
         }
 
-        // Check if another user already has the same login (other than the current user)
+
         if (userRepository.existsByLogin(user.getLogin()) &&
                 !userRepository.findByLogin(user.getLogin()).get().getId().equals(user.getId())) {
             return "Login already exists";
         }
 
-        // Save the updated user details
+
         userRepository.save(user);
         return "User updated successfully";
     }

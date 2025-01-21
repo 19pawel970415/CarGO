@@ -3,7 +3,7 @@ package com.example.CarGo.domain;
 public class SeatCountRequest {
     private Long seatCountId;
 
-    // Gettery i settery
+    
     public Long getSeatCountId() {
         return seatCountId;
     }

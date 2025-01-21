@@ -20,5 +20,5 @@ public class Raport {
     @Lob
     private String reportData;
 
-    // Getters and Setters
+    
 }

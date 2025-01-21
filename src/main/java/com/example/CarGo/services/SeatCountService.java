@@ -28,8 +28,8 @@ public class SeatCountService {
         if (seatCountOptional.isPresent()) {
             SeatCount seatCount = seatCountOptional.get();
             if (!seatCount.isAvailable()) {
-                seatCount.setAvailable(true);  // Ustaw dostępność
-                seatCountRepository.save(seatCount);  // Zapisz zaktualizowaną liczbę miejsc
+                seatCount.setAvailable(true);
+                seatCountRepository.save(seatCount);
                 return true;
             }
         }
@@ -42,16 +42,16 @@ public class SeatCountService {
         if (seatCountOptional.isPresent()) {
             SeatCount seatCount = seatCountOptional.get();
 
-            // Walidacja: sprawdzenie powiązania z samochodem
-            if (seatCountRepository.isAssignedToCar(seatCount.getId())) { // Zakładamy, że istnieje metoda isAssignedToCar()
-                return false; // Nie można dezaktywować, jeśli jest powiązany z samochodem
+
+            if (seatCountRepository.isAssignedToCar(seatCount.getId())) {
+                return false;
             }
 
-            seatCount.setAvailable(false); // Ustawienie dostępności na false
-            seatCountRepository.save(seatCount); // Zapis zaktualizowanego obiektu
+            seatCount.setAvailable(false);
+            seatCountRepository.save(seatCount);
             return true;
         }
 
-        return false; // Jeśli Seat Count nie istnieje
+        return false;
     }
 }

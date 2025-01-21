@@ -40,6 +40,6 @@ public class Location {
 
     @Override
     public String toString() {
-        return city; // Return the city name as the string representation
+        return city; 
     }
 }

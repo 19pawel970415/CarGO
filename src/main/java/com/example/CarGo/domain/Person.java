@@ -3,7 +3,7 @@ package com.example.CarGo.domain;
 import jakarta.persistence.*;
 
 @Entity
-@Inheritance(strategy = InheritanceType.JOINED) // Używamy strategii JOINED, by każda klasa miała osobną tabelę
+@Inheritance(strategy = InheritanceType.JOINED) 
 @Table(name = "persons")
 public abstract class Person {
 

@@ -76,7 +76,7 @@ public class GeneralController {
 
     @GetMapping("/downloadFile")
     public ResponseEntity<FileSystemResource> downloadFile() {
-        // Define the path to the file in your main project folder
+
         String filePath = "We are CarGo!.docx";
 
         FileSystemResource file = new FileSystemResource(Paths.get(filePath));
@@ -85,7 +85,7 @@ public class GeneralController {
             return ResponseEntity.notFound().build();
         }
 
-        // Setting headers to trigger the file download
+
         HttpHeaders headers = new HttpHeaders();
         headers.add(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=" + file.getFilename());
 
@@ -123,27 +123,27 @@ public class GeneralController {
         List<Location> locations = locationRepository.findAll();
         List<SeatCount> seatCounts = seatCountService.findAllSeatCounts();
 
-        // Validate price range
+
         if (priceMin != null && priceMax != null && priceMin > priceMax) {
             model.addAttribute("priceError", "Min price cannot be greater than max price.");
-            return "gallery"; // Return the same page with an error message
+            return "gallery";
         }
 
-        // Validate year range
+
         if (yearMin != null && yearMax != null && yearMin > yearMax) {
             model.addAttribute("yearError", "Min year cannot be greater than max year.");
-            return "gallery"; // Return the same page with an error message
+            return "gallery";
         }
 
-        // Validate startDate and endDate on the server side
+
         if (startDate != null && startDate.isBefore(LocalDate.now())) {
             model.addAttribute("dateError", "Start date cannot be in the past.");
-            return "gallery";  // Return the same page with an error message
+            return "gallery";
         }
 
         if (startDate != null && endDate != null && startDate.isAfter(endDate)) {
             model.addAttribute("dateError", "Start date cannot be after the end date.");
-            return "gallery";  // Return the same page with an error message
+            return "gallery";
         }
 
         List<Car> cars;
@@ -193,9 +193,9 @@ public class GeneralController {
     @PostMapping("/delete-car-make")
     @ResponseBody
     public ResponseEntity<String> deleteCarMake(@RequestBody CarMakeRequest carMakeRequest) {
-        String carMakeName = carMakeRequest.getMake(); // Assuming the request contains a carMake property
+        String carMakeName = carMakeRequest.getMake();
 
-        // Call the service method to delete the car make
+
         boolean deleted = carMakeService.deleteCarMake(carMakeName);
 
         if (deleted) {
@@ -229,7 +229,7 @@ public class GeneralController {
     public ResponseEntity<String> addLocation(@RequestBody LocationRequest locationRequest) {
         String locationName = locationRequest.getLocation();
 
-        // Wywołaj metodę serwisową, aby dodać lokalizację
+
         boolean added = locationService.addLocation(locationName);
 
         if (added) {
@@ -244,7 +244,7 @@ public class GeneralController {
     public ResponseEntity<String> deleteLocation(@RequestBody LocationRequest locationRequest) {
         String locationName = locationRequest.getLocation();
 
-        // Wywołaj metodę serwisową, aby usunąć lokalizację
+
         boolean deleted = locationService.deleteLocation(locationName);
 
         if (deleted) {
@@ -259,7 +259,7 @@ public class GeneralController {
     public ResponseEntity<String> addSeatCount(@RequestBody SeatCountRequest seatCountRequest) {
         Long seatCountId = seatCountRequest.getSeatCountId();
 
-        // Wywołaj metodę serwisową, aby dodać liczbę miejsc
+
         boolean added = seatCountService.addSeatCount(seatCountId);
 
         if (added) {
@@ -272,9 +272,9 @@ public class GeneralController {
     @PostMapping("/delete-seat-count")
     @ResponseBody
     public ResponseEntity<String> deleteSeatCount(@RequestBody SeatCountRequest seatCountRequest) {
-        Long seatCountId = seatCountRequest.getSeatCountId(); // Assuming the request contains a seatCountId property
+        Long seatCountId = seatCountRequest.getSeatCountId();
 
-        // Wywołaj metodę serwisową, aby usunąć Seat Count
+
         boolean deleted = seatCountService.deactivateSeatCount(seatCountId);
 
         if (deleted) {
@@ -308,7 +308,7 @@ public class GeneralController {
                                @RequestParam("extraCharge") Double extraCharge,
                                RedirectAttributes redirectAttributes) {
 
-        // Logika biznesowa: Zmień status samochodu i obsłuż dodatkowe opłaty
+
         try {
             if(extraCharge > 0) {
                 carService.sendEmailRequestingExtraCharge(id, extraCharge);
@@ -319,15 +319,15 @@ public class GeneralController {
 
         carService.changeStatusToInServiceAndWait(id);
 
-        // Opcjonalna pauza (może być pomocna do symulacji)
+
         try {
             Thread.sleep(3000);
         } catch (InterruptedException e) {
-            Thread.currentThread().interrupt(); // Przywróć flagę przerwania wątku
+            Thread.currentThread().interrupt();
             e.printStackTrace();
         }
 
-        // Przekierowanie na stronę usług
+
         return "redirect:/services";
     }
 
@@ -348,7 +348,7 @@ public class GeneralController {
             @RequestParam("confirmPassword") String confirmPassword,
             @RequestParam(value = "subscribe", required = false) boolean subscribeCheckbox,
             Model model) {
-        // Walidacja hasła
+
         if (!password.equals(confirmPassword)) {
             model.addAttribute("error", "Passwords do not match");
             return "register";
@@ -360,7 +360,7 @@ public class GeneralController {
         user.setPhoneNumber(phoneNumber);
         user.setLogin(login);
         user.setPassword(password);
-        // Rejestracja użytkownika
+
         String result = userService.registerUser(user);
         if (result.equals("User registered successfully")) {
             if (subscribeCheckbox) {
@@ -389,13 +389,13 @@ public class GeneralController {
             HttpSession session,
             Model model) {
 
-        // Wyszukiwanie użytkownika na podstawie loginu w całym systemie
+
         Optional<Person> personOptional = personRepository.findByLogin(login);
 
         if (personOptional.isPresent()) {
             Person person = personOptional.get();
 
-            // Sprawdzamy, czy hasło jest zgodne z danym użytkownikiem
+
             String storedPassword = null;
             if (person instanceof User) {
                 storedPassword = ((User) person).getPassword();
@@ -406,7 +406,7 @@ public class GeneralController {
             }
 
             if (storedPassword != null && storedPassword.equals(password)) {
-                // Zapisanie użytkownika w sesji
+
                 session.setAttribute("loggedInUser", person);
                 return "redirect:/index";
             } else {
@@ -454,35 +454,35 @@ public class GeneralController {
             HttpSession session,
             Model model) {
 
-        String email = (String) session.getAttribute("email");  // Odczytanie emaila z sesji
+        String email = (String) session.getAttribute("email");
         if (email == null) {
             model.addAttribute("error", "Email not found");
-            return "password_reset";  // Zwrócenie na stronę resetowania, jeśli email nie jest w sesji
+            return "password_reset";
         }
 
         if (!password.equals(confirmPassword)) {
             model.addAttribute("error", "Passwords do not match");
-            return "password_reset";  // Zwracamy do strony resetowania hasła
+            return "password_reset";
         }
 
         Optional<User> userOptional = userRepository.findByEmail(email);
         if (userOptional.isPresent()) {
             User user = userOptional.get();
-            user.setPassword(password);  // Ustawienie nowego hasła
-            userService.updatePassword(email, password);  // Zaktualizowanie hasła w bazie
+            user.setPassword(password);
+            userService.updatePassword(email, password);
             model.addAttribute("message", "Password successfully reset");
-            return "login";  // Po pomyślnym zresetowaniu hasła przekierowanie na stronę logowania
+            return "login";
         } else {
             model.addAttribute("error", "Email not found");
-            return "password_reset";  // Jeśli email nie istnieje, wracamy do formularza
+            return "password_reset";
         }
     }
 
 
     @GetMapping("/signout")
     public String signoutUser(HttpSession session) {
-        session.invalidate();  // Usunięcie wszystkich danych z sesji
-        return "redirect:/index";  // Przekierowanie na stronę główną
+        session.invalidate();
+        return "redirect:/index";
     }
 
     @PostMapping("/reserve")
@@ -494,37 +494,37 @@ public class GeneralController {
             HttpSession session,
             Model model) {
 
-        // Check for the logged-in user in the session
+
         User loggedInUser = (User) session.getAttribute("loggedInUser");
         if (loggedInUser == null) {
-            return "redirect:/login";  // Redirect to login if not authenticated
+            return "redirect:/login";
         }
 
-        // Find the car by ID
+
         Optional<Car> carOptional = carService.findCarById(carId);
         if (!carOptional.isPresent()) {
             model.addAttribute("error", "Car not found");
-            return "book";  // Redirect back to booking page if car is not found
+            return "book";
         }
 
-        // Create and set up reservation data
+
         Car car = carOptional.get();
         Reservation reservation = new Reservation();
 
-        // Set reservation fields
-        reservation.setId(null); // Ensure ID is generated automatically if using auto-generated IDs
+
+        reservation.setId(null);
         reservation.setReservationStart(LocalDateTime.of(LocalDate.parse(startDate), LocalTime.MIN));
         reservation.setReservationEnd(LocalDateTime.of(LocalDate.parse(endDate), LocalTime.MAX));
-        reservation.setStatus(ReservationStatus.PENDING); // Set initial status as per enum or String
+        reservation.setStatus(ReservationStatus.PENDING);
         reservation.setCar(car);
         reservation.setUser(loggedInUser);
         reservation.setPickUpPoint(car.getLocation());
         reservation.setDropOfPoint(locationRepository.findByCityContainingIgnoreCase(returnLocation).get(0));
 
-        // Save reservation
+
         reservationService.saveReservation(reservation);
 
-        // Redirect to a confirmation page or any other relevant page
+
         return "redirect:/confirmation";
     }
 
@@ -587,16 +587,16 @@ public class GeneralController {
             HttpSession session,
             Model model) {
 
-        // Pobranie aktualnie zalogowanego użytkownika z sesji
+
         User currentUser = (User) session.getAttribute("loggedInUser");
 
-        // Walidacja hasła
+
         if (!password.equals(confirmPassword)) {
             model.addAttribute("error", "Passwords do not match");
             return "account_details";
         }
 
-        // Aktualizacja danych użytkownika
+
         currentUser.setFirstName(firstName);
         currentUser.setLastName(lastName);
         currentUser.setEmail(email);
@@ -604,7 +604,7 @@ public class GeneralController {
         currentUser.setLogin(login);
         currentUser.setPassword(password);
 
-        // Zapis zmian w bazie danych
+
         String result = userService.updateUser(currentUser);
 
         if (result.equals("User updated successfully")) {
@@ -636,12 +636,12 @@ public class GeneralController {
 
     @GetMapping("/personnel_management")
     public String showPersonnelManagement(Model model) {
-        // Pobierz listy użytkowników, menedżerów i administratorów
+
         List<Person> users = personService.getAllUsers();
         List<Person> managers = personService.getAllManagers();
         List<Person> admins = personService.getAllAdmins();
 
-        // Przekaż dane do widoku
+
         model.addAttribute("users", users);
         model.addAttribute("managers", managers);
         model.addAttribute("admins", admins);
@@ -664,7 +664,7 @@ public class GeneralController {
             @RequestParam("password") String password,
             @RequestParam("confirmPassword") String confirmPassword,
             Model model) {
-        // Walidacja hasła
+
         if (!password.equals(confirmPassword)) {
             model.addAttribute("error", "Passwords do not match");
             return "addAdmin";
@@ -676,7 +676,7 @@ public class GeneralController {
         admin.setPhoneNumber(phoneNumber);
         admin.setLogin(login);
         admin.setPassword(password);
-        // Rejestracja użytkownika
+
         String result = adminService.registerAdmin(admin);
 
         if (result.equals("Admin registered successfully")) {
@@ -702,7 +702,7 @@ public class GeneralController {
             @RequestParam("password") String password,
             @RequestParam("confirmPassword") String confirmPassword,
             Model model) {
-        // Walidacja hasła
+
         if (!password.equals(confirmPassword)) {
             model.addAttribute("error", "Passwords do not match");
             return "addManager";
@@ -714,7 +714,7 @@ public class GeneralController {
         manager.setPhoneNumber(phoneNumber);
         manager.setLogin(login);
         manager.setPassword(password);
-        // Rejestracja użytkownika
+
         String result = managerService.registerManager(manager);
 
         if (result.equals("Manager registered successfully")) {
@@ -740,7 +740,7 @@ public class GeneralController {
             @RequestParam("password") String password,
             @RequestParam("confirmPassword") String confirmPassword,
             Model model) {
-        // Walidacja hasła
+
         if (!password.equals(confirmPassword)) {
             model.addAttribute("error", "Passwords do not match");
             return "addUser";
@@ -752,7 +752,7 @@ public class GeneralController {
         user.setPhoneNumber(phoneNumber);
         user.setLogin(login);
         user.setPassword(password);
-        // Rejestracja użytkownika
+
         String result = userService.registerUser(user);
 
         if (result.equals("User registered successfully")) {
@@ -800,12 +800,12 @@ public class GeneralController {
     }
 
     @GetMapping("/car/{id}")
-    @ResponseBody  // This annotation will return the response as JSON
+    @ResponseBody
     public CarRequest getCar(@PathVariable Long id) {
-        // Get car by ID
+
         CarRequest carRequest = carService.getCarById(id);
 
-        // Return the car details as JSON
+
         return carRequest;
     }
 
@@ -886,7 +886,7 @@ public class GeneralController {
             return "editManager";
         }
 
-        // Znajdź menedżera i zaktualizuj dane
+
         Manager manager = managerRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("Manager not found"));
 
@@ -897,7 +897,7 @@ public class GeneralController {
         manager.setLogin(login);
         manager.setPassword(password);
 
-        // Zapisz zmiany
+
         String result = managerService.updateManager(manager);
 
         if (result.equals("Manager updated successfully")) {
@@ -910,14 +910,14 @@ public class GeneralController {
 
     @GetMapping("/editManager/{id}")
     public String editManager(@PathVariable Long id, Model model) {
-        // Pobierz menedżera z bazy danych
+
         Manager manager = managerRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("Manager not found"));
 
-        // Dodaj menedżera do modelu
+
         model.addAttribute("manager", manager);
 
-        // Wyświetl stronę edycji
+
         return "editManager";
     }
 
@@ -1074,31 +1074,31 @@ public class GeneralController {
 
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 
-        // Validation: Missing or empty dates
+
         if (startDate == null || endDate == null || startDate.isEmpty() || endDate.isEmpty()) {
             model.addAttribute("errorMessage", "Proszę uzupełnić oba pola daty.");
-            return "stats"; // Return the stats page without redirecting
+            return "stats";
         }
 
         LocalDateTime start = LocalDate.parse(startDate, formatter).atStartOfDay();
         LocalDateTime end = LocalDate.parse(endDate, formatter).atStartOfDay();
 
-        // Pobierz dane z serwisu
+
         List<Map.Entry<Car, Long>> mostRentedCars = reservationService.getMostRentedCars(start, end);
         List<Map.Entry<FuelType, Long>> fuelTypeRanking = reservationService.getFuelTypeRanking(start, end);
         List<Map.Entry<Car, Double>> carsWithEarnings = reservationService.getCarsEarnings(start, end);
         List<Map.Entry<String, Long>> mostRentedLocations = reservationService.getMostRentedLocations(start, end);
         List<Map.Entry<ChassisType, Long>> mostRentedCarTypes = reservationService.getMostRentedCarTypes(start, end);
 
-        // Przygotowanie danych do wykresu
+
         List<String> fuelTypes = new ArrayList<>();
         List<Long> fuelCounts = new ArrayList<>();
         for (Map.Entry<FuelType, Long> entry : fuelTypeRanking) {
-            fuelTypes.add(entry.getKey().toString()); // np. Diesel, Benzyna
-            fuelCounts.add(entry.getValue()); // Liczba wynajęć
+            fuelTypes.add(entry.getKey().toString());
+            fuelCounts.add(entry.getValue());
         }
 
-        // Dodaj dane do modelu
+
         model.addAttribute("mostRentedCars", mostRentedCars);
         model.addAttribute("fuelTypeRanking", fuelTypeRanking);
         model.addAttribute("carsWithEarnings", carsWithEarnings);
@@ -1110,7 +1110,7 @@ public class GeneralController {
         model.addAttribute("endDate", endDate);
 
 
-        return "stats"; // Nazwa widoku HTML (statystyki.html)
+        return "stats";
     }
 
     @PostMapping("/pay_reservation")
