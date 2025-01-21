@@ -5,23 +5,23 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Registration</title>
-  
+
   <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
-  
+
   <link rel="stylesheet" type="text/css" href="css/style.css">
-  
+
   <link rel="stylesheet" type="text/css" href="css/register-style.css">
-  
+
   <link rel="stylesheet" href="css/responsive.css">
-  
+
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&family=Raleway:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-  
+
   <link rel="stylesheet" href="css/jquery.mCustomScrollbar.min.css">
-  
+
   <link rel="stylesheet" href="https://netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css">
-  
+
   <link rel="stylesheet" href="/css/button.css">
-  
+
   <link rel="stylesheet" href="/css/reservation-list-style.css">
 </head>
 <body>
@@ -47,36 +47,36 @@
           <li class="nav-item">
             <a class="nav-link" href="contact">Contact</a>
           </li>
-          
+
           <li class="nav-item" th:if="${session.loggedInUser == null}">
             <a class="nav-link" href="login">Sign in</a>
           </li>
-          
+
           <li class="nav-item" th:if="${session.loggedInUser == null}">
             <a class="nav-link" href="register">Sign up</a>
           </li>
-          
+
           <li class="nav-item dropdown" th:if="${session.loggedInUser != null}">
             <a class="nav-link dropdown-toggle" href="#" id="myAccountDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
               My Account
             </a>
             <div class="dropdown-menu" aria-labelledby="myAccountDropdown">
-              
+
               <a class="dropdown-item" href="account_details" th:if="${session.loggedInUser instanceof T(com.example.CarGo.domain.User)}">Change Account Details</a>
               <a class="dropdown-item" href="view_reservations" th:if="${session.loggedInUser instanceof T(com.example.CarGo.domain.User)}">View Reservations</a>
 
-              
+
               <a class="dropdown-item" href="manageReservations" th:if="${session.loggedInUser instanceof T(com.example.CarGo.domain.Manager)}">Manage Reservations</a>
               <a class="dropdown-item" href="services" th:if="${session.loggedInUser instanceof T(com.example.CarGo.domain.Manager)}">Manage Vehicles</a>
               <a class="dropdown-item" href="stats" th:if="${session.loggedInUser instanceof T(com.example.CarGo.domain.Manager)}">Statistics</a>
 
-              
+
               <a class="dropdown-item" href="personnel_management" th:if="${session.loggedInUser instanceof T(com.example.CarGo.domain.Admin)}">Manage Users</a>
               <a class="dropdown-item" href="reports" th:if="${session.loggedInUser instanceof T(com.example.CarGo.domain.Admin)}">Reports</a>
               <a class="dropdown-item" href="stats" th:if="${session.loggedInUser instanceof T(com.example.CarGo.domain.Admin)}">Statistics</a>>
             </div>
           </li>
-          
+
           <li class="nav-item" th:if="${session.loggedInUser != null}">
             <a class="nav-link" href="signout">Sign out</a>
           </li>
@@ -128,7 +128,7 @@
       </tr>
       </thead>
       <tbody>
-      
+
       <tr th:each="reservation : ${reservations}">
         <td th:text="${reservation.id}"></td>
         <td th:text="|${reservation.car.make.name} ${reservation.car.model}|"></td>
@@ -138,10 +138,10 @@
         <td th:text="${reservation.dropOfPoint.city}"></td>
         <td th:text="${reservation.status}"></td>
         <td>
-          
+
           <span th:if="${reservation.status.name().toLowerCase() == 'cancelled'}">No Action</span>
 
-          
+
           <form action="/cancel_reservation" method="post" style="display: inline;"
                 th:if="${reservation.status.name().toLowerCase() != 'cancelled' and reservation.status.name().toLowerCase() != 'active' and reservation.status.name().toLowerCase() != 'completed'}"
                 onsubmit="return confirmCancellation();">
@@ -149,19 +149,21 @@
             <button type="submit" class="btn btn-danger btn-sm">Cancel</button>
           </form>
 
-            
-            <form action="/pay_reservation" method="post" style="display: inline;" th:if="${reservation.isPaid == false}">
+            <form action="/pay_reservation" method="post" style="display: inline;"
+                  th:attr="data-reservation-start=${#temporals.format(reservation.reservationStart, 'yyyy-MM-dd')},
+                   data-reservation-id=${reservation.id},
+                   data-is-paid=${reservation.status.name().toLowerCase() == 'paid'}">
                 <input type="hidden" name="reservationId" th:value="${reservation.id}">
-                <button type="submit" class="btn btn-success btn-sm pay-button" id="pay-btn-${reservation.id}">Pay</button>
+                <button type="submit" class="btn btn-success btn-sm pay-button"
+                        id="pay-btn-${reservation.id}" style="display: none;">Pay</button>
             </form>
 
-            
-          <span th:if="${reservation.status.name().toLowerCase() == 'active' or reservation.status.name().toLowerCase() == 'completed'}">
+            <span th:if="${reservation.status.name().toLowerCase() == 'active' or reservation.status.name().toLowerCase() == 'completed'}">
         Cannot Cancel
     </span>
         </td>
       </tr>
-      
+
       <tr th:if="${#lists.isEmpty(reservations)}">
         <td colspan="8" class="text-center">No reservations found.</td>
       </tr>
@@ -251,6 +253,26 @@
     window.onload = function() {
         alert('We\'ve just sent you an email with the payment details. Check your email inbox.');
     };
+</script>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+    const tomorrow = new Date();
+    tomorrow.setHours(0, 0, 0, 0);
+    tomorrow.setDate(tomorrow.getDate() + 1);
+
+    const forms = document.querySelectorAll('form[data-reservation-start]');
+    forms.forEach(form => {
+        const reservationStart = new Date(form.getAttribute('data-reservation-start'));
+        const isPaid = form.getAttribute('data-is-paid') === 'true';
+        const payButton = form.querySelector('.pay-button');
+
+        if (!isPaid && reservationStart >= tomorrow) {
+            payButton.style.display = 'inline';
+        } else {
+            payButton.style.display = 'none';
+        }
+    });
+});
 </script>
 
 
