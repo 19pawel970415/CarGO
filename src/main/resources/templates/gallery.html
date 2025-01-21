@@ -337,11 +337,11 @@
                         <p class="looking_text" th:text="'Price: ' + ${car.pricePerDay}">Price Per Day: N/A</p>
                         
                         <div class="read_bt">
-                            <a th:if="${session.loggedInUser != null}"
+                            <a th:if="${session.loggedInUser == null or session.loggedInUser instanceof T(com.example.CarGo.domain.Admin) or session.loggedInUser instanceof T(com.example.CarGo.domain.Manager)}"
+                               href="#" class="disabled" onclick="event.preventDefault();">Rent Now</a>
+
+                            <a th:if="${session.loggedInUser != null and not (session.loggedInUser instanceof T(com.example.CarGo.domain.Admin) or session.loggedInUser instanceof T(com.example.CarGo.domain.Manager))}"
                                th:href="@{/book/{carId}(carId=${car.id}, location=${location}, startDate=${startDate}, endDate=${endDate})}"
-                               onclick="checkSearchCompleted(event)">Rent Now</a>
-                            <a th:if="${session.loggedInUser == null}" href="#" data-toggle="modal"
-                               data-target="#loginModal"
                                onclick="checkSearchCompleted(event)">Rent Now</a>
                         </div>
                         <div class="admin-buttons"
