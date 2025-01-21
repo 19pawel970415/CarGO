@@ -5,25 +5,25 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Registration</title>
-    <!-- Bootstrap CSS -->
+    
     <link rel="stylesheet" type="text/css" href="/css/bootstrap.min.css">
-    <!-- Style CSS -->
+    
     <link rel="stylesheet" type="text/css" href="/css/style.css">
-    <!-- Style register CSS -->
+    
     <link rel="stylesheet" type="text/css" href="/css/register-style.css">
-    <!-- Responsive CSS -->
+    
     <link rel="stylesheet" href="/css/responsive.css">
-    <!-- Font CSS -->
+    
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&family=Raleway:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-    <!-- Scrollbar Custom CSS -->
+    
     <link rel="stylesheet" href="/css/jquery.mCustomScrollbar.min.css">
-    <!-- Font Awesome -->
+    
     <link rel="stylesheet" href="https://netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css">
-    <!-- Button -->
+    
     <link rel="stylesheet" href="/css/button.css">
 </head>
 <body>
-<!-- header section start -->
+
 <div class="header_section">
     <div class="container">
         <nav class="navbar navbar-expand-lg navbar-light bg-light">
@@ -45,35 +45,35 @@
                     <li class="nav-item">
                         <a class="nav-link" href="contact">Contact</a>
                     </li>
-                    <!-- Przycisk Sign in wyświetlany tylko, gdy użytkownik nie jest zalogowany -->
+                    
                     <li class="nav-item" th:if="${session.loggedInUser == null}">
                         <a class="nav-link" href="login">Sign in</a>
                     </li>
-                    <!-- Przycisk Sign up wyświetlany tylko, gdy użytkownik nie jest zalogowany -->
+                    
                     <li class="nav-item" th:if="${session.loggedInUser == null}">
                         <a class="nav-link" href="register">Sign up</a>
                     </li>
-                    <!-- Rozwijana opcja My Account dla zalogowanych użytkowników -->
+                    
                     <li class="nav-item dropdown" th:if="${session.loggedInUser != null}">
                         <a class="nav-link dropdown-toggle" href="#" id="myAccountDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             My Account
                         </a>
                         <div class="dropdown-menu" aria-labelledby="myAccountDropdown">
-                            <!-- Opcje dla zwykłych użytkowników -->
+                            
                             <a class="dropdown-item" href="account_details" th:if="${session.loggedInUser instanceof T(com.example.CarGo.domain.User)}">Change Account Details</a>
                             <a class="dropdown-item" href="view_reservations" th:if="${session.loggedInUser instanceof T(com.example.CarGo.domain.User)}">View Reservations</a>
 
-                            <!-- Opcje dla menedżerów -->
+                            
                             <a class="dropdown-item" href="manageReservations" th:if="${session.loggedInUser instanceof T(com.example.CarGo.domain.Manager)}">Manage Reservations</a>
                             <a class="dropdown-item" href="services" th:if="${session.loggedInUser instanceof T(com.example.CarGo.domain.Manager)}">Manage Vehicles</a>
 
-                            <!-- Opcje dla administratorów -->
+                            
                             <a class="dropdown-item" href="stats" th:if="${session.loggedInUser instanceof T(com.example.CarGo.domain.Admin)}">Statistics</a>
                             <a class="dropdown-item" href="client" th:if="${session.loggedInUser instanceof T(com.example.CarGo.domain.Admin)}">Manage Users</a>
                             <a class="dropdown-item" href="reports" th:if="${session.loggedInUser instanceof T(com.example.CarGo.domain.Admin)}">Reports</a>
                         </div>
                     </li>
-                    <!-- Przycisk Sign out -->
+                    
                     <li class="nav-item" th:if="${session.loggedInUser != null}">
                         <a class="nav-link" href="signout">Sign out</a>
                     </li>
@@ -82,7 +82,7 @@
         </nav>
     </div>
 </div>
-<!-- header section end -->
+
 
 <div class="call_text_main">
     <div class="container">
@@ -108,14 +108,14 @@
         </div>
     </div>
 </div>
-<!-- Account Details Section Start -->
+
 <div class="container">
     <h1>Edit Manager Details</h1>
-    <!-- Wyświetlanie komunikatu o błędzie, jeśli istnieje -->
+    
     <div th:if="${error}" class="alert alert-danger" role="alert">
         <p th:text="${error}"></p>
     </div>
-    <!-- Wyświetlanie komunikatu o sukcesie, jeśli istnieje -->
+    
     <div th:if="${success}" class="alert alert-success" role="alert">
         <p th:text="${success}"></p>
     </div>
@@ -155,11 +155,11 @@
         </div>
     </form>
 </div>
-<!-- Account Details Section End -->
+
 
 <br><br><br><br>
 
-<!-- Footer Section Start -->
+
 <div class="footer_section layout_padding">
     <div class="container">
         <div class="row">
@@ -223,8 +223,8 @@
         </div>
     </div>
 </div>
-<!-- footer section end -->
-<!-- copyright section start -->
+
+
 <div class="copyright_section">
     <div class="container">
         <div class="row">
@@ -234,9 +234,9 @@
         </div>
     </div>
 </div>
-<!-- copyright section end -->
 
-<!-- Javascript files-->
+
+
 <script src="/js/jquery.min.js"></script>
 <script src="/js/popper.min.js"></script>
 <script src="/js/bootstrap.bundle.min.js"></script>

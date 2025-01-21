@@ -1,32 +1,32 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.w3.org/1999/xhtml">
 <head>
-    <!-- basic -->
+    
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <!-- site metas -->
+    
     <title>Gallery</title>
-    <!-- bootstrap css -->
+    
     <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
-    <!-- style css -->
+    
     <link rel="stylesheet" type="text/css" href="css/style.css">
-    <!-- Responsive-->
+    
     <link rel="stylesheet" href="css/responsive.css">
-    <!-- fevicon -->
+    
     <link rel="icon" href="images/fevicon.png" type="image/gif"/>
-    <!-- font css -->
+    
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&family=Raleway:wght@400;500;600;700;800&display=swap"
           rel="stylesheet">
-    <!-- Scrollbar Custom CSS -->
+    
     <link rel="stylesheet" href="css/jquery.mCustomScrollbar.min.css">
-    <!-- Font Awesome -->
+    
     <link rel="stylesheet" href="https://netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css">
-    <!-- Button -->
+    
     <link rel="stylesheet" href="css/button.css">
 </head>
 <body>
-<!-- header section start -->
+
 <div class="header_section">
     <div class="container">
         <nav class="navbar navbar-expand-lg navbar-light bg-light">
@@ -45,14 +45,14 @@
                         in</a></li>
                     <li class="nav-item" th:if="${session.loggedInUser == null}"><a class="nav-link" href="register">Sign
                         up</a></li>
-                    <!-- Rozwijana opcja My Account dla zalogowanych użytkowników -->
+                    
                     <li class="nav-item dropdown" th:if="${session.loggedInUser != null}">
                         <a class="nav-link dropdown-toggle" href="#" id="myAccountDropdown" role="button"
                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             My Account
                         </a>
                         <div class="dropdown-menu" aria-labelledby="myAccountDropdown">
-                            <!-- Opcje dla zwykłych użytkowników -->
+                            
                             <a class="dropdown-item" href="account_details"
                                th:if="${session.loggedInUser instanceof T(com.example.CarGo.domain.User)}">Change
                                 Account Details</a>
@@ -60,12 +60,12 @@
                                th:if="${session.loggedInUser instanceof T(com.example.CarGo.domain.User)}">View
                                 Reservations</a>
 
-                            <!-- Opcje dla menedżerów -->
+                            
                             <a class="dropdown-item" href="manageReservations" th:if="${session.loggedInUser instanceof T(com.example.CarGo.domain.Manager)}">Manage Reservations</a>
                             <a class="dropdown-item" href="services" th:if="${session.loggedInUser instanceof T(com.example.CarGo.domain.Manager)}">Manage Vehicles</a>
                             <a class="dropdown-item" href="stats" th:if="${session.loggedInUser instanceof T(com.example.CarGo.domain.Manager)}">Statistics</a>
 
-                            <!-- Opcje dla administratorów -->
+                            
                             <a class="dropdown-item" href="personnel_management" th:if="${session.loggedInUser instanceof T(com.example.CarGo.domain.Admin)}">Manage Users</a>
                             <a class="dropdown-item" href="reports" th:if="${session.loggedInUser instanceof T(com.example.CarGo.domain.Admin)}">Reports</a>
                             <a class="dropdown-item" href="stats" th:if="${session.loggedInUser instanceof T(com.example.CarGo.domain.Admin)}">Statistics</a>
@@ -78,7 +78,7 @@
         </nav>
     </div>
 </div>
-<!-- header section end -->
+
 <div class="call_text_main">
     <div class="container">
         <div class="call_taital">
@@ -105,13 +105,13 @@
     </div>
 </div>
 
-<!-- select box section start -->
+
 <div class="search_section">
     <div class="container">
         <div class="select_box_section">
             <div class="select_box_main">
                 <div class="row">
-                    <!-- Start of Search Form -->
+                    
                     <form action="#" method="get" th:action="@{/gallery}" class="form-inline" id="searchForm">
 
                         <div class="col-md-2 select-outline">
@@ -126,7 +126,7 @@
                             </select>
                         </div>
 
-                        <!-- Daty -->
+                        
                         <div class="col-md-2 select-outline">
                             <label for="startDate">Start Date:</label>
                             <input type="date" name="startDate" id="startDate" class="form-control"
@@ -138,7 +138,7 @@
                                    placeholder="End Date">
                         </div>
 
-                        <!-- Skrzynia Biegów (Gearbox) -->
+                        
                         <div class="col-md-2 select-outline">
                             <label for="gearbox">Gearbox:</label>
                             <select name="gearbox" id="gearbox" class="form-control">
@@ -160,7 +160,7 @@
                         </div>
 
 
-                        <!-- Liczba Miejsc -->
+                        
                         <div class="col-md-2 select-outline">
                             <label for="seatCountId">Seat Count:</label>
                             <select name="seatCountId" id="seatCountId" class="form-control">
@@ -177,7 +177,7 @@
                         </div>
 
 
-                        <!-- Typ Samochodu (Car Type) -->
+                        
                         <div class="col-md-2 select-outline">
                             <label for="carType">Car Type:</label>
                             <select name="carType" id="carType" class="form-control">
@@ -199,7 +199,7 @@
                             </select>
                         </div>
 
-                        <!-- Typ Paliwa (Fuel Type) -->
+                        
                         <div class="col-md-2 select-outline">
                             <label for="fuelType">Fuel Type:</label>
                             <select name="fuelType" id="fuelType" class="form-control">
@@ -224,7 +224,7 @@
                         </div>
 
 
-                        <!-- Cena za Dzień (Price Range) -->
+                        
                         <div class="col-md-2 select-outline">
                             <label for="priceMin">Min Price per day:</label>
                             <div class="input-group">
@@ -251,7 +251,7 @@
                             </div>
                         </div>
 
-                        <!-- Rok Produkcji (Year Range) -->
+                        
                         <div class="col-md-2 select-outline">
                             <label for="yearMin">Min Year:</label>
                             <div class="input-group">
@@ -298,13 +298,13 @@
                         </div>
 
                     </form>
-                    <!-- End of Search Form -->
+                    
                 </div>
             </div>
         </div>
     </div>
 </div>
-<!-- select box section end -->
+
 
 <div class="gallery_section layout_padding">
     <div class="container">
@@ -320,7 +320,7 @@
         </div>
         <div class="gallery_section_2">
             <div class="row">
-                <!-- Loop through list of cars -->
+                
                 <div th:each="car : ${cars}" class="col-md-4">
                     <div class="gallery_box">
                         <div class="gallery_img">
@@ -335,7 +335,7 @@
                         <p class="looking_text" th:text="'Seat Count: ' + ${car.seatCount.count}">Seat Count: N/A</p>
                         <p class="looking_text" th:text="'Location: ' + ${car.location.city}">Location: N/A</p>
                         <p class="looking_text" th:text="'Price: ' + ${car.pricePerDay}">Price Per Day: N/A</p>
-                        <!-- Rent Now button with conditional logic and check for search completion -->
+                        
                         <div class="read_bt">
                             <a th:if="${session.loggedInUser != null}"
                                th:href="@{/book/{carId}(carId=${car.id}, location=${location}, startDate=${startDate}, endDate=${endDate})}"
@@ -358,13 +358,13 @@
                         </div>
                     </div>
                 </div>
-                <!-- End of loop -->
+                
             </div>
         </div>
     </div>
 </div>
 
-<!-- Bootstrap Modal for login prompt -->
+
 <div class="modal fade" id="loginModal" tabindex="-1" aria-labelledby="loginModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -384,9 +384,9 @@
         </div>
     </div>
 </div>
-<!-- gallery section end -->
 
-<!-- footer section start -->
+
+
 <div class="footer_section layout_padding">
     <div class="container">
         <div class="row">
@@ -456,8 +456,8 @@
         </div>
     </div>
 </div>
-<!-- footer section end -->
-<!-- copyright section start -->
+
+
 <div class="copyright_section">
     <div class="container">
         <div class="row">
@@ -469,7 +469,7 @@
     </div>
 </div>
 
-<!-- Modal 1: Manage Filters -->
+
 <div class="modal fade" id="manageFiltersModal" tabindex="-1" aria-labelledby="manageFiltersModalLabel"
      aria-hidden="true">
     <div class="modal-dialog">
@@ -479,7 +479,7 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <!-- Przyciski filtrów -->
+                
                 <div class="mb-3">
                     <button type="button" class="btn btn-outline-primary w-100" id="pickupLocationBtn">Pick up
                         location
@@ -499,7 +499,7 @@
     </div>
 </div>
 
-<!-- Modal 2: Add/Delete -->
+
 <div class="modal fade" id="addDeleteModal" tabindex="-1" aria-labelledby="addDeleteModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -519,7 +519,7 @@
     </div>
 </div>
 
-<!-- Modal: Location Add -->
+
 <div class="modal fade" id="addLocationModal" tabindex="-1" aria-labelledby="addLocationModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -544,7 +544,7 @@
 </div>
 
 
-<!-- Modal: Location delete -->
+
 <div class="modal fade" id="locationModal" tabindex="-1" aria-labelledby="locationModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -564,16 +564,16 @@
                 </div>
             </div>
             <div class="modal-footer">
-                <!-- Nowy przycisk Delete -->
+                
                 <button type="button" class="btn btn-danger" id="deleteLocationBtn">Delete</button>
-                <!-- Zmieniony przycisk Close na Back -->
+                
                 <button type="button" class="btn btn-secondary" id="backLocationBtn">Back</button>
             </div>
         </div>
     </div>
 </div>
 
-<!-- Modal potwierdzenia usunięcia -->
+
 <div class="modal fade" id="confirmDeleteModal" tabindex="-1" aria-labelledby="confirmDeleteModalLabel"
      aria-hidden="true">
     <div class="modal-dialog">
@@ -593,7 +593,7 @@
     </div>
 </div>
 
-<!-- Modal: Seat Count Add-->
+
 <div class="modal fade" id="todoSeatCountModal" tabindex="-1" aria-labelledby="todoSeatCountModalLabel"
      aria-hidden="true">
     <div class="modal-dialog">
@@ -623,7 +623,7 @@
     </div>
 </div>
 
-<!-- Modal: Seat Count Delete -->
+
 <div class="modal fade" id="seatCountModal" tabindex="-1" aria-labelledby="seatCountModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -652,7 +652,7 @@
     </div>
 </div>
 
-<!-- Modal potwierdzenia usunięcia Seat Count -->
+
 <div class="modal fade" id="confirmDeleteSeatCountModal" tabindex="-1"
      aria-labelledby="confirmDeleteSeatCountModalLabel" aria-hidden="true">
     <div class="modal-dialog">
@@ -672,7 +672,7 @@
     </div>
 </div>
 
-<!-- Modal: Add Car Make -->
+
 <div class="modal fade" id="addCarMakeModal" tabindex="-1" aria-labelledby="addCarMakeModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -696,7 +696,7 @@
     </div>
 </div>
 
-<!-- Modal: Car Make Delete -->
+
 <div class="modal fade" id="carMakeModal" tabindex="-1" aria-labelledby="carMakeModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -716,16 +716,16 @@
                 </div>
             </div>
             <div class="modal-footer">
-                <!-- Delete button -->
+                
                 <button type="button" class="btn btn-danger" id="deleteCarMakeBtn">Delete</button>
-                <!-- Back button -->
+                
                 <button type="button" class="btn btn-secondary" id="backCarMakeBtn">Back</button>
             </div>
         </div>
     </div>
 </div>
 
-<!-- Modal potwierdzenia usunięcia Car Make -->
+
 <div class="modal fade" id="confirmDeleteCarMakeModal" tabindex="-1" aria-labelledby="confirmDeleteCarMakeModalLabel"
      aria-hidden="true">
     <div class="modal-dialog">
@@ -745,7 +745,7 @@
     </div>
 </div>
 
-<!-- Modal Structure -->
+
 <div class="modal fade" id="editCarModal" tabindex="-1" role="dialog" aria-labelledby="editCarModalLabel"
      aria-hidden="true">
     <div class="modal-dialog" role="document">
@@ -763,7 +763,7 @@
                 <p id="carGearboxType">Gearbox Type: </p>
                 <p id="carFuelType">Fuel Type: </p>
                 <p id="carSeatCount">Seat Count: </p>
-                <!-- Edytowalne pola -->
+                
                 <label for="carLocationInput">Location:</label>
                 <input type="text" id="carLocationInput" class="form-control">
 
@@ -783,7 +783,7 @@
     </div>
 </div>
 
-<!-- Modal Structure for Adding a Car -->
+
 <div class="modal fade" id="addCarModal" tabindex="-1" role="dialog" aria-labelledby="addCarModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
@@ -869,7 +869,7 @@
     </div>
 </div>
 
-<!-- Modal: Confirm Delete -->
+
 <div class="modal fade" id="deleteCarModal" tabindex="-1" aria-labelledby="deleteCarModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -889,8 +889,8 @@
 </div>
 
 
-<!-- copyright section end -->
-<!-- JS scripts -->
+
+
 <script src="js/jquery.min.js"></script>
 <script src="js/popper.min.js"></script>
 <script src="js/bootstrap.bundle.min.js"></script>
